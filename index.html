@@ -796,9 +796,9 @@ function renderCapex(){
   const disponible=CAPEX_TOTAL-totalGasto-totalSobre;
   const pctG=(totalGasto/CAPEX_TOTAL)*100,pctS=(totalSobre/CAPEX_TOTAL)*100,pctD=Math.max(0,100-pctG-pctS);
   const setC=(id,pct,circ)=>{const el=document.getElementById(id);if(el)el.style.strokeDashoffset=circ-(circ*Math.min(pct,100)/100);};
-  const setL=(id,t)=>{const el=document.getElementById(id);if(el)el.textContent=t;};
+  const setL=(id,t)=>{const el=document.getElementById(id);if(el){el.textContent=t;el.setAttribute('font-size','9');el.setAttribute('font-weight','400');}};
   setC('circle-gasto',pctG,283);setC('circle-disp',pctD,339);setC('circle-sobre',pctS,283);
-  setL('circle-gasto-pct',pctG.toFixed(1)+'%');setL('circle-disp-pct',pctD.toFixed(1)+'%');setL('circle-sobre-pct',pctS.toFixed(1)+'%');
+  setL('circle-gasto-pct',Math.round(pctG)+'%');setL('circle-disp-pct',Math.round(pctD)+'%');setL('circle-sobre-pct',Math.round(pctS)+'%');
   document.getElementById('capex-gastado-kpi').textContent=fmt(totalGasto);
   document.getElementById('capex-disponible-kpi').textContent=fmt(Math.max(0,disponible));
   document.getElementById('capex-disponible-pct').textContent=pctD.toFixed(1)+'% restante';
