@@ -4,336 +4,478 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MXCH01 – Instalación RS</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+/* ── TOKENS ─────────────────────────────────────────── */
 :root {
-  --bg1: #e8eef7;
-  --bg2: #dce5f5;
-  --glass: rgba(255,255,255,0.72);
-  --glass2: rgba(255,255,255,0.5);
-  --glass-border: rgba(255,255,255,0.9);
-  --glass-border2: rgba(255,255,255,0.5);
-  --shadow: 0 8px 32px rgba(100,120,180,0.13), 0 1.5px 4px rgba(100,120,180,0.07);
-  --shadow-lg: 0 20px 60px rgba(80,100,160,0.18), 0 4px 12px rgba(80,100,160,0.1);
-  --shadow-sm: 0 2px 10px rgba(100,120,180,0.1);
-  --text: #1c2340;
-  --text2: #4a5580;
-  --muted: #8a96b8;
-  --accent:  #34c759; /* iOS green */
-  --accent2: #007aff; /* iOS blue  */
-  --accent3: #ff9500; /* iOS orange*/
-  --accent4: #ffcc00; /* iOS yellow*/
-  --danger:  #ff3b30; /* iOS red   */
-  --purple:  #af52de; /* iOS purple*/
-  --font: 'Nunito', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-  --mono: 'DM Mono', 'SF Mono', monospace;
-  --radius: 20px;
-  --radius-sm: 14px;
-  --radius-xs: 10px;
+  --blue:   #0A84FF;
+  --green:  #30D158;
+  --orange: #FF9F0A;
+  --yellow: #FFD60A;
+  --red:    #FF453A;
+  --purple: #BF5AF2;
+  --teal:   #5AC8FA;
+
+  --text:   #0D1117;
+  --text2:  #3C4569;
+  --muted:  #8E98BB;
+  --border: rgba(255,255,255,0.75);
+  --divider:rgba(100,120,200,0.09);
+
+  --glass-heavy: rgba(255,255,255,0.78);
+  --glass-mid:   rgba(255,255,255,0.62);
+  --glass-light: rgba(255,255,255,0.42);
+
+  --shadow-card: 0 2px 12px rgba(60,80,160,0.07), 0 8px 32px rgba(60,80,160,0.07);
+  --shadow-lift: 0 4px 20px rgba(60,80,160,0.12), 0 16px 48px rgba(60,80,160,0.10);
+  --shadow-btn:  0 4px 14px rgba(10,132,255,0.30);
+
+  --f: 'Plus Jakarta Sans', -apple-system, 'SF Pro Text', sans-serif;
+  --m: 'DM Mono', 'SF Mono', monospace;
+  --r: 18px;
 }
 
-* { margin:0; padding:0; box-sizing:border-box; }
-input,select,textarea,button { font-family:var(--font); }
-
+/* ── RESET ───────────────────────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+input, select, textarea, button { font-family:var(--f); }
 body {
-  background: linear-gradient(145deg, #dce8fa 0%, #e8edf8 40%, #d8e8f5 70%, #e2ddf5 100%);
-  background-attachment: fixed;
+  font-family: var(--f);
   color: var(--text);
-  font-family: var(--font);
   min-height: 100vh;
+  background: #D6E4F7;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 90% -10%, rgba(10,132,255,0.14) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at -5%  90%, rgba(48,209,88,0.11)  0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 50%  50%, rgba(191,90,242,0.06) 0%, transparent 60%);
+  background-attachment: fixed;
 }
 
-/* Background blobs */
-body::before, body::after {
-  content:'';
-  position:fixed;
-  border-radius:50%;
-  filter:blur(80px);
-  pointer-events:none;
-  z-index:0;
-}
-body::before {
-  width:600px; height:600px;
-  background:radial-gradient(circle, rgba(0,122,255,0.12) 0%, transparent 70%);
-  top:-100px; right:-100px;
-}
-body::after {
-  width:500px; height:500px;
-  background:radial-gradient(circle, rgba(52,199,89,0.10) 0%, transparent 70%);
-  bottom:-80px; left:-80px;
-}
-
-/* ─── HEADER ─── */
+/* ── HEADER ──────────────────────────────────────────── */
 header {
-  position: sticky; top:0; z-index:200;
-  padding: 0 32px;
-  background: rgba(255,255,255,0.6);
-  backdrop-filter: blur(30px) saturate(180%);
-  -webkit-backdrop-filter: blur(30px) saturate(180%);
-  border-bottom: 1px solid rgba(255,255,255,0.8);
-  box-shadow: 0 1px 0 rgba(100,120,180,0.1), var(--shadow-sm);
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(255,255,255,0.70);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border-bottom: 1px solid rgba(255,255,255,0.85);
+  box-shadow: 0 1px 0 rgba(60,80,160,0.06);
 }
 .header-inner {
-  display:flex; align-items:center; justify-content:space-between;
-  height: 64px; max-width:1400px; margin:0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 60px; max-width: 1360px; margin: 0 auto; padding: 0 32px;
 }
-.logo { display:flex; align-items:center; gap:14px; }
+.logo { display: flex; align-items: center; gap: 12px; }
 .logo-icon {
-  width:38px; height:38px; border-radius:10px;
-  background: linear-gradient(135deg, #007aff 0%, #34c759 100%);
-  display:flex; align-items:center; justify-content:center;
-  font-size:11px; font-weight:900; color:#fff; letter-spacing:-0.02em;
-  box-shadow: 0 4px 12px rgba(0,122,255,0.35);
+  width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+  background: linear-gradient(145deg, #0A84FF 0%, #30D158 100%);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 3px 10px rgba(10,132,255,0.32);
 }
-.logo-title { font-size:16px; font-weight:800; color:var(--text); letter-spacing:-0.02em; }
-.logo-sub { font-size:11px; color:var(--muted); font-weight:500; margin-top:1px; }
-.header-right { display:flex; align-items:center; gap:12px; }
-.status-pill {
-  display:flex; align-items:center; gap:7px;
-  background:rgba(52,199,89,0.12);
-  border:1px solid rgba(52,199,89,0.25);
-  padding:6px 14px; border-radius:30px;
-  font-size:11px; font-weight:700; color:var(--accent);
-  letter-spacing:0.04em;
+.logo-icon svg { width: 16px; height: 16px; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; }
+.logo-texts { display: flex; flex-direction: column; gap: 1px; }
+.logo-title { font-size: 15px; font-weight: 800; letter-spacing: -0.02em; color: var(--text); line-height: 1; }
+.logo-sub   { font-size: 11px; font-weight: 500; color: var(--muted); line-height: 1; }
+.header-right { display: flex; align-items: center; gap: 14px; }
+.pill-live {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(48,209,88,0.10); border: 1px solid rgba(48,209,88,0.22);
+  padding: 5px 12px; border-radius: 99px;
+  font-size: 11px; font-weight: 700; color: var(--green); letter-spacing: 0.05em;
 }
-.status-dot { width:6px; height:6px; border-radius:50%; background:var(--accent); animation:pulse 2s infinite; }
-@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
-.last-update { font-size:11px; color:var(--muted); font-family:var(--mono); }
+.live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: blink 2s ease infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+.header-date { font-size: 11.5px; font-weight: 500; color: var(--muted); font-family: var(--m); }
 
-/* ─── NAV ─── */
+/* ── NAV ─────────────────────────────────────────────── */
 nav {
-  position:sticky; top:64px; z-index:190;
-  background:rgba(255,255,255,0.55);
-  backdrop-filter:blur(20px) saturate(160%);
-  -webkit-backdrop-filter:blur(20px) saturate(160%);
-  border-bottom:1px solid rgba(255,255,255,0.7);
-  padding:0;
-}
-.nav-inner {
-  display:flex; max-width:1400px; margin:0 auto;
-  padding:0 32px; overflow-x:auto; gap:4px;
-  scrollbar-width:none;
-}
-.nav-inner::-webkit-scrollbar { display:none; }
-.tab {
-  padding:0 18px; height:48px;
-  display:flex; align-items:center;
-  font-size:13px; font-weight:700; letter-spacing:0.01em;
-  color:var(--muted); cursor:pointer;
-  border-bottom:2.5px solid transparent;
-  transition:all 0.2s cubic-bezier(.4,0,.2,1);
-  white-space:nowrap;
-  border-radius:0;
-}
-.tab:hover { color:var(--text2); }
-.tab.active { color:var(--accent2); border-bottom-color:var(--accent2); }
-
-/* ─── MAIN ─── */
-main { padding:28px 32px; max-width:1400px; margin:0 auto; position:relative; z-index:1; }
-.section { display:none; animation:fadeUp 0.35s cubic-bezier(.4,0,.2,1); }
-.section.active { display:block; }
-@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
-
-/* ─── GLASS CARD ─── */
-.card {
-  background: var(--glass);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius);
-  padding: 22px 24px;
-  margin-bottom: 16px;
-  box-shadow: var(--shadow);
-  transition: box-shadow 0.2s, transform 0.2s;
-}
-.card:hover { box-shadow: var(--shadow-lg); }
-.card-title {
-  font-size:11px; font-weight:800; text-transform:uppercase;
-  letter-spacing:0.1em; color:var(--muted);
-  margin-bottom:18px; display:flex; align-items:center; gap:8px;
-}
-.card-title-dot {
-  width:8px; height:8px; border-radius:50%;
-  background: linear-gradient(135deg, var(--accent2), var(--accent));
-  box-shadow: 0 0 8px rgba(0,122,255,0.4);
-}
-
-/* ─── KPI CARDS ─── */
-.kpi-row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:20px; }
-.kpi {
-  background: var(--glass);
+  position: sticky; top: 60px; z-index: 190;
+  background: rgba(255,255,255,0.60);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius);
-  padding: 20px 22px;
-  box-shadow: var(--shadow);
-  position:relative; overflow:hidden;
-  transition: transform 0.2s, box-shadow 0.2s;
+  border-bottom: 1px solid rgba(255,255,255,0.80);
 }
-.kpi:hover { transform:translateY(-2px); box-shadow:var(--shadow-lg); }
-.kpi-glow {
-  position:absolute; top:-30px; right:-30px;
-  width:90px; height:90px; border-radius:50%;
-  filter:blur(30px); opacity:0.35;
+.nav-inner {
+  display: flex; max-width: 1360px; margin: 0 auto;
+  padding: 0 32px; overflow-x: auto; scrollbar-width: none;
 }
-.kpi.green .kpi-glow { background:var(--accent); }
-.kpi.blue  .kpi-glow { background:var(--accent2); }
-.kpi.orange .kpi-glow { background:var(--accent3); }
-.kpi.yellow .kpi-glow { background:var(--accent4); }
-.kpi-label { font-size:11px; color:var(--muted); font-weight:700; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:10px; }
-.kpi-value { font-size:30px; font-weight:900; line-height:1; letter-spacing:-0.03em; }
-.kpi-value.green  { color:var(--accent);  }
-.kpi-value.blue   { color:var(--accent2); }
-.kpi-value.orange { color:var(--accent3); }
-.kpi-value.yellow { color:var(--accent4); }
-.kpi-sub { font-size:11px; color:var(--muted); margin-top:7px; font-weight:600; }
-
-/* ─── GRID ─── */
-.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-.grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
-
-/* ─── ITEMS / ALERTS ─── */
-.item { display:flex; align-items:flex-start; gap:12px; padding:13px 0; border-bottom:1px solid rgba(100,120,180,0.1); }
-.item:last-child { border-bottom:none; }
-.badge {
-  font-size:10px; font-weight:800; padding:4px 10px;
-  border-radius:20px; text-transform:uppercase;
-  letter-spacing:0.06em; white-space:nowrap; flex-shrink:0;
+.nav-inner::-webkit-scrollbar { display: none; }
+.tab {
+  padding: 0 20px; height: 46px; display: flex; align-items: center;
+  font-size: 12.5px; font-weight: 700; color: var(--muted);
+  cursor: pointer; border-bottom: 2px solid transparent;
+  transition: color 0.18s, border-color 0.18s;
+  white-space: nowrap; letter-spacing: 0.01em;
+  user-select: none;
 }
-.badge.alta   { background:rgba(255,59,48,0.12);  color:var(--danger); border:1px solid rgba(255,59,48,0.25); }
-.badge.media  { background:rgba(255,149,0,0.12);  color:var(--accent3); border:1px solid rgba(255,149,0,0.25); }
-.badge.baja   { background:rgba(52,199,89,0.12);  color:var(--accent); border:1px solid rgba(52,199,89,0.25); }
-.badge.info   { background:rgba(0,122,255,0.1);   color:var(--accent2); border:1px solid rgba(0,122,255,0.2); }
-.item-content { flex:1; }
-.item-title   { font-size:13px; font-weight:700; margin-bottom:3px; color:var(--text); }
-.item-desc    { font-size:12px; color:var(--text2); line-height:1.5; font-weight:500; }
-.item-date    { font-size:11px; color:var(--muted); font-family:var(--mono); margin-top:4px; }
+.tab:hover { color: var(--text2); }
+.tab.active { color: var(--blue); border-bottom-color: var(--blue); }
 
-/* ─── BARS ─── */
-.bar-track { background:rgba(100,120,180,0.1); border-radius:6px; height:7px; overflow:hidden; }
-.bar-fill  { height:100%; border-radius:6px; transition:width 0.7s cubic-bezier(.4,0,.2,1); }
-.bar-fill.green  { background:linear-gradient(90deg,#34c759,#30d158); }
-.bar-fill.blue   { background:linear-gradient(90deg,#007aff,#0a84ff); }
-.bar-fill.orange { background:linear-gradient(90deg,#ff9500,#ff9f0a); }
-.bar-fill.yellow { background:linear-gradient(90deg,#ffcc00,#ffd60a); }
-.bar-fill.red    { background:linear-gradient(90deg,#ff3b30,#ff453a); }
-.bar-fill.purple { background:linear-gradient(90deg,#af52de,#bf5af2); }
-.capex-bar-wrap  { margin-bottom:13px; }
-.capex-bar-label { display:flex; justify-content:space-between; font-size:12px; font-weight:600; margin-bottom:5px; color:var(--text2); }
+/* ── MAIN ─────────────────────────────────────────────── */
+main { padding: 24px 32px 60px; max-width: 1360px; margin: 0 auto; position: relative; z-index: 1; }
+.section { display: none; }
+.section.active { display: block; animation: rise 0.30s cubic-bezier(.4,0,.2,1); }
+@keyframes rise { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
 
-/* ─── TIMELINE ─── */
-.timeline-header { display:grid; grid-template-columns:220px 1fr; margin-bottom:8px; }
-.tl-label-head { font-size:11px; color:var(--muted); font-family:var(--mono); padding:6px 10px; }
-.tl-months { display:flex; overflow:hidden; }
-.tl-month  { flex:1; font-size:9px; color:var(--muted); font-family:var(--mono); text-align:center; padding:6px 2px; border-left:1px solid rgba(100,120,180,0.15); min-width:36px; font-weight:600; }
-.tl-row    { display:grid; grid-template-columns:220px 1fr; border-bottom:1px solid rgba(100,120,180,0.08); align-items:center; min-height:40px; }
-.tl-row:hover { background:rgba(255,255,255,0.4); border-radius:8px; }
-.tl-name   { font-size:11px; padding:6px 10px; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:500; }
-.tl-name.summary { font-weight:800; color:var(--accent2); font-size:10px; text-transform:uppercase; letter-spacing:0.06em; }
-.tl-bar-area { position:relative; height:40px; display:flex; align-items:center; }
-.tl-grid-line { position:absolute; top:0; bottom:0; width:1px; background:rgba(100,120,180,0.1); pointer-events:none; }
-.tl-grid-line.month-line { width:1px; background:rgba(100,120,180,0.2); }
-.tl-bar { position:absolute; height:10px; border-radius:6px; display:flex; align-items:center; overflow:hidden; min-width:3px; }
-.tl-bar-fill { height:100%; border-radius:6px; }
-.tl-pct { font-size:9px; color:rgba(0,0,0,0.6); padding:0 4px; font-weight:800; white-space:nowrap; }
-.today-line { position:absolute; top:0; bottom:0; width:2px; background:var(--accent3); z-index:5; border-radius:2px; box-shadow:0 0 6px rgba(255,149,0,0.6); }
-
-/* ─── MATERIALES TABLE ─── */
-.mat-table { width:100%; border-collapse:collapse; }
-.mat-table th { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; padding:8px 14px; text-align:left; border-bottom:1px solid rgba(100,120,180,0.12); font-family:var(--mono); font-weight:700; }
-.mat-table td { padding:11px 14px; font-size:13px; border-bottom:1px solid rgba(100,120,180,0.08); vertical-align:middle; color:var(--text); font-weight:500; }
-.mat-table tr:last-child td { border-bottom:none; }
-.mat-table tr:hover td { background:rgba(255,255,255,0.4); }
-.cat-pill { font-size:10px; padding:3px 10px; border-radius:20px; font-weight:800; letter-spacing:0.04em; }
-.cat-rs     { background:rgba(52,199,89,0.12); color:var(--accent); }
-.cat-gaiola { background:rgba(0,122,255,0.1);  color:var(--accent2); }
-
-/* ─── PAYMENT ─── */
-.payment-row { display:flex; align-items:center; gap:14px; padding:14px 0; border-bottom:1px solid rgba(100,120,180,0.1); }
-.payment-row:last-child { border-bottom:none; }
-.payment-num { width:30px; height:30px; border-radius:50%; background:rgba(0,122,255,0.1); border:1.5px solid rgba(0,122,255,0.2); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; color:var(--accent2); flex-shrink:0; }
-.payment-info { flex:1; }
-.payment-name { font-size:14px; font-weight:700; margin-bottom:2px; }
-.payment-date { font-size:11px; color:var(--muted); font-family:var(--mono); font-weight:500; }
-.payment-amount { font-size:16px; font-weight:900; font-family:var(--mono); }
-.payment-pct  { font-size:11px; color:var(--muted); text-align:right; font-weight:600; }
-.payment-status { font-size:10px; padding:4px 10px; border-radius:20px; font-weight:800; letter-spacing:0.04em; cursor:pointer; transition:all 0.15s; }
-.ps-pending { background:rgba(255,149,0,0.12); color:var(--accent3); border:1px solid rgba(255,149,0,0.25); }
-.ps-done    { background:rgba(52,199,89,0.12); color:var(--accent); border:1px solid rgba(52,199,89,0.25); }
-.ps-future  { background:rgba(100,120,180,0.1); color:var(--muted); border:1px solid rgba(100,120,180,0.2); }
-
-/* ─── FILTER BUTTONS ─── */
-.pf-btn { background:rgba(255,255,255,0.6); color:var(--muted); border:1px solid rgba(255,255,255,0.8); padding:6px 16px; border-radius:20px; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.15s; backdrop-filter:blur(10px); }
-.pf-btn:hover { background:rgba(255,255,255,0.8); }
-.pf-btn.pf-active { background:rgba(0,122,255,0.1); color:var(--accent2); border-color:rgba(0,122,255,0.3); }
-
-/* ─── BUTTONS ─── */
-.btn-primary {
-  background: linear-gradient(135deg, var(--accent2), #0a84ff);
-  color:#fff; border:none; padding:9px 20px; border-radius:12px;
-  font-weight:700; font-size:13px; cursor:pointer;
-  box-shadow:0 4px 14px rgba(0,122,255,0.35);
-  transition:all 0.2s;
+/* ── GLASS CARD ──────────────────────────────────────── */
+.card {
+  background: var(--glass-heavy);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 22px 24px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow .2s, transform .2s;
 }
-.btn-primary:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(0,122,255,0.45); }
-.btn-ghost { background:rgba(255,255,255,0.6); color:var(--muted); border:1px solid rgba(255,255,255,0.8); padding:9px 18px; border-radius:12px; font-size:13px; font-weight:600; cursor:pointer; backdrop-filter:blur(10px); }
+.card:hover { box-shadow: var(--shadow-lift); }
 
-/* ─── MODALS ─── */
-.modal-overlay { display:none; position:fixed; inset:0; background:rgba(28,35,64,0.4); backdrop-filter:blur(8px); z-index:9999; align-items:center; justify-content:center; }
-.modal-box {
-  background:rgba(255,255,255,0.92);
-  backdrop-filter:blur(40px) saturate(200%);
-  border:1px solid rgba(255,255,255,0.95);
-  border-radius:24px; padding:28px; max-width:500px; width:90%;
-  box-shadow:var(--shadow-lg);
+/* ── SECTION LABEL ───────────────────────────────────── */
+.sec-label {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 16px;
 }
-.modal-title { font-size:16px; font-weight:800; color:var(--text); margin-bottom:18px; }
-.field-label { font-size:11px; color:var(--muted); font-weight:700; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:6px; }
-.field-input {
-  width:100%; background:rgba(100,120,180,0.07);
-  color:var(--text); border:1.5px solid rgba(100,120,180,0.15);
-  padding:10px 14px; border-radius:12px; font-size:13px; font-weight:600;
-  outline:none; transition:border-color 0.15s;
+.sec-label-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue), var(--green));
+  flex-shrink: 0;
 }
-.field-input:focus { border-color:rgba(0,122,255,0.4); background:rgba(0,122,255,0.04); }
-
-/* ─── FOOTER ─── */
-footer {
-  text-align:center; padding:24px; font-size:11px; color:var(--muted);
-  font-family:var(--mono); font-weight:500;
-  border-top:1px solid rgba(255,255,255,0.7);
-  margin-top:40px; position:relative; z-index:1;
+.sec-label-text {
+  font-size: 10.5px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.10em;
+  color: var(--muted);
 }
 
-/* ─── RESPONSIVE ─── */
-@media(max-width:900px) {
-  .kpi-row { grid-template-columns:repeat(2,1fr); }
-  .grid2,.grid3 { grid-template-columns:1fr; }
-  main { padding:16px; }
+/* ── KPI ROW ─────────────────────────────────────────── */
+.kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 14px; }
+.kpi {
+  background: var(--glass-heavy);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 20px 22px 18px;
+  box-shadow: var(--shadow-card);
+  position: relative; overflow: hidden;
+  transition: transform .2s, box-shadow .2s;
+}
+.kpi:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); }
+/* top accent stripe */
+.kpi::after {
+  content:''; position:absolute; top:0; left:20px; right:20px; height:2px; border-radius:0 0 4px 4px;
+}
+.kpi.g::after { background: var(--green);  }
+.kpi.b::after { background: var(--blue);   }
+.kpi.o::after { background: var(--orange); }
+.kpi.y::after { background: var(--yellow); }
+/* soft glow blob */
+.kpi-blob {
+  position:absolute; top:-28px; right:-28px;
+  width:80px; height:80px; border-radius:50%;
+  filter:blur(28px); opacity:.28; pointer-events:none;
+}
+.kpi.g .kpi-blob { background:var(--green);  }
+.kpi.b .kpi-blob { background:var(--blue);   }
+.kpi.o .kpi-blob { background:var(--orange); }
+.kpi.y .kpi-blob { background:var(--yellow); }
+
+.kpi-label {
+  font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--muted); margin-bottom: 10px;
+}
+.kpi-value {
+  font-size: 28px; font-weight: 800; line-height: 1;
+  letter-spacing: -0.03em; font-feature-settings: "tnum";
+}
+.kpi.g .kpi-value { color: var(--green);  }
+.kpi.b .kpi-value { color: var(--blue);   }
+.kpi.o .kpi-value { color: var(--orange); }
+.kpi.y .kpi-value { color: var(--yellow); }
+.kpi-sub { font-size: 11px; font-weight: 500; color: var(--muted); margin-top: 7px; }
+
+/* ── GRID ─────────────────────────────────────────────── */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+/* ── PROGRESS BARS ───────────────────────────────────── */
+.bar-row { margin-bottom: 12px; }
+.bar-row:last-child { margin-bottom: 0; }
+.bar-meta { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.bar-name { font-size: 12.5px; font-weight: 600; color: var(--text2); }
+.bar-val  { font-size: 11.5px; font-weight: 700; font-family: var(--m); }
+.bar-val.done   { color: var(--green);  }
+.bar-val.active { color: var(--blue);   }
+.bar-val.idle   { color: var(--muted);  }
+.track { background: rgba(100,120,200,0.09); border-radius: 6px; height: 6px; overflow: hidden; }
+.fill  { height: 100%; border-radius: 6px; transition: width .7s cubic-bezier(.4,0,.2,1); }
+.fill.g { background: linear-gradient(90deg, var(--green),  #34D74E); }
+.fill.b { background: linear-gradient(90deg, var(--blue),   #2E9BFF); }
+.fill.o { background: linear-gradient(90deg, var(--orange), #FFAE28); }
+.fill.y { background: linear-gradient(90deg, var(--yellow), #FFE040); }
+.fill.p { background: linear-gradient(90deg, var(--purple), #CE7AF5); }
+.fill.r { background: linear-gradient(90deg, var(--red),    #FF6259); }
+
+/* ── ALERT ITEMS ─────────────────────────────────────── */
+.item { display: flex; align-items: flex-start; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--divider); }
+.item:last-child { border-bottom: none; }
+.chip {
+  font-size: 9.5px; font-weight: 800; padding: 3px 9px;
+  border-radius: 99px; text-transform: uppercase; letter-spacing: 0.07em;
+  white-space: nowrap; flex-shrink: 0; margin-top: 1px;
+}
+.chip.r { background:rgba(255,69,58,0.10); color:var(--red);    border:1px solid rgba(255,69,58,0.22); }
+.chip.o { background:rgba(255,159,10,0.10); color:var(--orange); border:1px solid rgba(255,159,10,0.22); }
+.chip.g { background:rgba(48,209,88,0.10);  color:var(--green);  border:1px solid rgba(48,209,88,0.22); }
+.chip.b { background:rgba(10,132,255,0.10); color:var(--blue);   border:1px solid rgba(10,132,255,0.22); }
+.chip.alt  { background:rgba(255,69,58,0.10); color:var(--red);    border:1px solid rgba(255,69,58,0.22); }
+.chip.med  { background:rgba(255,159,10,0.10);color:var(--orange); border:1px solid rgba(255,159,10,0.22); }
+.chip.baj  { background:rgba(48,209,88,0.10); color:var(--green);  border:1px solid rgba(48,209,88,0.22); }
+.chip.inf  { background:rgba(10,132,255,0.10);color:var(--blue);   border:1px solid rgba(10,132,255,0.22); }
+.item-body { flex: 1; }
+.item-title { font-size: 13px; font-weight: 700; color: var(--text);  margin-bottom: 2px; }
+.item-desc  { font-size: 12px; font-weight: 500; color: var(--text2); line-height: 1.5; }
+.item-date  { font-size: 11px; font-weight: 500; color: var(--muted); font-family: var(--m); margin-top: 4px; }
+
+/* ── SUMMARY CARD INNER ──────────────────────────────── */
+.summary-card {
+  background: var(--glass-heavy); border: 1px solid var(--border);
+  border-radius: var(--r); overflow: hidden;
+  box-shadow: var(--shadow-card); margin-bottom: 14px;
+}
+.summary-head {
+  padding: 18px 24px;
+  background: linear-gradient(135deg, rgba(10,132,255,0.06) 0%, rgba(48,209,88,0.04) 100%);
+  border-bottom: 1px solid var(--divider);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.summary-head-left {}
+.summary-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 3px; }
+.summary-title   { font-size: 19px; font-weight: 800; letter-spacing: -0.02em; color: var(--text); line-height: 1; }
+.summary-head-right { text-align: right; }
+.summary-role-label { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.summary-role-name  { font-size: 13px; font-weight: 700; color: var(--blue); margin-top: 2px; }
+.summary-cols { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+.summary-col  { padding: 20px 22px; }
+.summary-col + .summary-col { border-left: 1px solid var(--divider); }
+.summary-col-label { font-size: 10px; font-weight: 700; letter-spacing: 0.10em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+
+/* Scope row */
+.scope-row { display: flex; align-items: center; gap: 12px; margin-bottom: 11px; }
+.scope-icon {
+  width: 38px; height: 38px; border-radius: 11px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; line-height: 1;
+}
+.scope-icon.g { background:rgba(48,209,88,0.11); color:var(--green);  border:1px solid rgba(48,209,88,0.18); }
+.scope-icon.b { background:rgba(10,132,255,0.10); color:var(--blue);   border:1px solid rgba(10,132,255,0.18); }
+.scope-icon.o { background:rgba(255,159,10,0.10); color:var(--orange); border:1px solid rgba(255,159,10,0.18); }
+.scope-name   { font-size: 13px; font-weight: 700; color: var(--text);  margin-bottom: 1px; }
+.scope-amount { font-size: 11.5px; font-weight: 600; color: var(--muted); font-family: var(--m); }
+
+/* Date pills */
+.date-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 12px; border-radius: 11px; margin-bottom: 7px;
+}
+.date-row:last-child { margin-bottom: 0; }
+.date-label { font-size: 12px; font-weight: 600; color: var(--text2); }
+.date-value { font-size: 11.5px; font-weight: 700; font-family: var(--m); }
+.date-row.o  { background:rgba(255,159,10,0.07); } .date-row.o .date-value { color:var(--orange); }
+.date-row.b  { background:rgba(10,132,255,0.06); } .date-row.b .date-value { color:var(--blue);   }
+.date-row.p  { background:rgba(191,90,242,0.07); } .date-row.p .date-value { color:var(--purple); }
+.date-row.go { background:rgba(48,209,88,0.09);  } .date-row.go .date-label { font-weight:800; color:var(--green); } .date-row.go .date-value { color:var(--green); }
+
+/* Totals box */
+.totals-box {
+  background:rgba(10,132,255,0.05); border:1px solid rgba(10,132,255,0.10);
+  border-radius:12px; padding:13px 15px; margin-top:12px;
+}
+.totals-row { display:flex; justify-content:space-between; align-items:baseline; padding:3px 0; }
+.totals-key { font-size:11.5px; font-weight:600; color:var(--muted); }
+.totals-val { font-size:12px; font-weight:700; font-family:var(--m); color:var(--text); }
+.totals-val.accent { color:var(--green); font-size:13px; }
+
+/* ── TIMELINE ─────────────────────────────────────────── */
+.tl-header { display:grid; grid-template-columns:210px 1fr; margin-bottom:6px; }
+.tl-head-lbl { font-size:10px; color:var(--muted); font-family:var(--m); padding:5px 10px; font-weight:500; }
+.tl-months   { display:flex; overflow:hidden; }
+.tl-month    { flex:1; font-size:9.5px; color:var(--muted); font-family:var(--m); text-align:center; padding:5px 2px; border-left:1px solid var(--divider); min-width:34px; font-weight:600; }
+.tl-row { display:grid; grid-template-columns:210px 1fr; border-bottom:1px solid var(--divider); align-items:center; min-height:38px; transition:background .15s; border-radius:6px; }
+.tl-row:hover { background:rgba(255,255,255,0.35); }
+.tl-name { font-size:11px; padding:5px 10px; color:var(--text2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:500; }
+.tl-name.sum { font-weight:800; color:var(--blue); font-size:10px; text-transform:uppercase; letter-spacing:0.06em; }
+.tl-bar-area { position:relative; height:38px; display:flex; align-items:center; }
+.tl-gl { position:absolute; top:0; bottom:0; width:1px; background:var(--divider); pointer-events:none; }
+.tl-bar { position:absolute; height:9px; border-radius:5px; display:flex; align-items:center; overflow:hidden; min-width:3px; }
+.tl-fill { height:100%; border-radius:5px; }
+.tl-pct  { font-size:8.5px; color:rgba(0,0,0,0.55); padding:0 4px; font-weight:800; white-space:nowrap; font-family:var(--m); }
+.today-ln { position:absolute; top:4px; bottom:4px; width:2px; background:var(--orange); z-index:5; border-radius:2px; box-shadow:0 0 8px rgba(255,159,10,0.55); }
+.today-tip {
+  position:absolute; top:-18px; transform:translateX(-50%);
+  background:var(--orange); color:#fff;
+  font-size:8px; font-weight:800; font-family:var(--m);
+  padding:2px 5px; border-radius:4px; white-space:nowrap; z-index:6;
+}
+
+/* ── CAPEX CIRCLES ───────────────────────────────────── */
+.circle-grid { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; }
+.circle-col  { display:flex; flex-direction:column; align-items:center; padding:18px 12px; }
+.circle-col + .circle-col { border-left:1px solid var(--divider); }
+.circle-sub  { text-align:center; margin-top:10px; }
+.circle-amount { font-size:15px; font-weight:800; font-family:var(--m); letter-spacing:-0.02em; line-height:1; }
+.circle-desc   { font-size:10.5px; font-weight:600; color:var(--muted); margin-top:3px; }
+.capex-footer  {
+  border-top:1px solid var(--divider); padding:13px 24px;
+  display:flex; justify-content:space-between; align-items:center;
+  background:rgba(10,132,255,0.02); border-radius:0 0 var(--r) var(--r);
+}
+.capex-footer-label { font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); }
+.capex-footer-value { font-size:17px; font-weight:800; font-family:var(--m); letter-spacing:-0.02em; color:var(--text); }
+.capex-footer-value span { font-size:11px; font-weight:600; color:var(--muted); margin-left:6px; }
+
+/* ── TABLE ───────────────────────────────────────────── */
+.tbl { width:100%; border-collapse:collapse; }
+.tbl th { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); padding:8px 14px; text-align:left; border-bottom:1px solid var(--divider); }
+.tbl td { padding:11px 14px; font-size:12.5px; font-weight:500; border-bottom:1px solid var(--divider); vertical-align:middle; color:var(--text); }
+.tbl tr:last-child td { border-bottom:none; }
+.tbl tr:hover td { background:rgba(255,255,255,0.35); }
+.tbl tfoot td { background:rgba(10,132,255,0.03); font-weight:800; border-top:2px solid var(--divider); border-bottom:none; }
+.tag { font-size:10px; font-weight:800; padding:3px 9px; border-radius:99px; }
+.tag.g { background:rgba(48,209,88,0.10); color:var(--green); }
+.tag.b { background:rgba(10,132,255,0.10); color:var(--blue); }
+.tag.o { background:rgba(255,159,10,0.10); color:var(--orange); }
+.tbl .mono { font-family:var(--m); font-weight:600; font-size:12px; }
+.tbl .num  { font-family:var(--m); font-weight:700; font-size:12.5px; font-feature-settings:"tnum"; }
+
+/* ── PAYMENT ─────────────────────────────────────────── */
+.pay-row { display:flex; align-items:center; gap:14px; padding:13px 0; border-bottom:1px solid var(--divider); }
+.pay-row:last-child { border-bottom:none; }
+.pay-num  { width:28px; height:28px; border-radius:50%; background:rgba(10,132,255,0.08); border:1.5px solid rgba(10,132,255,0.16); display:flex; align-items:center; justify-content:center; font-size:11.5px; font-weight:800; color:var(--blue); flex-shrink:0; }
+.pay-info { flex:1; }
+.pay-name { font-size:13.5px; font-weight:700; color:var(--text); margin-bottom:2px; }
+.pay-date { font-size:11px; font-weight:500; color:var(--muted); font-family:var(--m); }
+.pay-right { text-align:right; }
+.pay-amount { font-size:15px; font-weight:800; font-family:var(--m); font-feature-settings:"tnum"; letter-spacing:-0.01em; }
+.pay-pct    { font-size:11px; font-weight:600; color:var(--muted); margin-top:2px; }
+.pay-badge  { font-size:9.5px; font-weight:800; padding:4px 10px; border-radius:99px; cursor:pointer; letter-spacing:0.05em; transition:opacity .15s; }
+.pay-badge:hover { opacity:.8; }
+.ps-future  { background:rgba(100,120,200,0.09); color:var(--muted); border:1px solid rgba(100,120,200,0.18); }
+.ps-pending { background:rgba(255,159,10,0.10); color:var(--orange); border:1px solid rgba(255,159,10,0.22); }
+.ps-done    { background:rgba(48,209,88,0.10);  color:var(--green);  border:1px solid rgba(48,209,88,0.22); }
+
+/* ── FILTER PILLS ────────────────────────────────────── */
+.filters { display:flex; gap:7px; flex-wrap:wrap; align-items:center; margin-bottom:14px; }
+.fpill {
+  background:rgba(255,255,255,0.55); border:1px solid rgba(255,255,255,0.80);
+  color:var(--muted); padding:5px 15px; border-radius:99px; font-size:12px;
+  font-weight:700; cursor:pointer; transition:all .15s; backdrop-filter:blur(10px);
+  user-select:none;
+}
+.fpill.active { background:rgba(10,132,255,0.10); color:var(--blue); border-color:rgba(10,132,255,0.25); }
+.fpill:hover  { background:rgba(255,255,255,0.75); }
+
+/* ── BUTTONS ─────────────────────────────────────────── */
+.btn {
+  display:inline-flex; align-items:center; gap:6px;
+  background:linear-gradient(135deg,var(--blue),#2E9BFF);
+  color:#fff; border:none; padding:9px 18px; border-radius:12px;
+  font-size:12.5px; font-weight:700; cursor:pointer;
+  box-shadow:var(--shadow-btn); transition:all .18s;
+  letter-spacing:0.01em;
+}
+.btn:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(10,132,255,.40); }
+.btn:active{ transform:translateY(0); }
+.btn-ghost {
+  background:rgba(255,255,255,0.60); border:1px solid rgba(255,255,255,.85);
+  color:var(--text2); padding:9px 18px; border-radius:12px;
+  font-size:12.5px; font-weight:600; cursor:pointer; backdrop-filter:blur(10px);
+}
+
+/* ── MODAL ───────────────────────────────────────────── */
+.overlay { display:none; position:fixed; inset:0; background:rgba(13,17,23,.35); backdrop-filter:blur(10px); z-index:9999; align-items:center; justify-content:center; }
+.modal {
+  background:rgba(255,255,255,.92); backdrop-filter:blur(40px) saturate(220%);
+  border:1px solid rgba(255,255,255,.95); border-radius:22px; padding:26px 28px;
+  max-width:490px; width:90%; box-shadow:0 32px 80px rgba(13,17,23,.18), 0 8px 24px rgba(13,17,23,.10);
+}
+.modal-title { font-size:15px; font-weight:800; color:var(--text); margin-bottom:18px; letter-spacing:-.01em; }
+.field { margin-bottom:12px; }
+.field-lbl { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:6px; }
+.field-inp {
+  width:100%; background:rgba(100,120,200,0.06); color:var(--text);
+  border:1.5px solid rgba(100,120,200,0.15); padding:10px 13px;
+  border-radius:11px; font-size:13px; font-weight:500; outline:none;
+  transition:border-color .15s, background .15s;
+}
+.field-inp:focus { border-color:rgba(10,132,255,.40); background:rgba(10,132,255,.03); }
+.field-row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.modal-actions { display:flex; gap:8px; margin-top:18px; }
+
+/* ── PCT INPUTS ──────────────────────────────────────── */
+.pct-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:8px; }
+.pct-item {
+  display:flex; align-items:center; gap:8px;
+  background:rgba(255,255,255,0.52); border:1px solid rgba(255,255,255,.80);
+  border-radius:12px; padding:8px 12px; backdrop-filter:blur(10px);
+}
+.pct-name { flex:1; font-size:11px; font-weight:600; color:var(--text2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.pct-inp  {
+  width:50px; background:rgba(10,132,255,0.07); color:var(--blue);
+  border:1.5px solid rgba(10,132,255,.18); border-radius:8px;
+  padding:4px 6px; font-family:var(--m); font-size:12px; font-weight:700;
+  text-align:right; outline:none;
+}
+.pct-sign { font-size:11px; color:var(--muted); font-weight:700; }
+
+/* ── TOAST ───────────────────────────────────────────── */
+#toast {
+  position:fixed; bottom:28px; right:28px; z-index:9999;
+  background:linear-gradient(135deg,var(--blue),var(--green));
+  color:#fff; padding:11px 20px; border-radius:14px;
+  font-size:13px; font-weight:700; pointer-events:none;
+  box-shadow:0 8px 24px rgba(10,132,255,.30);
+  opacity:0; transform:translateY(8px);
+  transition:opacity .3s, transform .3s;
+}
+#toast.show { opacity:1; transform:translateY(0); }
+
+/* ── FOOTER ──────────────────────────────────────────── */
+footer { text-align:center; padding:20px; font-size:11px; font-weight:500; color:var(--muted); border-top:1px solid var(--divider); margin-top:40px; position:relative; z-index:1; }
+.reset-link { cursor:pointer; color:rgba(142,152,187,0.25); font-size:10px; }
+
+/* ── RESPONSIVE ──────────────────────────────────────── */
+@media(max-width:960px) {
+  .kpi-row { grid-template-columns:1fr 1fr; }
+  .g2, .g3 { grid-template-columns:1fr; }
+  .summary-cols { grid-template-columns:1fr; }
+  .circle-grid  { grid-template-columns:1fr 1fr; }
+  main { padding:16px 16px 40px; }
   .nav-inner { padding:0 16px; }
-  header { padding:0 16px; }
+  .header-inner { padding:0 16px; }
 }
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <header>
   <div class="header-inner">
     <div class="logo">
-      <div class="logo-icon">MX<br>CH</div>
-      <div>
-        <div class="logo-title">Instalación RS · Dashboard</div>
-        <div class="logo-sub">MXCH01 · Raul Guerrero · Rev. 1</div>
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="logo-texts">
+        <div class="logo-title">Instalación RS &nbsp;·&nbsp; Project Dashboard</div>
+        <div class="logo-sub">MXCH01 &nbsp;·&nbsp; Raul Guerrero &nbsp;·&nbsp; Rev. 1</div>
       </div>
     </div>
     <div class="header-right">
-      <div class="status-pill"><div class="status-dot"></div>EN EJECUCIÓN</div>
-      <div class="last-update">04 Jun 2026</div>
+      <div class="pill-live"><div class="live-dot"></div>EN EJECUCIÓN</div>
+      <div class="header-date">04 Jun 2026</div>
     </div>
   </div>
 </header>
 
+<!-- NAV -->
 <nav>
   <div class="nav-inner">
     <div class="tab active" onclick="showTab('overview')">Overview</div>
@@ -347,276 +489,298 @@ footer {
 
 <main>
 
-<!-- ===== OVERVIEW ===== -->
+<!-- ═══════════ OVERVIEW ═══════════ -->
 <div id="overview" class="section active">
+
   <div class="kpi-row">
-    <div class="kpi green"><div class="kpi-glow"></div><div class="kpi-label">Avance General</div><div class="kpi-value green">45%</div><div class="kpi-sub">Procurement · Bidding</div></div>
-    <div class="kpi blue"><div class="kpi-glow"></div><div class="kpi-label">CAPEX Total</div><div class="kpi-value blue">$199K</div><div class="kpi-sub">USD · MXN 3,582,760</div></div>
-    <div class="kpi orange"><div class="kpi-glow"></div><div class="kpi-label">Próximo Hito</div><div class="kpi-value orange">29 Jun</div><div class="kpi-sub">Generación de POs</div></div>
-    <div class="kpi yellow"><div class="kpi-glow"></div><div class="kpi-label">Go-Live</div><div class="kpi-value yellow">19 Oct</div><div class="kpi-sub">2026 · 137 días</div></div>
-  </div>
-
-  <div class="grid2">
-    <div class="card">
-      <div class="card-title"><div class="card-title-dot"></div>Avance por Fase</div>
-      <div class="capex-bar-wrap"><div class="capex-bar-label"><span>RFP</span><span style="color:var(--accent)">100% ✓</span></div><div class="bar-track"><div class="bar-fill green" style="width:100%"></div></div></div>
-      <div class="capex-bar-wrap"><div class="capex-bar-label"><span>Desarrollo Prototipo</span><span style="color:var(--accent)">100% ✓</span></div><div class="bar-track"><div class="bar-fill green" style="width:100%"></div></div></div>
-      <div class="capex-bar-wrap"><div class="capex-bar-label"><span>CAPEX Aprobado + OI</span><span style="color:var(--accent)">100% ✓</span></div><div class="bar-track"><div class="bar-fill green" style="width:100%"></div></div></div>
-      <div class="capex-bar-wrap"><div class="capex-bar-label"><span>Procurement / Bidding</span><span style="color:var(--accent2)">48%</span></div><div class="bar-track"><div class="bar-fill blue" style="width:48%"></div></div></div>
-      <div class="capex-bar-wrap"><div class="capex-bar-label"><span>Fabricación</span><span style="color:var(--muted)">0%</span></div><div class="bar-track"><div class="bar-fill orange" style="width:0%"></div></div></div>
-      <div class="capex-bar-wrap"><div class="capex-bar-label"><span>Ejecución / Instalación</span><span style="color:var(--muted)">0%</span></div><div class="bar-track"><div class="bar-fill purple" style="width:0%"></div></div></div>
-      <div class="capex-bar-wrap"><div class="capex-bar-label"><span>Go-Live</span><span style="color:var(--muted)">0%</span></div><div class="bar-track"><div class="bar-fill yellow" style="width:0%"></div></div></div>
+    <div class="kpi g"><div class="kpi-blob"></div>
+      <div class="kpi-label">Avance General</div>
+      <div class="kpi-value">45%</div>
+      <div class="kpi-sub">Procurement · Bidding</div>
     </div>
-
-    <div class="card">
-      <div class="card-title"><div class="card-title-dot" style="background:linear-gradient(135deg,var(--danger),var(--accent3))"></div>Alertas Activas</div>
-      <div class="item"><div class="badge alta">ALTA</div><div class="item-content"><div class="item-title">Generación de POs — Inicio 29 Jun</div><div class="item-desc">POs para RS Carton, RS Polionda, Gaiola e Instalación deben generarse la semana del 29 Jun.</div><div class="item-date">Deadline: 03 Jul 2026</div></div></div>
-      <div class="item"><div class="badge media">MEDIA</div><div class="item-content"><div class="item-title">Bidding RS Polionda y Gaiola al 50%</div><div class="item-desc">RS Carton cerrado al 100%. Polionda y Gaiola requieren cierre antes del 26 Jun.</div><div class="item-date">Cierre: 26 Jun 2026</div></div></div>
-      <div class="item"><div class="badge media">MEDIA</div><div class="item-content"><div class="item-title">Facturación por definir (20 Jul)</div><div class="item-desc">Hito marcado como TBD en el timeline. Confirmar esquema de pagos con Finanzas.</div><div class="item-date">Confirmar con Finanzas</div></div></div>
-      <div class="item"><div class="badge info">INFO</div><div class="item-content"><div class="item-title">Ejecución inicia 24 Ago 2026</div><div class="item-desc">Preparación general del área de recibo, briefing y asignación de zonas.</div><div class="item-date">On-Site: 24 Ago 2026</div></div></div>
+    <div class="kpi b"><div class="kpi-blob"></div>
+      <div class="kpi-label">CAPEX Total</div>
+      <div class="kpi-value">$199K</div>
+      <div class="kpi-sub">USD · MXN 3,582,760</div>
+    </div>
+    <div class="kpi o"><div class="kpi-blob"></div>
+      <div class="kpi-label">Próximo Hito</div>
+      <div class="kpi-value">29 Jun</div>
+      <div class="kpi-sub">Generación de POs</div>
+    </div>
+    <div class="kpi y"><div class="kpi-blob"></div>
+      <div class="kpi-label">Go-Live</div>
+      <div class="kpi-value">19 Oct</div>
+      <div class="kpi-sub">2026 · 137 días restantes</div>
     </div>
   </div>
 
-  <!-- RESUMEN -->
-  <div class="card" style="padding:0;overflow:hidden;">
-    <div style="background:linear-gradient(135deg,rgba(0,122,255,0.08) 0%,rgba(52,199,89,0.06) 100%);padding:20px 24px;border-bottom:1px solid rgba(255,255,255,0.7);display:flex;align-items:center;justify-content:space-between;">
-      <div>
-        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent2);margin-bottom:4px;">Resumen Ejecutivo</div>
-        <div style="font-size:20px;font-weight:900;color:var(--text);letter-spacing:-0.02em;">MXCH01 — Instalación RS</div>
+  <div class="g2">
+    <!-- Avance por Fase -->
+    <div class="card">
+      <div class="sec-label"><div class="sec-label-dot"></div><span class="sec-label-text">Avance por Fase</span></div>
+      <div class="bar-row"><div class="bar-meta"><span class="bar-name">RFP</span><span class="bar-val done">100% ✓</span></div><div class="track"><div class="fill g" style="width:100%"></div></div></div>
+      <div class="bar-row"><div class="bar-meta"><span class="bar-name">Desarrollo Prototipo</span><span class="bar-val done">100% ✓</span></div><div class="track"><div class="fill g" style="width:100%"></div></div></div>
+      <div class="bar-row"><div class="bar-meta"><span class="bar-name">CAPEX Aprobado + OI</span><span class="bar-val done">100% ✓</span></div><div class="track"><div class="fill g" style="width:100%"></div></div></div>
+      <div class="bar-row"><div class="bar-meta"><span class="bar-name">Procurement / Bidding</span><span class="bar-val active">48%</span></div><div class="track"><div class="fill b" style="width:48%"></div></div></div>
+      <div class="bar-row"><div class="bar-meta"><span class="bar-name">Fabricación</span><span class="bar-val idle">—</span></div><div class="track"><div class="fill o" style="width:0%"></div></div></div>
+      <div class="bar-row"><div class="bar-meta"><span class="bar-name">Ejecución / Instalación</span><span class="bar-val idle">—</span></div><div class="track"><div class="fill p" style="width:0%"></div></div></div>
+      <div class="bar-row"><div class="bar-meta"><span class="bar-name">Go-Live</span><span class="bar-val idle">—</span></div><div class="track"><div class="fill g" style="width:0%"></div></div></div>
+    </div>
+
+    <!-- Alertas -->
+    <div class="card">
+      <div class="sec-label"><div class="sec-label-dot" style="background:linear-gradient(135deg,var(--red),var(--orange))"></div><span class="sec-label-text">Alertas Activas</span></div>
+      <div class="item"><div class="chip alt">ALTA</div><div class="item-body"><div class="item-title">Generación de POs — 29 Jun</div><div class="item-desc">POs para RS Carton, RS Polionda, Gaiola e Instalación. Inicio 29 Jun, cierre 03 Jul.</div><div class="item-date">Deadline: 03 Jul 2026</div></div></div>
+      <div class="item"><div class="chip med">MEDIA</div><div class="item-body"><div class="item-title">Bidding Polionda y Gaiola al 50%</div><div class="item-desc">RS Carton cerrado al 100%. Requieren cierre antes del 26 Jun para no bloquear PO.</div><div class="item-date">Cierre: 26 Jun 2026</div></div></div>
+      <div class="item"><div class="chip med">MEDIA</div><div class="item-body"><div class="item-title">Facturación por definir (20 Jul)</div><div class="item-desc">Hito marcado como TBD en el timeline. Confirmar esquema de pagos con Finanzas.</div><div class="item-date">Confirmar con Finanzas</div></div></div>
+      <div class="item"><div class="chip inf">INFO</div><div class="item-body"><div class="item-title">Ejecución inicia 24 Ago 2026</div><div class="item-desc">Preparación general del área de recibo, briefing y asignación de zonas en site MXCH01.</div><div class="item-date">On-Site: 24 Ago 2026</div></div></div>
+    </div>
+  </div>
+
+  <!-- Resumen Ejecutivo -->
+  <div class="summary-card">
+    <div class="summary-head">
+      <div class="summary-head-left">
+        <div class="summary-eyebrow">Resumen Ejecutivo</div>
+        <div class="summary-title">MXCH01 — Instalación RS</div>
       </div>
-      <div style="text-align:right;">
-        <div style="font-size:10px;color:var(--muted);font-weight:700;margin-bottom:2px;">RESPONSABLE</div>
-        <div style="font-size:14px;font-weight:800;color:var(--accent2);">Raul Guerrero</div>
+      <div class="summary-head-right">
+        <div class="summary-role-label">Responsable</div>
+        <div class="summary-role-name">Raul Guerrero</div>
       </div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;">
-      <div style="padding:22px 24px;border-right:1px solid rgba(255,255,255,0.6);">
-        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:14px;">Alcance</div>
-        <div style="display:flex;flex-direction:column;gap:12px;">
-          <div style="display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;border-radius:12px;background:rgba(52,199,89,0.12);border:1px solid rgba(52,199,89,0.2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--accent);flex-shrink:0;">35</div><div><div style="font-size:13px;font-weight:700;">Módulos RS Polionda</div><div style="font-size:11px;color:var(--muted);font-weight:600;">$29,931 USD</div></div></div>
-          <div style="display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;border-radius:12px;background:rgba(0,122,255,0.1);border:1px solid rgba(0,122,255,0.2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:var(--accent2);flex-shrink:0;">3.9K</div><div><div style="font-size:13px;font-weight:700;">Cajoneras RS Carton</div><div style="font-size:11px;color:var(--muted);font-weight:600;">Bin 4 + Bin 5 · $26,000</div></div></div>
-          <div style="display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;border-radius:12px;background:rgba(255,149,0,0.1);border:1px solid rgba(255,149,0,0.2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--accent3);flex-shrink:0;">148</div><div><div style="font-size:13px;font-weight:700;">Jaulas Gaiola para NT</div><div style="font-size:11px;color:var(--muted);font-weight:600;">+ 5 traslados · $143,111</div></div></div>
-        </div>
+    <div class="summary-cols">
+      <div class="summary-col">
+        <div class="summary-col-label">Alcance del Proyecto</div>
+        <div class="scope-row"><div class="scope-icon g">35</div><div><div class="scope-name">Módulos RS Polionda</div><div class="scope-amount">$29,931 USD</div></div></div>
+        <div class="scope-row"><div class="scope-icon b" style="font-size:10px;">3.9K</div><div><div class="scope-name">Cajoneras RS Carton</div><div class="scope-amount">Bin 4 (3,744) + Bin 5 (140) · $26,000</div></div></div>
+        <div class="scope-row"><div class="scope-icon o">148</div><div><div class="scope-name">Jaulas Gaiola para NT</div><div class="scope-amount">+ 5 traslados · $143,111 USD</div></div></div>
       </div>
-      <div style="padding:22px 24px;border-right:1px solid rgba(255,255,255,0.6);">
-        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:14px;">Fechas Clave</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,149,0,0.08);border-radius:10px;border:1px solid rgba(255,149,0,0.15);"><span style="font-size:12px;font-weight:700;">Cierre Bidding</span><span style="font-size:11px;font-weight:800;color:var(--accent3);font-family:var(--mono);">26 Jun</span></div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,149,0,0.08);border-radius:10px;border:1px solid rgba(255,149,0,0.15);"><span style="font-size:12px;font-weight:700;">Generación POs</span><span style="font-size:11px;font-weight:800;color:var(--accent3);font-family:var(--mono);">29 Jun</span></div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(0,122,255,0.07);border-radius:10px;border:1px solid rgba(0,122,255,0.12);"><span style="font-size:12px;font-weight:700;">Fabricación</span><span style="font-size:11px;font-weight:800;color:var(--accent2);font-family:var(--mono);">20 Jul–07 Ago</span></div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(175,82,222,0.08);border-radius:10px;border:1px solid rgba(175,82,222,0.15);"><span style="font-size:12px;font-weight:700;">Ejecución On-Site</span><span style="font-size:11px;font-weight:800;color:var(--purple);font-family:var(--mono);">24 Ago–12 Oct</span></div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(52,199,89,0.1);border-radius:10px;border:1px solid rgba(52,199,89,0.2);"><span style="font-size:12px;font-weight:800;color:var(--accent);">🚀 Go-Live</span><span style="font-size:11px;font-weight:900;color:var(--accent);font-family:var(--mono);">19 Oct 2026</span></div>
-        </div>
+      <div class="summary-col">
+        <div class="summary-col-label">Fechas Clave</div>
+        <div class="date-row o"><span class="date-label">Cierre Bidding</span><span class="date-value">26 Jun 2026</span></div>
+        <div class="date-row o"><span class="date-label">Generación POs</span><span class="date-value">29 Jun – 03 Jul</span></div>
+        <div class="date-row b"><span class="date-label">Fabricación</span><span class="date-value">20 Jul – 07 Ago</span></div>
+        <div class="date-row b"><span class="date-label">Envío + Recepción</span><span class="date-value">10 Ago – 21 Ago</span></div>
+        <div class="date-row p"><span class="date-label">Ejecución On-Site</span><span class="date-value">24 Ago – 12 Oct</span></div>
+        <div class="date-row go"><span class="date-label">🚀 Go-Live</span><span class="date-value">19 Oct 2026</span></div>
       </div>
-      <div style="padding:22px 24px;">
-        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:14px;">CAPEX por Categoría</div>
-        <div style="display:flex;flex-direction:column;gap:11px;">
-          <div><div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:5px;"><span>Gaiola</span><span style="color:var(--accent3);">$143,111</span></div><div class="bar-track"><div class="bar-fill orange" style="width:72%"></div></div></div>
-          <div><div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:5px;"><span>RS Polionda</span><span style="color:var(--accent);">$29,931</span></div><div class="bar-track"><div class="bar-fill green" style="width:15%"></div></div></div>
-          <div><div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:5px;"><span>RS Carton</span><span style="color:var(--accent2);">$26,000</span></div><div class="bar-track"><div class="bar-fill blue" style="width:13%"></div></div></div>
-        </div>
-        <div style="margin-top:16px;padding:14px;background:linear-gradient(135deg,rgba(0,122,255,0.07),rgba(52,199,89,0.05));border-radius:14px;border:1px solid rgba(255,255,255,0.8);">
-          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:4px;"><span style="color:var(--muted)">Total USD</span><span style="font-family:var(--mono);font-weight:800;color:var(--accent);">$199,042</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:4px;"><span style="color:var(--muted)">Total MXN</span><span style="font-family:var(--mono);font-weight:800;">MXN 3,582,760</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;"><span style="color:var(--muted)">T/C</span><span style="font-family:var(--mono);font-weight:800;">$18 MXN/USD</span></div>
+      <div class="summary-col">
+        <div class="summary-col-label">CAPEX por Categoría</div>
+        <div class="bar-row"><div class="bar-meta"><span class="bar-name">Gaiola (jaulas + traslado)</span><span class="bar-val" style="color:var(--orange)">$143,111</span></div><div class="track"><div class="fill o" style="width:72%"></div></div></div>
+        <div class="bar-row"><div class="bar-meta"><span class="bar-name">RS Polionda</span><span class="bar-val" style="color:var(--green)">$29,931</span></div><div class="track"><div class="fill g" style="width:15%"></div></div></div>
+        <div class="bar-row"><div class="bar-meta"><span class="bar-name">RS Carton (Bin 4+5)</span><span class="bar-val" style="color:var(--blue)">$26,000</span></div><div class="track"><div class="fill b" style="width:13%"></div></div></div>
+        <div class="totals-box">
+          <div class="totals-row"><span class="totals-key">CAPEX USD</span><span class="totals-val accent">$199,042</span></div>
+          <div class="totals-row"><span class="totals-key">CAPEX MXN</span><span class="totals-val">MXN 3,582,760</span></div>
+          <div class="totals-row"><span class="totals-key">Tipo de cambio</span><span class="totals-val">$18.00 MXN/USD</span></div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ===== TIMELINE ===== -->
+<!-- ═══════════ TIMELINE ═══════════ -->
 <div id="timeline" class="section">
   <div class="card">
-    <div class="card-title"><div class="card-title-dot"></div>Gantt — MXCH01 · Dic 2025 – Oct 2026</div>
-    <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:16px;">▲ Línea naranja = HOY (04 Jun 2026) · Avance general: <strong style="color:var(--accent2)">45%</strong></div>
-    <div id="tl-container" style="overflow-x:auto;"><div style="min-width:900px;">
-      <div class="timeline-header"><div class="tl-label-head">Tarea</div><div class="tl-months" id="tl-months"></div></div>
+    <div class="sec-label"><div class="sec-label-dot"></div><span class="sec-label-text">Gantt — MXCH01 · Dic 2025 – Oct 2026</span></div>
+    <div style="font-size:11.5px;color:var(--muted);font-weight:500;margin-bottom:14px;">
+      Línea naranja = <strong style="color:var(--orange)">HOY, 04 Jun 2026</strong> &nbsp;·&nbsp; Avance general: <strong style="color:var(--blue)">45%</strong>
+    </div>
+    <div style="overflow-x:auto;"><div style="min-width:860px;">
+      <div class="tl-header"><div class="tl-head-lbl">Tarea</div><div class="tl-months" id="tl-months"></div></div>
       <div id="tl-rows"></div>
     </div></div>
-    <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(100,120,180,0.1);">
-      <div class="card-title" style="margin-bottom:12px;"><div class="card-title-dot"></div>Actualizar % de Avance</div>
-      <div id="pct-inputs" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;"></div>
-      <button class="btn-primary" onclick="applyPcts()" style="margin-top:14px;">Aplicar Porcentajes</button>
+    <div style="margin-top:20px;padding-top:18px;border-top:1px solid var(--divider);">
+      <div class="sec-label" style="margin-bottom:12px;"><div class="sec-label-dot"></div><span class="sec-label-text">Actualizar % de Avance</span></div>
+      <div class="pct-grid" id="pct-inputs"></div>
+      <button class="btn" onclick="applyPcts()" style="margin-top:14px;">Aplicar porcentajes</button>
     </div>
   </div>
 </div>
 
-<!-- ===== CAPEX ===== -->
+<!-- ═══════════ CAPEX ═══════════ -->
 <div id="capex" class="section">
-  <div class="card" style="margin-bottom:20px;">
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0;align-items:center;">
-      <div style="display:flex;flex-direction:column;align-items:center;padding:18px 10px;">
-        <svg width="110" height="110" viewBox="0 0 110 110">
-          <circle cx="55" cy="55" r="45" fill="none" stroke="rgba(100,120,180,0.1)" stroke-width="9"/>
-          <circle id="circle-gasto" cx="55" cy="55" r="45" fill="none" stroke="#34c759" stroke-width="9" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283" transform="rotate(-90 55 55)" style="transition:stroke-dashoffset 0.8s ease;filter:drop-shadow(0 0 6px rgba(52,199,89,0.4))"/>
-          <text x="55" y="52" text-anchor="middle" fill="#34c759" font-size="9" font-weight="700" font-family="DM Mono,monospace" id="circle-gasto-pct">0%</text>
-          <text x="55" y="65" text-anchor="middle" fill="#8a96b8" font-size="7" font-family="DM Mono,monospace" font-weight="600">EJECUTADO</text>
+  <!-- Círculos -->
+  <div class="card" style="padding:0;overflow:hidden;margin-bottom:14px;">
+    <div class="circle-grid">
+      <div class="circle-col">
+        <svg width="104" height="104" viewBox="0 0 104 104">
+          <circle cx="52" cy="52" r="42" fill="none" stroke="rgba(100,120,200,0.09)" stroke-width="8"/>
+          <circle cx="52" cy="52" r="42" fill="none" stroke="var(--green)" stroke-width="8" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264" transform="rotate(-90 52 52)" id="c-gasto" style="transition:stroke-dashoffset .8s ease;filter:drop-shadow(0 0 5px rgba(48,209,88,.35))"/>
+          <text x="52" y="49" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" font-weight="700" fill="#30D158" id="c-gasto-pct">0%</text>
+          <text x="52" y="62" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" font-weight="600" fill="#8E98BB">EJECUTADO</text>
         </svg>
-        <div style="text-align:center;margin-top:6px;"><div style="font-size:16px;font-weight:900;color:var(--accent);font-family:var(--mono);" id="capex-gastado-kpi">$0</div><div style="font-size:10px;color:var(--muted);font-weight:600;">de $199,042</div></div>
+        <div class="circle-sub"><div class="circle-amount" style="color:var(--green)" id="c-gasto-amt">$0</div><div class="circle-desc">de $199,042</div></div>
       </div>
-      <div style="display:flex;flex-direction:column;align-items:center;padding:18px 10px;border-left:1px solid rgba(255,255,255,0.6);">
-        <svg width="130" height="130" viewBox="0 0 130 130">
-          <circle cx="65" cy="65" r="54" fill="none" stroke="rgba(100,120,180,0.1)" stroke-width="11"/>
-          <circle id="circle-disp" cx="65" cy="65" r="54" fill="none" stroke="#007aff" stroke-width="11" stroke-linecap="round" stroke-dasharray="339" stroke-dashoffset="0" transform="rotate(-90 65 65)" style="transition:stroke-dashoffset 0.8s ease;filter:drop-shadow(0 0 8px rgba(0,122,255,0.45))"/>
-          <text x="65" y="62" text-anchor="middle" fill="#007aff" font-size="9" font-weight="700" font-family="DM Mono,monospace" id="circle-disp-pct">100%</text>
-          <text x="65" y="76" text-anchor="middle" fill="#8a96b8" font-size="7" font-family="DM Mono,monospace" font-weight="600">DISPONIBLE</text>
+      <div class="circle-col">
+        <svg width="124" height="124" viewBox="0 0 124 124">
+          <circle cx="62" cy="62" r="50" fill="none" stroke="rgba(100,120,200,0.09)" stroke-width="10"/>
+          <circle cx="62" cy="62" r="50" fill="none" stroke="var(--blue)" stroke-width="10" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="0" transform="rotate(-90 62 62)" id="c-disp" style="transition:stroke-dashoffset .8s ease;filter:drop-shadow(0 0 7px rgba(10,132,255,.40))"/>
+          <text x="62" y="59" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" font-weight="700" fill="#0A84FF" id="c-disp-pct">100%</text>
+          <text x="62" y="73" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" font-weight="600" fill="#8E98BB">DISPONIBLE</text>
         </svg>
-        <div style="text-align:center;margin-top:6px;"><div style="font-size:18px;font-weight:900;color:var(--accent2);font-family:var(--mono);" id="capex-disponible-kpi">$199,042</div><div style="font-size:10px;color:var(--muted);font-weight:600;" id="capex-disponible-pct">100% restante</div></div>
+        <div class="circle-sub"><div class="circle-amount" style="color:var(--blue);font-size:17px;" id="c-disp-amt">$199,042</div><div class="circle-desc" id="c-disp-pct2">100% restante</div></div>
       </div>
-      <div style="display:flex;flex-direction:column;align-items:center;padding:18px 10px;border-left:1px solid rgba(255,255,255,0.6);">
-        <svg width="110" height="110" viewBox="0 0 110 110">
-          <circle cx="55" cy="55" r="45" fill="none" stroke="rgba(100,120,180,0.1)" stroke-width="9"/>
-          <circle id="circle-ahorro" cx="55" cy="55" r="45" fill="none" stroke="#ffcc00" stroke-width="9" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283" transform="rotate(-90 55 55)" style="transition:stroke-dashoffset 0.8s ease;filter:drop-shadow(0 0 6px rgba(255,204,0,0.4))"/>
-          <text x="55" y="52" text-anchor="middle" fill="#ffcc00" font-size="9" font-weight="700" font-family="DM Mono,monospace" id="circle-ahorro-pct">0%</text>
-          <text x="55" y="65" text-anchor="middle" fill="#8a96b8" font-size="7" font-family="DM Mono,monospace" font-weight="600">AHORRO</text>
+      <div class="circle-col">
+        <svg width="104" height="104" viewBox="0 0 104 104">
+          <circle cx="52" cy="52" r="42" fill="none" stroke="rgba(100,120,200,0.09)" stroke-width="8"/>
+          <circle cx="52" cy="52" r="42" fill="none" stroke="var(--yellow)" stroke-width="8" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264" transform="rotate(-90 52 52)" id="c-ahorro" style="transition:stroke-dashoffset .8s ease;filter:drop-shadow(0 0 5px rgba(255,214,10,.35))"/>
+          <text x="52" y="49" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" font-weight="700" fill="#FFD60A" id="c-ahorro-pct">0%</text>
+          <text x="52" y="62" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" font-weight="600" fill="#8E98BB">AHORRO</text>
         </svg>
-        <div style="text-align:center;margin-top:6px;"><div style="font-size:16px;font-weight:900;color:var(--accent4);font-family:var(--mono);" id="capex-ahorro-kpi">$0</div><div style="font-size:10px;color:var(--muted);font-weight:600;">vs presupuestado</div></div>
+        <div class="circle-sub"><div class="circle-amount" style="color:var(--yellow)" id="c-ahorro-amt">$0</div><div class="circle-desc">vs presupuestado</div></div>
       </div>
-      <div style="display:flex;flex-direction:column;align-items:center;padding:18px 10px;border-left:1px solid rgba(255,255,255,0.6);">
-        <svg width="110" height="110" viewBox="0 0 110 110">
-          <circle cx="55" cy="55" r="45" fill="none" stroke="rgba(100,120,180,0.1)" stroke-width="9"/>
-          <circle id="circle-sobre" cx="55" cy="55" r="45" fill="none" stroke="#ff3b30" stroke-width="9" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283" transform="rotate(-90 55 55)" style="transition:stroke-dashoffset 0.8s ease;filter:drop-shadow(0 0 6px rgba(255,59,48,0.4))"/>
-          <text x="55" y="52" text-anchor="middle" fill="#ff3b30" font-size="9" font-weight="700" font-family="DM Mono,monospace" id="circle-sobre-pct">0%</text>
-          <text x="55" y="65" text-anchor="middle" fill="#8a96b8" font-size="7" font-family="DM Mono,monospace" font-weight="600">SOBRECOSTO</text>
+      <div class="circle-col">
+        <svg width="104" height="104" viewBox="0 0 104 104">
+          <circle cx="52" cy="52" r="42" fill="none" stroke="rgba(100,120,200,0.09)" stroke-width="8"/>
+          <circle cx="52" cy="52" r="42" fill="none" stroke="var(--red)" stroke-width="8" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264" transform="rotate(-90 52 52)" id="c-sobre" style="transition:stroke-dashoffset .8s ease;filter:drop-shadow(0 0 5px rgba(255,69,58,.35))"/>
+          <text x="52" y="49" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" font-weight="700" fill="#FF453A" id="c-sobre-pct">0%</text>
+          <text x="52" y="62" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" font-weight="600" fill="#8E98BB">SOBRECOSTO</text>
         </svg>
-        <div style="text-align:center;margin-top:6px;"><div style="font-size:16px;font-weight:900;color:var(--danger);font-family:var(--mono);" id="capex-sobre-kpi">$0</div><div style="font-size:10px;color:var(--muted);font-weight:600;">0% sobre presupuesto</div></div>
+        <div class="circle-sub"><div class="circle-amount" style="color:var(--red)" id="c-sobre-amt">$0</div><div class="circle-desc">0% sobre presupuesto</div></div>
       </div>
     </div>
-    <div style="border-top:1px solid rgba(255,255,255,0.7);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;background:rgba(0,122,255,0.03);border-radius:0 0 20px 20px;">
-      <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">CAPEX Total Aprobado</div>
-      <div style="font-size:20px;font-weight:900;font-family:var(--mono);">$199,042 <span style="font-size:12px;color:var(--muted);font-weight:600;">USD · MXN 3,582,760</span></div>
+    <div class="capex-footer">
+      <span class="capex-footer-label">CAPEX Total Aprobado</span>
+      <span class="capex-footer-value">$199,042<span>USD &nbsp;·&nbsp; MXN 3,582,760</span></span>
     </div>
   </div>
 
-  <div class="grid3" style="margin-bottom:16px;">
-    <div class="card"><div class="card-title"><div class="card-title-dot" style="background:linear-gradient(135deg,var(--accent3),#ff9f0a)"></div>Gaiola — $143,111</div>
-      <div class="capex-bar-wrap"><div class="capex-bar-label"><span>Jaulas metálicas ×148</span><span style="color:var(--accent3)">$98,667</span></div><div class="bar-track"><div class="bar-fill orange" style="width:69%"></div></div></div>
-      <div class="capex-bar-wrap"><div class="capex-bar-label"><span>Traslado ×5</span><span style="color:var(--accent3)">$44,444</span></div><div class="bar-track"><div class="bar-fill orange" style="width:31%"></div></div></div>
-      <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(100,120,180,0.1);display:flex;justify-content:space-between;"><span style="font-size:12px;color:var(--muted);font-weight:700;">Subtotal</span><span style="font-size:16px;font-weight:900;color:var(--accent3);font-family:var(--mono);">$143,111</span></div>
+  <!-- Desglose -->
+  <div class="g3">
+    <div class="card">
+      <div class="sec-label"><div class="sec-label-dot" style="background:linear-gradient(135deg,var(--orange),#FFAE28)"></div><span class="sec-label-text">Gaiola — $143,111</span></div>
+      <div class="bar-row"><div class="bar-meta"><span class="bar-name">Jaulas metálicas ×148</span><span class="bar-val" style="color:var(--orange)">$98,667</span></div><div class="track"><div class="fill o" style="width:69%"></div></div></div>
+      <div class="bar-row"><div class="bar-meta"><span class="bar-name">Traslado jaulas ×5</span><span class="bar-val" style="color:var(--orange)">$44,444</span></div><div class="track"><div class="fill o" style="width:31%"></div></div></div>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--divider);display:flex;justify-content:space-between;align-items:baseline;">
+        <span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;">Subtotal</span>
+        <span style="font-size:16px;font-weight:800;color:var(--orange);font-family:var(--m);letter-spacing:-.01em;">$143,111</span>
+      </div>
     </div>
-    <div class="card"><div class="card-title"><div class="card-title-dot" style="background:linear-gradient(135deg,var(--accent),#30d158)"></div>RS Polionda — $29,931</div>
-      <div class="capex-bar-wrap"><div class="capex-bar-label"><span>Módulos ×35</span><span style="color:var(--accent)">$29,931</span></div><div class="bar-track"><div class="bar-fill green" style="width:100%"></div></div></div>
-      <div style="font-size:11px;color:var(--muted);font-weight:600;margin-top:6px;">@$15,393 MXN/unitario</div>
-      <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(100,120,180,0.1);display:flex;justify-content:space-between;"><span style="font-size:12px;color:var(--muted);font-weight:700;">Subtotal</span><span style="font-size:16px;font-weight:900;color:var(--accent);font-family:var(--mono);">$29,931</span></div>
+    <div class="card">
+      <div class="sec-label"><div class="sec-label-dot" style="background:linear-gradient(135deg,var(--green),#34D74E)"></div><span class="sec-label-text">RS Polionda — $29,931</span></div>
+      <div class="bar-row"><div class="bar-meta"><span class="bar-name">Módulos ×35</span><span class="bar-val" style="color:var(--green)">$29,931</span></div><div class="track"><div class="fill g" style="width:100%"></div></div></div>
+      <div style="font-size:11.5px;font-weight:600;color:var(--muted);margin-top:8px;font-family:var(--m);">@$15,393 MXN / unidad</div>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--divider);display:flex;justify-content:space-between;align-items:baseline;">
+        <span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;">Subtotal</span>
+        <span style="font-size:16px;font-weight:800;color:var(--green);font-family:var(--m);letter-spacing:-.01em;">$29,931</span>
+      </div>
     </div>
-    <div class="card"><div class="card-title"><div class="card-title-dot" style="background:linear-gradient(135deg,var(--accent2),#0a84ff)"></div>RS Carton — $26,000</div>
-      <div class="capex-bar-wrap"><div class="capex-bar-label"><span>Bin 4 ×3,744</span><span style="color:var(--accent2)">$24,627</span></div><div class="bar-track"><div class="bar-fill blue" style="width:95%"></div></div></div>
-      <div class="capex-bar-wrap"><div class="capex-bar-label"><span>Bin 5 ×140</span><span style="color:var(--accent2)">$1,373</span></div><div class="bar-track"><div class="bar-fill blue" style="width:5%"></div></div></div>
-      <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(100,120,180,0.1);display:flex;justify-content:space-between;"><span style="font-size:12px;color:var(--muted);font-weight:700;">Subtotal</span><span style="font-size:16px;font-weight:900;color:var(--accent2);font-family:var(--mono);">$26,000</span></div>
+    <div class="card">
+      <div class="sec-label"><div class="sec-label-dot" style="background:linear-gradient(135deg,var(--blue),#2E9BFF)"></div><span class="sec-label-text">RS Carton — $26,000</span></div>
+      <div class="bar-row"><div class="bar-meta"><span class="bar-name">Bin 4 ×3,744</span><span class="bar-val" style="color:var(--blue)">$24,627</span></div><div class="track"><div class="fill b" style="width:95%"></div></div></div>
+      <div class="bar-row"><div class="bar-meta"><span class="bar-name">Bin 5 ×140</span><span class="bar-val" style="color:var(--blue)">$1,373</span></div><div class="track"><div class="fill b" style="width:5%"></div></div></div>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--divider);display:flex;justify-content:space-between;align-items:baseline;">
+        <span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;">Subtotal</span>
+        <span style="font-size:16px;font-weight:800;color:var(--blue);font-family:var(--m);letter-spacing:-.01em;">$26,000</span>
+      </div>
     </div>
   </div>
 
+  <!-- Historial -->
   <div class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-      <div class="card-title" style="margin-bottom:0;"><div class="card-title-dot"></div>Ejecución Presupuestal</div>
-      <button class="btn-primary" onclick="openCapexModal()">+ Registrar movimiento</button>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+      <div class="sec-label" style="margin:0;"><div class="sec-label-dot"></div><span class="sec-label-text">Ejecución Presupuestal</span></div>
+      <button class="btn" onclick="openCapexModal()">+ Registrar movimiento</button>
     </div>
-    <div id="capex-lista"><div style="text-align:center;padding:24px;color:var(--muted);font-size:13px;font-weight:600;">Sin movimientos registrados aún.</div></div>
+    <div id="capex-lista"><div style="text-align:center;padding:28px;color:var(--muted);font-size:13px;font-weight:500;">Sin movimientos registrados aún.</div></div>
   </div>
 
   <!-- Modal CAPEX -->
-  <div id="capex-modal" class="modal-overlay">
-    <div class="modal-box">
+  <div id="capex-modal" class="overlay">
+    <div class="modal">
       <div class="modal-title">Registrar Movimiento</div>
-      <div style="display:grid;gap:12px;">
-        <div><div class="field-label">Tipo</div><select id="cm-tipo" class="field-input"><option value="gasto">🟢 Gasto</option><option value="sobrecosto">🔴 Sobrecosto</option><option value="transferencia">🔵 Transferencia</option></select></div>
-        <div><div class="field-label">Partida</div><select id="cm-partida" class="field-input"><option value="gaiola-jaulas">Gaiola — Jaulas ×148 · $98,667</option><option value="gaiola-traslado">Gaiola — Traslado ×5 · $44,444</option><option value="polionda">RS Polionda — ×35 · $29,931</option><option value="carton-bin4">RS Carton — Bin 4 · $24,627</option><option value="carton-bin5">RS Carton — Bin 5 · $1,373</option></select></div>
-        <div><div class="field-label">Concepto</div><input type="text" id="cm-concepto" placeholder="Descripción del movimiento" class="field-input"></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-          <div><div class="field-label">Monto (USD)</div><input type="text" inputmode="decimal" id="cm-monto" placeholder="0.00" class="field-input"></div>
-          <div><div class="field-label">Fecha</div><input type="text" id="cm-fecha" placeholder="04 Jun 2026" class="field-input"></div>
-        </div>
-        <div><div class="field-label">Nota</div><input type="text" id="cm-nota" placeholder="Referencia, factura..." class="field-input"></div>
+      <div class="field"><div class="field-lbl">Tipo</div><select id="cm-tipo" class="field-inp"><option value="gasto">🟢 Gasto</option><option value="sobrecosto">🔴 Sobrecosto</option><option value="transferencia">🔵 Transferencia</option></select></div>
+      <div class="field"><div class="field-lbl">Partida</div><select id="cm-partida" class="field-inp"><option>Gaiola — Jaulas ×148 · $98,667</option><option>Gaiola — Traslado ×5 · $44,444</option><option>RS Polionda — ×35 · $29,931</option><option>RS Carton — Bin 4 · $24,627</option><option>RS Carton — Bin 5 · $1,373</option></select></div>
+      <div class="field"><div class="field-lbl">Concepto</div><input id="cm-concepto" class="field-inp" placeholder="Descripción del movimiento"></div>
+      <div class="field-row2">
+        <div class="field"><div class="field-lbl">Monto (USD)</div><input id="cm-monto" class="field-inp" inputmode="decimal" placeholder="0.00"></div>
+        <div class="field"><div class="field-lbl">Fecha</div><input id="cm-fecha" class="field-inp" placeholder="04 Jun 2026"></div>
       </div>
-      <div style="display:flex;gap:10px;margin-top:18px;">
-        <button class="btn-primary" onclick="saveCapexMov()" style="flex:1;">Registrar</button>
-        <button class="btn-ghost" onclick="closeCapexModal()">Cancelar</button>
-      </div>
+      <div class="field"><div class="field-lbl">Nota</div><input id="cm-nota" class="field-inp" placeholder="Factura, referencia…"></div>
+      <div class="modal-actions"><button class="btn" onclick="saveCapexMov()" style="flex:1;">Registrar</button><button class="btn-ghost" onclick="closeCapexModal()">Cancelar</button></div>
     </div>
   </div>
 </div>
 
-<!-- ===== FACTURACIÓN ===== -->
+<!-- ═══════════ FACTURACIÓN ═══════════ -->
 <div id="facturacion" class="section">
   <div class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
-      <div class="card-title" style="margin-bottom:0;"><div class="card-title-dot"></div>Eventos de Pago — MXCH01</div>
-      <button class="btn-primary" onclick="openFactModal()">+ Agregar evento</button>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+      <div class="sec-label" style="margin:0;"><div class="sec-label-dot"></div><span class="sec-label-text">Eventos de Pago — MXCH01</span></div>
+      <button class="btn" onclick="openFactModal()">+ Agregar evento</button>
     </div>
-    <div id="fact-lista"><div style="text-align:center;padding:28px;color:var(--muted);font-size:13px;font-weight:600;">Sin eventos definidos. El timeline indica "Facturación por Definir" en Jul 2026.</div></div>
-    <div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(100,120,180,0.1);display:flex;justify-content:space-between;align-items:center;">
-      <span style="font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">Total Comprometido</span>
-      <span style="font-size:22px;font-weight:900;color:var(--accent);font-family:var(--mono);" id="fact-total">$0 USD</span>
+    <div id="fact-lista"><div style="text-align:center;padding:30px;color:var(--muted);font-size:13px;font-weight:500;">Sin eventos definidos. El timeline indica "Facturación por Definir" en Jul 2026.</div></div>
+    <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--divider);display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);">Total Comprometido</span>
+      <span style="font-size:20px;font-weight:800;color:var(--green);font-family:var(--m);letter-spacing:-.02em;" id="fact-total">$0 USD</span>
     </div>
   </div>
-  <div id="fact-modal" class="modal-overlay">
-    <div class="modal-box">
+  <div id="fact-modal" class="overlay">
+    <div class="modal">
       <div class="modal-title" id="fact-modal-title">Agregar Evento de Pago</div>
-      <div style="display:grid;gap:12px;">
-        <div><div class="field-label">Nombre</div><input type="text" id="fn-nombre" placeholder="Ej: Down Payment — 30%" class="field-input"></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-          <div><div class="field-label">Monto (USD)</div><input type="text" inputmode="decimal" id="fn-monto" placeholder="0.00" class="field-input"></div>
-          <div><div class="field-label">% del total</div><input type="text" id="fn-pct" placeholder="30%" class="field-input"></div>
-        </div>
-        <div><div class="field-label">Fecha</div><input type="text" id="fn-fecha" placeholder="Jul 2026" class="field-input"></div>
-        <div><div class="field-label">Estatus</div><select id="fn-status" class="field-input"><option value="ps-future">⬜ Futuro</option><option value="ps-pending">🟡 Pendiente</option><option value="ps-done">🟢 Pagado</option></select></div>
+      <div class="field"><div class="field-lbl">Nombre del evento</div><input id="fn-nombre" class="field-inp" placeholder="Down Payment — 30%"></div>
+      <div class="field-row2">
+        <div class="field"><div class="field-lbl">Monto (USD)</div><input id="fn-monto" class="field-inp" inputmode="decimal" placeholder="0.00"></div>
+        <div class="field"><div class="field-lbl">% del total</div><input id="fn-pct" class="field-inp" placeholder="30%"></div>
       </div>
-      <div style="display:flex;gap:10px;margin-top:18px;"><button class="btn-primary" onclick="saveFactEvento()" style="flex:1;">Guardar</button><button class="btn-ghost" onclick="closeFactModal()">Cancelar</button></div>
+      <div class="field"><div class="field-lbl">Fecha</div><input id="fn-fecha" class="field-inp" placeholder="Jul 2026"></div>
+      <div class="field"><div class="field-lbl">Estatus</div><select id="fn-status" class="field-inp"><option value="ps-future">⬜ Futuro</option><option value="ps-pending">🟡 Pendiente</option><option value="ps-done">🟢 Pagado</option></select></div>
+      <div class="modal-actions"><button class="btn" onclick="saveFactEvento()" style="flex:1;">Guardar</button><button class="btn-ghost" onclick="closeFactModal()">Cancelar</button></div>
     </div>
   </div>
 </div>
 
-<!-- ===== MATERIALES ===== -->
+<!-- ═══════════ MATERIALES ═══════════ -->
 <div id="materiales" class="section">
-  <div class="kpi-row" style="margin-bottom:20px;">
-    <div class="kpi green"><div class="kpi-glow"></div><div class="kpi-label">Items CAPEX</div><div class="kpi-value green">5</div><div class="kpi-sub">en seguimiento</div></div>
-    <div class="kpi blue"><div class="kpi-glow"></div><div class="kpi-label">CAPEX Total</div><div class="kpi-value blue">$199K</div><div class="kpi-sub">USD aprobado</div></div>
-    <div class="kpi orange"><div class="kpi-glow"></div><div class="kpi-label">Mayor Partida</div><div class="kpi-value orange">$99K</div><div class="kpi-sub">Jaulas ×148</div></div>
-    <div class="kpi yellow"><div class="kpi-glow"></div><div class="kpi-label">T/C</div><div class="kpi-value yellow">$18</div><div class="kpi-sub">MXN / USD</div></div>
+  <div class="kpi-row" style="margin-bottom:14px;">
+    <div class="kpi g"><div class="kpi-blob"></div><div class="kpi-label">Ítems CAPEX</div><div class="kpi-value">5</div><div class="kpi-sub">en seguimiento</div></div>
+    <div class="kpi b"><div class="kpi-blob"></div><div class="kpi-label">CAPEX Total</div><div class="kpi-value">$199K</div><div class="kpi-sub">USD aprobado</div></div>
+    <div class="kpi o"><div class="kpi-blob"></div><div class="kpi-label">Mayor Partida</div><div class="kpi-value">$99K</div><div class="kpi-sub">Jaulas ×148</div></div>
+    <div class="kpi y"><div class="kpi-blob"></div><div class="kpi-label">Tipo de Cambio</div><div class="kpi-value">$18</div><div class="kpi-sub">MXN / USD</div></div>
   </div>
   <div class="card">
-    <div class="card-title"><div class="card-title-dot"></div>Lista de Materiales — CAPEX MXCH01</div>
-    <table class="mat-table">
+    <div class="sec-label"><div class="sec-label-dot"></div><span class="sec-label-text">Lista de Materiales — CAPEX MXCH01</span></div>
+    <table class="tbl">
       <thead><tr><th>Material / Equipo</th><th>Categoría</th><th>Cantidad</th><th>Costo MXN</th><th>Costo USD</th><th>Estatus</th></tr></thead>
       <tbody>
-        <tr><td><strong>Módulos RS de polionda</strong></td><td><span class="cat-pill cat-rs">RS Polionda</span></td><td style="font-family:var(--mono);font-weight:600;">35 u.</td><td style="font-family:var(--mono);">MXN 538,762</td><td style="font-family:var(--mono);font-weight:800;color:var(--accent);">$29,931</td><td><select onchange="updateMatStatus('polionda',this.value)" id="mat-polionda" class="field-input" style="padding:5px 10px;font-size:11px;font-weight:700;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
-        <tr><td><strong>Cajoneras Bin 4</strong></td><td><span class="cat-pill cat-gaiola">RS Carton</span></td><td style="font-family:var(--mono);font-weight:600;">3,744 u.</td><td style="font-family:var(--mono);">MXN 443,290</td><td style="font-family:var(--mono);font-weight:800;color:var(--accent2);">$24,627</td><td><select onchange="updateMatStatus('bin4',this.value)" id="mat-bin4" class="field-input" style="padding:5px 10px;font-size:11px;font-weight:700;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
-        <tr><td><strong>Cajoneras Bin 5</strong></td><td><span class="cat-pill cat-gaiola">RS Carton</span></td><td style="font-family:var(--mono);font-weight:600;">140 u.</td><td style="font-family:var(--mono);">MXN 24,709</td><td style="font-family:var(--mono);font-weight:800;color:var(--accent2);">$1,373</td><td><select onchange="updateMatStatus('bin5',this.value)" id="mat-bin5" class="field-input" style="padding:5px 10px;font-size:11px;font-weight:700;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
-        <tr><td><strong>Jaulas metálicas para NT</strong></td><td><span class="cat-pill" style="background:rgba(255,149,0,0.12);color:var(--accent3);">Gaiola</span></td><td style="font-family:var(--mono);font-weight:600;">148 u.</td><td style="font-family:var(--mono);">MXN 1,776,000</td><td style="font-family:var(--mono);font-weight:800;color:var(--accent3);">$98,667</td><td><select onchange="updateMatStatus('jaulas',this.value)" id="mat-jaulas" class="field-input" style="padding:5px 10px;font-size:11px;font-weight:700;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
-        <tr><td><strong>Traslado de jaulas</strong></td><td><span class="cat-pill" style="background:rgba(255,149,0,0.12);color:var(--accent3);">Gaiola</span></td><td style="font-family:var(--mono);font-weight:600;">5 viajes</td><td style="font-family:var(--mono);">MXN 800,000</td><td style="font-family:var(--mono);font-weight:800;color:var(--accent3);">$44,444</td><td><select onchange="updateMatStatus('traslado',this.value)" id="mat-traslado" class="field-input" style="padding:5px 10px;font-size:11px;font-weight:700;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
-        <tr style="background:rgba(0,122,255,0.04);">
-          <td colspan="3" style="font-weight:900;font-size:13px;font-family:var(--mono);">TOTAL</td>
-          <td style="font-weight:900;font-family:var(--mono);">MXN 3,582,761</td>
-          <td style="font-weight:900;font-family:var(--mono);color:var(--accent);">$199,042</td>
-          <td></td>
-        </tr>
+        <tr><td><strong>Módulos RS de polionda</strong></td><td><span class="tag g">RS Polionda</span></td><td class="mono">35 u.</td><td class="mono">538,762</td><td class="num" style="color:var(--green)">$29,931</td><td><select onchange="updateMatStatus('polionda',this.value)" id="mat-polionda" class="field-inp" style="padding:5px 10px;font-size:11px;font-weight:700;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
+        <tr><td><strong>Cajoneras Bin 4</strong></td><td><span class="tag b">RS Carton</span></td><td class="mono">3,744 u.</td><td class="mono">443,290</td><td class="num" style="color:var(--blue)">$24,627</td><td><select onchange="updateMatStatus('bin4',this.value)" id="mat-bin4" class="field-inp" style="padding:5px 10px;font-size:11px;font-weight:700;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
+        <tr><td><strong>Cajoneras Bin 5</strong></td><td><span class="tag b">RS Carton</span></td><td class="mono">140 u.</td><td class="mono">24,709</td><td class="num" style="color:var(--blue)">$1,373</td><td><select onchange="updateMatStatus('bin5',this.value)" id="mat-bin5" class="field-inp" style="padding:5px 10px;font-size:11px;font-weight:700;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
+        <tr><td><strong>Jaulas metálicas para NT</strong></td><td><span class="tag o">Gaiola</span></td><td class="mono">148 u.</td><td class="mono">1,776,000</td><td class="num" style="color:var(--orange)">$98,667</td><td><select onchange="updateMatStatus('jaulas',this.value)" id="mat-jaulas" class="field-inp" style="padding:5px 10px;font-size:11px;font-weight:700;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
+        <tr><td><strong>Traslado de jaulas metálicas</strong></td><td><span class="tag o">Gaiola</span></td><td class="mono">5 viajes</td><td class="mono">800,000</td><td class="num" style="color:var(--orange)">$44,444</td><td><select onchange="updateMatStatus('traslado',this.value)" id="mat-traslado" class="field-inp" style="padding:5px 10px;font-size:11px;font-weight:700;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
       </tbody>
+      <tfoot>
+        <tr><td colspan="3" style="font-size:12px;font-weight:800;letter-spacing:.02em;font-family:var(--m);">TOTAL</td><td class="mono" style="font-weight:800;">3,582,761</td><td class="num" style="color:var(--green);font-size:13.5px;">$199,042</td><td></td></tr>
+      </tfoot>
     </table>
   </div>
 </div>
 
-<!-- ===== PENDIENTES ===== -->
+<!-- ═══════════ PENDIENTES ═══════════ -->
 <div id="pendientes" class="section">
-  <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center;">
-    <button onclick="filterPend('all')"  id="pf-all"   class="pf-btn pf-active">Todos</button>
-    <button onclick="filterPend('alta')" id="pf-alta"  class="pf-btn">Alta</button>
-    <button onclick="filterPend('media')"id="pf-media" class="pf-btn">Media</button>
-    <button onclick="filterPend('baja')" id="pf-baja"  class="pf-btn">Baja</button>
-    <button onclick="filterPend('info')" id="pf-info"  class="pf-btn">Info</button>
-    <div style="margin-left:auto;"><button class="btn-primary" onclick="openPendModal()">+ Agregar pendiente</button></div>
+  <div class="filters">
+    <button onclick="fp('all')"   id="pf-all"   class="fpill active">Todos</button>
+    <button onclick="fp('alta')"  id="pf-alta"  class="fpill">Alta</button>
+    <button onclick="fp('media')" id="pf-media" class="fpill">Media</button>
+    <button onclick="fp('baja')"  id="pf-baja"  class="fpill">Baja</button>
+    <button onclick="fp('info')"  id="pf-info"  class="fpill">Info</button>
+    <div style="margin-left:auto;"><button class="btn" onclick="openPendModal()">+ Agregar pendiente</button></div>
   </div>
-  <div class="card"><div id="pend-list"></div><div id="pend-empty" style="display:none;text-align:center;padding:28px;color:var(--muted);font-size:13px;font-weight:600;">Sin pendientes en esta categoría.</div></div>
-  <div id="pend-modal" class="modal-overlay">
-    <div class="modal-box">
+  <div class="card">
+    <div id="pend-list"></div>
+    <div id="pend-empty" style="display:none;text-align:center;padding:28px;color:var(--muted);font-size:13px;font-weight:500;">Sin pendientes en esta categoría.</div>
+  </div>
+  <div id="pend-modal" class="overlay">
+    <div class="modal">
       <div class="modal-title" id="pend-modal-title">Agregar Pendiente</div>
-      <div style="display:grid;gap:12px;">
-        <div><div class="field-label">Prioridad</div><select id="pp-pri" class="field-input"><option value="alta">🔴 Alta</option><option value="media">🟡 Media</option><option value="baja">🟢 Baja</option><option value="info">🔵 Info</option></select></div>
-        <div><div class="field-label">Título</div><input type="text" id="pp-titulo" placeholder="Título del pendiente" class="field-input"></div>
-        <div><div class="field-label">Descripción</div><textarea id="pp-desc" rows="3" class="field-input" style="resize:vertical;"></textarea></div>
-        <div><div class="field-label">Deadline</div><input type="text" id="pp-fecha" placeholder="26 Jun 2026" class="field-input"></div>
-      </div>
-      <div style="display:flex;gap:10px;margin-top:18px;"><button class="btn-primary" onclick="savePend()" style="flex:1;">Guardar</button><button class="btn-ghost" onclick="closePendModal()">Cancelar</button></div>
+      <div class="field"><div class="field-lbl">Prioridad</div><select id="pp-pri" class="field-inp"><option value="alta">🔴 Alta</option><option value="media">🟡 Media</option><option value="baja">🟢 Baja</option><option value="info">🔵 Info</option></select></div>
+      <div class="field"><div class="field-lbl">Título</div><input id="pp-titulo" class="field-inp" placeholder="Título del pendiente"></div>
+      <div class="field"><div class="field-lbl">Descripción</div><textarea id="pp-desc" class="field-inp" rows="3" style="resize:vertical;"></textarea></div>
+      <div class="field"><div class="field-lbl">Deadline</div><input id="pp-fecha" class="field-inp" placeholder="26 Jun 2026"></div>
+      <div class="modal-actions"><button class="btn" onclick="savePend()" style="flex:1;">Guardar</button><button class="btn-ghost" onclick="closePendModal()">Cancelar</button></div>
     </div>
   </div>
 </div>
@@ -624,142 +788,149 @@ footer {
 </main>
 
 <footer>
-  MXCH01 – Instalación RS · Project Dashboard &nbsp;·&nbsp; Raul Guerrero &nbsp;·&nbsp; 04 Jun 2026
-  &nbsp;&nbsp;<span onclick="resetAll()" style="cursor:pointer;color:rgba(138,150,184,0.3);font-size:10px;" title="Borrar datos">↺ reset</span>
+  MXCH01 – Instalación RS &nbsp;·&nbsp; Project Dashboard &nbsp;·&nbsp; Raul Guerrero &nbsp;·&nbsp; 04 Jun 2026
+  &nbsp;&nbsp;<span class="reset-link" onclick="resetAll()" title="Borrar datos">↺</span>
 </footer>
+<div id="toast"></div>
 
 <script>
-// TABS
+/* ── TABS ── */
 function showTab(id){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  document.querySelectorAll('.tab').forEach(t=>{if(t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+id+"'"))t.classList.add('active');});
+  document.querySelectorAll('.tab').forEach(t=>{if(t.getAttribute('onclick')?.includes("'"+id+"'"))t.classList.add('active');});
 }
 
-// GITHUB
+/* ── GITHUB ── */
 const GH_TOKEN='GITHUB_TOKEN_HERE';
 const GH_API='https://api.github.com/repos/Raulguerrerom/mxch01-instalacion-rs/contents/data-mxch01.json';
 let ghSHA='';
 
-let dbData={
+let db={
   pcts:[],facturacion:[],capex_gastos:[],mat_status:{},
   pendientes:[
-    {pri:'alta', titulo:'Generación de POs — 4 categorías', desc:'Emitir POs para RS Carton, RS Polionda, Gaiola e Instalación. Inicio: 29 Jun, cierre: 03 Jul 2026.', fecha:'03 Jul 2026'},
-    {pri:'alta', titulo:'Aprobación de POs', desc:'Gaiola, RS Carton, RS Polionda e Instalación requieren aprobación formal. 06–17 Jul 2026.', fecha:'17 Jul 2026'},
-    {pri:'media',titulo:'Cerrar Bidding RS Polionda', desc:'Bidding al 50%. Requiere cierre antes del 26 Jun para no bloquear PO.', fecha:'26 Jun 2026'},
-    {pri:'media',titulo:'Cerrar Bidding Gaiola', desc:'Bidding al 50%. Necesario para cotización final y emisión de PO.', fecha:'26 Jun 2026'},
-    {pri:'media',titulo:'Definir Facturación', desc:'El timeline marca hito el 20 Jul como TBD. Confirmar esquema con Finanzas.', fecha:'20 Jul 2026'},
-    {pri:'baja', titulo:'Preparación del área de recibo', desc:'Briefing, asignación de zonas y verificación de layout en piso. Inicio: 24 Ago 2026.', fecha:'24 Ago 2026'},
-    {pri:'info', titulo:'Gemba Walk + Handover operación', desc:'Gemba Walk (14 Oct) y Handover (15 Oct) previos al Go-Live del 19 Oct 2026.', fecha:'14–15 Oct 2026'},
+    {pri:'alta', titulo:'Generación de POs — 4 categorías',   desc:'Emitir POs para RS Carton, RS Polionda, Gaiola e Instalación. Inicio: 29 Jun, cierre: 03 Jul 2026.',  fecha:'03 Jul 2026'},
+    {pri:'alta', titulo:'Aprobación de POs',                   desc:'Gaiola, RS Carton, RS Polionda e Instalación requieren aprobación formal. Proceso: 06–17 Jul 2026.',  fecha:'17 Jul 2026'},
+    {pri:'media',titulo:'Cerrar Bidding RS Polionda',          desc:'Bidding al 50%. Requiere cierre antes del 26 Jun para no bloquear la PO.',                             fecha:'26 Jun 2026'},
+    {pri:'media',titulo:'Cerrar Bidding Gaiola',               desc:'Bidding al 50%. Necesario para cotización final y emisión de PO de jaulas metálicas.',                 fecha:'26 Jun 2026'},
+    {pri:'media',titulo:'Definir esquema de Facturación',      desc:'El timeline marca hito el 20 Jul como TBD. Confirmar esquema de pagos con Finanzas.',                  fecha:'20 Jul 2026'},
+    {pri:'baja', titulo:'Preparación del área de recibo',      desc:'Briefing, asignación de zonas y verificación de layout en piso. Inicio ejecución: 24 Ago 2026.',      fecha:'24 Ago 2026'},
+    {pri:'info', titulo:'Gemba Walk + Handover a Operaciones', desc:'Gemba Walk (14 Oct) y Handover (15 Oct) previos al Go-Live del 19 Oct 2026.',                         fecha:'14–15 Oct 2026'},
   ]
 };
 
 async function dbLoad(){
-  try{const res=await fetch(GH_API,{headers:{'Authorization':`token ${GH_TOKEN}`,'Accept':'application/vnd.github.v3+json'}});if(res.ok){const j=await res.json();if(j.sha)ghSHA=j.sha;if(j.content){const p=JSON.parse(atob(j.content.replace(/\n/g,'')));dbData={...dbData,...p};}}}catch(e){console.warn(e);}
+  try{
+    const r=await fetch(GH_API,{headers:{'Authorization':`token ${GH_TOKEN}`,'Accept':'application/vnd.github.v3+json'}});
+    if(r.ok){const j=await r.json();if(j.sha)ghSHA=j.sha;if(j.content){const p=JSON.parse(atob(j.content.replace(/\n/g,'')));db={...db,...p};}}
+  }catch(e){console.warn(e);}
 }
 async function dbSave(){
-  try{const b=new TextEncoder().encode(JSON.stringify(dbData,null,2));let bin='';b.forEach(x=>bin+=String.fromCharCode(x));const content=btoa(bin);const body={message:'MXCH01 update',content};if(ghSHA)body.sha=ghSHA;const res=await fetch(GH_API,{method:'PUT',headers:{'Authorization':`token ${GH_TOKEN}`,'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'},body:JSON.stringify(body)});const j=await res.json();if(j.content)ghSHA=j.content.sha;}catch(e){console.warn(e);}
+  try{
+    const b=new TextEncoder().encode(JSON.stringify(db,null,2));let bin='';b.forEach(x=>bin+=String.fromCharCode(x));
+    const body={message:'MXCH01 update',content:btoa(bin)};if(ghSHA)body.sha=ghSHA;
+    const r=await fetch(GH_API,{method:'PUT',headers:{'Authorization':`token ${GH_TOKEN}`,'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'},body:JSON.stringify(body)});
+    const j=await r.json();if(j.content)ghSHA=j.content.sha;
+  }catch(e){console.warn(e);}
 }
 
-// TIMELINE
-const TL_START=new Date('2025-12-15'),TL_END=new Date('2026-10-19'),TODAY=new Date('2026-06-04');
-const TOTAL_DAYS=(TL_END-TL_START)/86400000;
+/* ── TIMELINE ── */
+const TL_S=new Date('2025-12-15'),TL_E=new Date('2026-10-19'),TODAY=new Date('2026-06-04');
+const TD=(TL_E-TL_S)/86400000;
 const tasks=[
-  {l:1,s:true, name:'MXCH01',                       start:'2025-12-15',end:'2026-10-19',pct:45},
-  {l:2,s:false,name:'RFP',                           start:'2025-12-15',end:'2026-01-09',pct:100},
-  {l:2,s:false,name:'Desarrollo Prototipo',          start:'2026-01-12',end:'2026-04-17',pct:100},
-  {l:2,s:false,name:'CAPEX Aprobado',                start:'2026-01-12',end:'2026-02-06',pct:100},
-  {l:2,s:false,name:'Ticket Alfred y OI',            start:'2026-02-09',end:'2026-02-12',pct:100},
-  {l:2,s:true, name:'Procurement',                  start:'2026-04-20',end:'2026-07-17',pct:48},
-  {l:3,s:true, name:'Bidding',                      start:'2026-04-20',end:'2026-06-26',pct:63},
-  {l:4,s:false,name:'RS Carton - Bidding',          start:'2026-04-20',end:'2026-06-26',pct:100},
-  {l:4,s:false,name:'RS Polionda - Bidding',        start:'2026-04-20',end:'2026-06-26',pct:50},
-  {l:4,s:false,name:'Gaiola - Bidding',             start:'2026-04-20',end:'2026-06-26',pct:50},
-  {l:4,s:false,name:'Instalacion - Bidding',        start:'2026-04-20',end:'2026-06-26',pct:50},
-  {l:3,s:true, name:'Generacion de PO',             start:'2026-06-29',end:'2026-07-03',pct:0},
-  {l:4,s:false,name:'RS Carton - PO',               start:'2026-06-29',end:'2026-07-03',pct:0},
-  {l:4,s:false,name:'RS Polionda - PO',             start:'2026-06-29',end:'2026-07-03',pct:0},
-  {l:4,s:false,name:'Gaiola - PO',                  start:'2026-06-29',end:'2026-07-03',pct:0},
-  {l:4,s:false,name:'Instalacion - PO',             start:'2026-06-29',end:'2026-07-03',pct:0},
-  {l:3,s:true, name:'Aprobacion de PO',             start:'2026-07-06',end:'2026-07-17',pct:0},
-  {l:4,s:false,name:'Gaiola - Aprob. PO',           start:'2026-07-06',end:'2026-07-17',pct:0},
-  {l:4,s:false,name:'RS Carton - Aprob. PO',        start:'2026-07-06',end:'2026-07-17',pct:0},
-  {l:4,s:false,name:'RS Polionda - Aprob. PO',      start:'2026-07-06',end:'2026-07-17',pct:0},
-  {l:4,s:false,name:'Instalacion - Aprob. PO',      start:'2026-07-06',end:'2026-07-17',pct:0},
-  {l:2,s:false,name:'Facturacion (Por Definir)',     start:'2026-07-20',end:'2026-07-20',pct:0},
-  {l:2,s:true, name:'Fabricacion',                  start:'2026-07-20',end:'2026-08-07',pct:0},
-  {l:3,s:false,name:'Gaiola - Fabricacion',         start:'2026-07-20',end:'2026-08-07',pct:0},
-  {l:3,s:false,name:'RS Carton - Fabricacion',      start:'2026-07-20',end:'2026-08-07',pct:0},
-  {l:3,s:false,name:'RS Polionda - Fabricacion',    start:'2026-07-20',end:'2026-08-07',pct:0},
-  {l:2,s:true, name:'Envio',                        start:'2026-08-10',end:'2026-08-21',pct:0},
-  {l:3,s:false,name:'Gaiola - Envio',               start:'2026-08-10',end:'2026-08-21',pct:0},
-  {l:3,s:false,name:'RS Carton - Envio',            start:'2026-08-10',end:'2026-08-21',pct:0},
-  {l:3,s:false,name:'RS Polionda - Envio',          start:'2026-08-10',end:'2026-08-21',pct:0},
-  {l:2,s:true, name:'Ejecucion',                    start:'2026-08-24',end:'2026-10-12',pct:0},
-  {l:3,s:true, name:'Preparacion / Recibo',         start:'2026-08-24',end:'2026-08-28',pct:0},
-  {l:4,s:false,name:'Briefing y asignacion zonas',  start:'2026-08-24',end:'2026-08-24',pct:0},
-  {l:4,s:false,name:'Entrega EPP al personal',      start:'2026-08-25',end:'2026-08-25',pct:0},
-  {l:4,s:false,name:'Verificar layout en piso',     start:'2026-08-26',end:'2026-08-26',pct:0},
-  {l:4,s:false,name:'Descarga camion / anden',      start:'2026-08-27',end:'2026-08-27',pct:0},
-  {l:4,s:false,name:'Conteo fisico vs OC',          start:'2026-08-27',end:'2026-08-27',pct:0},
-  {l:4,s:false,name:'Inspeccion de daños',          start:'2026-08-28',end:'2026-08-28',pct:0},
-  {l:4,s:false,name:'Separacion por tipo material', start:'2026-08-28',end:'2026-08-28',pct:0},
-  {l:3,s:true, name:'RS Polionda',                  start:'2026-08-31',end:'2026-09-04',pct:0},
-  {l:4,s:false,name:'Polionda: Traslado→zona',      start:'2026-08-31',end:'2026-08-31',pct:0},
-  {l:4,s:false,name:'Polionda: Marcaje',            start:'2026-08-31',end:'2026-08-31',pct:0},
-  {l:4,s:false,name:'Polionda: Posicionamiento',    start:'2026-09-01',end:'2026-09-02',pct:0},
-  {l:4,s:false,name:'Polionda: Anclaje',            start:'2026-09-03',end:'2026-09-03',pct:0},
-  {l:4,s:false,name:'Polionda: Etiquetado+WMS',     start:'2026-09-04',end:'2026-09-04',pct:0},
-  {l:3,s:true, name:'Gaiola',                       start:'2026-08-31',end:'2026-10-12',pct:0},
-  {l:4,s:false,name:'Gaiola: Traslado→zona',        start:'2026-08-31',end:'2026-09-07',pct:0},
-  {l:4,s:false,name:'Gaiola: Marcaje',              start:'2026-09-08',end:'2026-09-09',pct:0},
-  {l:4,s:false,name:'Gaiola: Posicionamiento',      start:'2026-09-10',end:'2026-09-25',pct:0},
-  {l:4,s:false,name:'Gaiola: Anclaje',              start:'2026-09-28',end:'2026-10-09',pct:0},
-  {l:4,s:false,name:'Gaiola: Etiquetado+WMS',       start:'2026-10-12',end:'2026-10-12',pct:0},
-  {l:3,s:true, name:'RS Carton',                    start:'2026-08-31',end:'2026-10-09',pct:0},
-  {l:4,s:false,name:'Carton: Traslado→zona',        start:'2026-08-31',end:'2026-09-01',pct:0},
-  {l:4,s:false,name:'Carton: Marcaje',              start:'2026-09-02',end:'2026-09-02',pct:0},
-  {l:4,s:false,name:'Carton: Desempacar cajas',     start:'2026-09-04',end:'2026-09-07',pct:0},
-  {l:4,s:false,name:'Carton: Ensamble estructura',  start:'2026-09-08',end:'2026-09-17',pct:0},
-  {l:4,s:false,name:'Carton: Posicionamiento',      start:'2026-09-18',end:'2026-09-29',pct:0},
-  {l:4,s:false,name:'Carton: Colocacion de bines',  start:'2026-09-30',end:'2026-10-07',pct:0},
-  {l:4,s:false,name:'Carton: Anclaje',              start:'2026-10-08',end:'2026-10-08',pct:0},
-  {l:4,s:false,name:'Carton: Etiquetado+WMS',       start:'2026-10-09',end:'2026-10-09',pct:0},
-  {l:2,s:false,name:'Set up',                       start:'2026-10-13',end:'2026-10-13',pct:0},
-  {l:2,s:false,name:'Gemba Walk',                   start:'2026-10-14',end:'2026-10-14',pct:0},
-  {l:2,s:false,name:'Handover operacion',           start:'2026-10-15',end:'2026-10-15',pct:0},
-  {l:2,s:true, name:'Hitos Importantes',            start:'2026-10-16',end:'2026-10-19',pct:0},
-  {l:3,s:false,name:'Facility readiness',           start:'2026-10-16',end:'2026-10-16',pct:0},
-  {l:3,s:false,name:'🚀 Go Live',                   start:'2026-10-19',end:'2026-10-19',pct:0},
+  {l:1,s:true, n:'MXCH01',                       s0:'2025-12-15',e0:'2026-10-19',p:45},
+  {l:2,s:false,n:'RFP',                           s0:'2025-12-15',e0:'2026-01-09',p:100},
+  {l:2,s:false,n:'Desarrollo Prototipo',          s0:'2026-01-12',e0:'2026-04-17',p:100},
+  {l:2,s:false,n:'CAPEX Aprobado',                s0:'2026-01-12',e0:'2026-02-06',p:100},
+  {l:2,s:false,n:'Ticket Alfred y OI',            s0:'2026-02-09',e0:'2026-02-12',p:100},
+  {l:2,s:true, n:'Procurement',                   s0:'2026-04-20',e0:'2026-07-17',p:48},
+  {l:3,s:true, n:'Bidding',                       s0:'2026-04-20',e0:'2026-06-26',p:63},
+  {l:4,s:false,n:'RS Carton - Bidding',           s0:'2026-04-20',e0:'2026-06-26',p:100},
+  {l:4,s:false,n:'RS Polionda - Bidding',         s0:'2026-04-20',e0:'2026-06-26',p:50},
+  {l:4,s:false,n:'Gaiola - Bidding',              s0:'2026-04-20',e0:'2026-06-26',p:50},
+  {l:4,s:false,n:'Instalacion - Bidding',         s0:'2026-04-20',e0:'2026-06-26',p:50},
+  {l:3,s:true, n:'Generacion de PO',              s0:'2026-06-29',e0:'2026-07-03',p:0},
+  {l:4,s:false,n:'RS Carton - PO',                s0:'2026-06-29',e0:'2026-07-03',p:0},
+  {l:4,s:false,n:'RS Polionda - PO',              s0:'2026-06-29',e0:'2026-07-03',p:0},
+  {l:4,s:false,n:'Gaiola - PO',                   s0:'2026-06-29',e0:'2026-07-03',p:0},
+  {l:4,s:false,n:'Instalacion - PO',              s0:'2026-06-29',e0:'2026-07-03',p:0},
+  {l:3,s:true, n:'Aprobacion de PO',              s0:'2026-07-06',e0:'2026-07-17',p:0},
+  {l:4,s:false,n:'Gaiola - Aprob.',               s0:'2026-07-06',e0:'2026-07-17',p:0},
+  {l:4,s:false,n:'RS Carton - Aprob.',             s0:'2026-07-06',e0:'2026-07-17',p:0},
+  {l:4,s:false,n:'RS Polionda - Aprob.',           s0:'2026-07-06',e0:'2026-07-17',p:0},
+  {l:4,s:false,n:'Instalacion - Aprob.',           s0:'2026-07-06',e0:'2026-07-17',p:0},
+  {l:2,s:false,n:'Facturacion (Por Definir)',      s0:'2026-07-20',e0:'2026-07-20',p:0},
+  {l:2,s:true, n:'Fabricacion',                   s0:'2026-07-20',e0:'2026-08-07',p:0},
+  {l:3,s:false,n:'Gaiola - Fabricacion',          s0:'2026-07-20',e0:'2026-08-07',p:0},
+  {l:3,s:false,n:'RS Carton - Fabricacion',       s0:'2026-07-20',e0:'2026-08-07',p:0},
+  {l:3,s:false,n:'RS Polionda - Fabricacion',     s0:'2026-07-20',e0:'2026-08-07',p:0},
+  {l:2,s:true, n:'Envio',                         s0:'2026-08-10',e0:'2026-08-21',p:0},
+  {l:3,s:false,n:'Gaiola - Envio',                s0:'2026-08-10',e0:'2026-08-21',p:0},
+  {l:3,s:false,n:'RS Carton - Envio',             s0:'2026-08-10',e0:'2026-08-21',p:0},
+  {l:3,s:false,n:'RS Polionda - Envio',           s0:'2026-08-10',e0:'2026-08-21',p:0},
+  {l:2,s:true, n:'Ejecucion',                     s0:'2026-08-24',e0:'2026-10-12',p:0},
+  {l:3,s:true, n:'Preparacion / Recibo',          s0:'2026-08-24',e0:'2026-08-28',p:0},
+  {l:4,s:false,n:'Briefing y asignacion zonas',   s0:'2026-08-24',e0:'2026-08-24',p:0},
+  {l:4,s:false,n:'Entrega EPP',                   s0:'2026-08-25',e0:'2026-08-25',p:0},
+  {l:4,s:false,n:'Verificar layout en piso',      s0:'2026-08-26',e0:'2026-08-26',p:0},
+  {l:4,s:false,n:'Descarga camion / anden',       s0:'2026-08-27',e0:'2026-08-27',p:0},
+  {l:4,s:false,n:'Conteo fisico vs OC',           s0:'2026-08-27',e0:'2026-08-27',p:0},
+  {l:4,s:false,n:'Inspeccion de daños',           s0:'2026-08-28',e0:'2026-08-28',p:0},
+  {l:3,s:true, n:'RS Polionda',                   s0:'2026-08-31',e0:'2026-09-04',p:0},
+  {l:4,s:false,n:'Polionda: Traslado',            s0:'2026-08-31',e0:'2026-08-31',p:0},
+  {l:4,s:false,n:'Polionda: Posicionamiento',     s0:'2026-09-01',e0:'2026-09-02',p:0},
+  {l:4,s:false,n:'Polionda: Anclaje',             s0:'2026-09-03',e0:'2026-09-03',p:0},
+  {l:4,s:false,n:'Polionda: Etiquetado+WMS',      s0:'2026-09-04',e0:'2026-09-04',p:0},
+  {l:3,s:true, n:'Gaiola',                        s0:'2026-08-31',e0:'2026-10-12',p:0},
+  {l:4,s:false,n:'Gaiola: Traslado',              s0:'2026-08-31',e0:'2026-09-07',p:0},
+  {l:4,s:false,n:'Gaiola: Posicionamiento',       s0:'2026-09-10',e0:'2026-09-25',p:0},
+  {l:4,s:false,n:'Gaiola: Anclaje',               s0:'2026-09-28',e0:'2026-10-09',p:0},
+  {l:4,s:false,n:'Gaiola: Etiquetado+WMS',        s0:'2026-10-12',e0:'2026-10-12',p:0},
+  {l:3,s:true, n:'RS Carton',                     s0:'2026-08-31',e0:'2026-10-09',p:0},
+  {l:4,s:false,n:'Carton: Desempacar',            s0:'2026-09-04',e0:'2026-09-07',p:0},
+  {l:4,s:false,n:'Carton: Ensamble estructura',   s0:'2026-09-08',e0:'2026-09-17',p:0},
+  {l:4,s:false,n:'Carton: Posicionamiento',       s0:'2026-09-18',e0:'2026-09-29',p:0},
+  {l:4,s:false,n:'Carton: Colocacion bines',      s0:'2026-09-30',e0:'2026-10-07',p:0},
+  {l:4,s:false,n:'Carton: Anclaje+Etiquetado',    s0:'2026-10-08',e0:'2026-10-09',p:0},
+  {l:2,s:false,n:'Set up',                        s0:'2026-10-13',e0:'2026-10-13',p:0},
+  {l:2,s:false,n:'Gemba Walk',                    s0:'2026-10-14',e0:'2026-10-14',p:0},
+  {l:2,s:false,n:'Handover operacion',            s0:'2026-10-15',e0:'2026-10-15',p:0},
+  {l:2,s:false,n:'Facility Readiness',            s0:'2026-10-16',e0:'2026-10-16',p:0},
+  {l:2,s:false,n:'🚀 Go Live',                    s0:'2026-10-19',e0:'2026-10-19',p:0},
 ];
 
-const COLORS={1:'#007aff',2:'#007aff',3:'#34c759',4:'#8a96b8'};
-function dayOffset(d){return(new Date(d)-TL_START)/86400000;}
+const TL_COLORS={1:'#0A84FF',2:'#0A84FF',3:'#30D158',4:'#8E98BB'};
+function dOff(d){return(new Date(d)-TL_S)/86400000;}
 
-function buildTimeline(){
-  const months=[];let d=new Date(TL_START);
-  while(d<=TL_END){months.push({y:d.getFullYear(),m:d.getMonth(),label:d.toLocaleString('es-MX',{month:'short',year:'2-digit'})});d.setMonth(d.getMonth()+1);}
+function buildTL(){
+  const months=[];let d=new Date(TL_S);
+  while(d<=TL_E){months.push({y:d.getFullYear(),m:d.getMonth(),lbl:d.toLocaleString('es-MX',{month:'short',year:'2-digit'})});d.setMonth(d.getMonth()+1);}
   const mEl=document.getElementById('tl-months');mEl.innerHTML='';
-  months.forEach(m=>{const el=document.createElement('div');el.className='tl-month';el.textContent=m.label;mEl.appendChild(el);});
+  months.forEach(m=>{const e=document.createElement('div');e.className='tl-month';e.textContent=m.lbl;mEl.appendChild(e);});
   const rEl=document.getElementById('tl-rows');rEl.innerHTML='';
   tasks.forEach((t,i)=>{
     const row=document.createElement('div');row.className='tl-row';
-    const nd=document.createElement('div');nd.className='tl-name'+(t.s?' summary':'');
-    nd.style.paddingLeft=(8+(t.l-1)*10)+'px';
+    const nd=document.createElement('div');nd.className='tl-name'+(t.s?' sum':'');
+    nd.style.paddingLeft=(8+(t.l-1)*9)+'px';
     const fd=s=>new Date(s).toLocaleDateString('es-MX',{day:'2-digit',month:'short'});
-    nd.innerHTML=`<div style="font-size:${t.s?10:11}px;font-weight:${t.s?800:500};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${t.name}</div><div style="font-size:9px;color:var(--muted);font-family:var(--mono);white-space:nowrap;font-weight:600;">${fd(t.start)} – ${fd(t.end)}</div>`;
+    nd.innerHTML=`<div style="font-size:${t.s?9.5:11}px;font-weight:${t.s?800:500};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${t.n}</div><div style="font-size:9px;color:var(--muted);font-family:var(--m);white-space:nowrap;font-weight:500;">${fd(t.s0)}–${fd(t.e0)}</div>`;
     row.appendChild(nd);
     const ba=document.createElement('div');ba.className='tl-bar-area';
-    months.forEach(m=>{const mDate=new Date(m.y,m.m,1);const off=(mDate-TL_START)/86400000;const pct=(off/TOTAL_DAYS)*100;if(pct>=0&&pct<=100){const gl=document.createElement('div');gl.className='tl-grid-line month-line';gl.style.left=pct+'%';ba.appendChild(gl);}});
-    const tl=document.createElement('div');tl.className='today-line';tl.style.left=(((TODAY-TL_START)/86400000/TOTAL_DAYS)*100)+'%';ba.appendChild(tl);
-    const so=dayOffset(t.start),eo=dayOffset(t.end)+1;
-    const lp=(so/TOTAL_DAYS)*100,wp=Math.max(0.3,((eo-so)/TOTAL_DAYS)*100);
-    const bar=document.createElement('div');bar.className='tl-bar';bar.id='bar-'+i;bar.style.left=lp+'%';bar.style.width=wp+'%';
-    bar.style.background='rgba(100,120,180,0.12)';bar.style.border='1px solid rgba(100,120,180,0.2)';bar.style.borderRadius='6px';
-    const fill=document.createElement('div');fill.className='tl-bar-fill';fill.id='fill-'+i;fill.style.width=t.pct+'%';
-    fill.style.background=COLORS[t.l]||'#8a96b8';fill.style.borderRadius='6px';bar.appendChild(fill);
-    if(t.pct>0&&wp>5){const pl=document.createElement('div');pl.className='tl-pct';pl.id='pctlabel-'+i;pl.textContent=t.pct+'%';bar.appendChild(pl);}
+    months.forEach(m=>{const md=new Date(m.y,m.m,1);const off=(md-TL_S)/86400000;const pct=(off/TD)*100;if(pct>=0&&pct<=100){const gl=document.createElement('div');gl.className='tl-gl';gl.style.left=pct+'%';ba.appendChild(gl);}});
+    // today marker
+    const todayPct=((TODAY-TL_S)/86400000/TD)*100;
+    const ln=document.createElement('div');ln.className='today-ln';ln.style.left=todayPct+'%';
+    const tip=document.createElement('div');tip.className='today-tip';tip.textContent='HOY';tip.style.left=todayPct+'%';
+    ba.appendChild(ln);ba.appendChild(tip);
+    const so=dOff(t.s0),eo=dOff(t.e0)+1;
+    const lp=(so/TD)*100,wp=Math.max(0.3,((eo-so)/TD)*100);
+    const bar=document.createElement('div');bar.className='tl-bar';bar.id='bar-'+i;
+    bar.style.left=lp+'%';bar.style.width=wp+'%';
+    bar.style.background='rgba(100,120,200,0.10)';bar.style.border='1px solid rgba(100,120,200,0.18)';
+    const fill=document.createElement('div');fill.className='tl-fill';fill.id='fill-'+i;
+    fill.style.width=t.p+'%';fill.style.background=TL_COLORS[t.l]||'#8E98BB';bar.appendChild(fill);
+    if(t.p>0&&wp>5){const pl=document.createElement('div');pl.className='tl-pct';pl.id='pctlabel-'+i;pl.textContent=t.p+'%';bar.appendChild(pl);}
     ba.appendChild(bar);row.appendChild(ba);rEl.appendChild(row);
   });
   buildPctInputs();
@@ -769,113 +940,116 @@ function buildPctInputs(){
   const c=document.getElementById('pct-inputs');c.innerHTML='';
   tasks.forEach((t,i)=>{
     if(t.s)return;
-    const w=document.createElement('div');
-    w.style.cssText='display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.8);border-radius:12px;padding:8px 12px;backdrop-filter:blur(10px);';
-    w.innerHTML=`<span style="flex:1;font-size:11px;font-weight:600;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.name}</span><input type="number" min="0" max="100" value="${t.pct}" data-idx="${i}" style="width:52px;background:rgba(0,122,255,0.08);color:var(--accent2);border:1.5px solid rgba(0,122,255,0.2);border-radius:8px;padding:4px 6px;font-family:var(--mono);font-size:12px;font-weight:700;text-align:right;outline:none;"><span style="font-size:11px;color:var(--muted);font-weight:700;">%</span>`;
+    const w=document.createElement('div');w.className='pct-item';
+    w.innerHTML=`<span class="pct-name">${t.n}</span><input type="number" min="0" max="100" value="${t.p}" data-idx="${i}" class="pct-inp"><span class="pct-sign">%</span>`;
     c.appendChild(w);
   });
 }
 
 function applyPcts(){
-  document.querySelectorAll('#pct-inputs input[data-idx]').forEach(inp=>{
-    const i=parseInt(inp.dataset.idx);const pct=Math.min(100,Math.max(0,parseInt(inp.value)||0));
-    tasks[i].pct=pct;const f=document.getElementById('fill-'+i);if(f)f.style.width=pct+'%';
+  document.querySelectorAll('.pct-inp[data-idx]').forEach(inp=>{
+    const i=parseInt(inp.dataset.idx),pct=Math.min(100,Math.max(0,parseInt(inp.value)||0));
+    tasks[i].p=pct;
+    const f=document.getElementById('fill-'+i);if(f)f.style.width=pct+'%';
     let lbl=document.getElementById('pctlabel-'+i);
     if(lbl)lbl.textContent=pct+'%';
     else if(pct>0){const bar=document.getElementById('bar-'+i);if(bar){const nl=document.createElement('div');nl.className='tl-pct';nl.id='pctlabel-'+i;nl.textContent=pct+'%';bar.appendChild(nl);}}
   });
-  dbData.pcts=tasks.map(t=>t.pct);dbSave();showToast('Porcentajes guardados ✓');
+  db.pcts=tasks.map(t=>t.p);dbSave();toast('Porcentajes guardados ✓');
 }
 
 function applyLoadedPcts(){
-  if(!dbData.pcts||!dbData.pcts.length)return;
-  dbData.pcts.forEach((p,i)=>{if(i<tasks.length)tasks[i].pct=p;});
+  if(!db.pcts?.length)return;
+  db.pcts.forEach((p,i)=>{if(i<tasks.length)tasks[i].p=p;});
 }
 
-// CAPEX
+/* ── CAPEX ── */
 const CAPEX_TOTAL=199042;
+const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
+
 function renderCapex(){
-  const movs=dbData.capex_gastos||[];
-  const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
-  const totalGasto=movs.filter(m=>m.tipo==='gasto').reduce((a,m)=>a+(parseFloat(m.monto)||0),0);
-  const totalSobre=movs.filter(m=>m.tipo==='sobrecosto').reduce((a,m)=>a+(parseFloat(m.monto)||0),0);
-  const disponible=CAPEX_TOTAL-totalGasto-totalSobre;
-  const pctG=(totalGasto/CAPEX_TOTAL)*100,pctS=(totalSobre/CAPEX_TOTAL)*100,pctD=Math.max(0,100-pctG-pctS);
-  const setC=(id,pct,circ)=>{const el=document.getElementById(id);if(el)el.style.strokeDashoffset=circ-(circ*Math.min(pct,100)/100);};
-  const setL=(id,t)=>{const el=document.getElementById(id);if(el){el.textContent=t;el.setAttribute('font-size','9');el.setAttribute('font-weight','700');}};
-  setC('circle-gasto',pctG,283);setC('circle-disp',pctD,339);setC('circle-sobre',pctS,283);
-  setL('circle-gasto-pct',Math.round(pctG)+'%');setL('circle-disp-pct',Math.round(pctD)+'%');setL('circle-sobre-pct',Math.round(pctS)+'%');
-  document.getElementById('capex-gastado-kpi').textContent=fmt(totalGasto);
-  document.getElementById('capex-disponible-kpi').textContent=fmt(Math.max(0,disponible));
-  document.getElementById('capex-disponible-pct').textContent=Math.round(pctD)+'% restante';
-  document.getElementById('capex-sobre-kpi').textContent=fmt(totalSobre);
+  const movs=db.capex_gastos||[];
+  const tG=movs.filter(m=>m.tipo==='gasto').reduce((a,m)=>a+(parseFloat(m.monto)||0),0);
+  const tS=movs.filter(m=>m.tipo==='sobrecosto').reduce((a,m)=>a+(parseFloat(m.monto)||0),0);
+  const disp=Math.max(0,CAPEX_TOTAL-tG-tS);
+  const pG=(tG/CAPEX_TOTAL)*100,pS=(tS/CAPEX_TOTAL)*100,pD=Math.max(0,100-pG-pS);
+
+  const sc=(id,pct,circ)=>{const el=document.getElementById(id);if(el)el.style.strokeDashoffset=circ-(circ*Math.min(pct,100)/100);};
+  const sl=(id,v)=>{const el=document.getElementById(id);if(el){el.textContent=v;el.setAttribute('font-size','10');el.setAttribute('font-weight','700');}};
+  sc('c-gasto',pG,264);sc('c-disp',pD,314);sc('c-sobre',pS,264);
+  sl('c-gasto-pct',Math.round(pG)+'%');sl('c-disp-pct',Math.round(pD)+'%');sl('c-sobre-pct',Math.round(pS)+'%');
+  const sa=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  sa('c-gasto-amt',fmt(tG));sa('c-disp-amt',fmt(disp));sa('c-ahorro-amt',fmt(0));sa('c-sobre-amt',fmt(tS));
+  sa('c-disp-pct2',Math.round(pD)+'% restante');
+
   const lista=document.getElementById('capex-lista');
-  if(!movs.length){lista.innerHTML='<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px;font-weight:600;">Sin movimientos registrados.</div>';return;}
-  const tc={gasto:{icon:'🟢',label:'Gasto',color:'var(--accent)'},sobrecosto:{icon:'🔴',label:'Sobrecosto',color:'var(--danger)'},transferencia:{icon:'🔵',label:'Transferencia',color:'var(--accent2)'}};
-  lista.innerHTML=`<table class="mat-table"><thead><tr><th>Tipo</th><th>Partida</th><th>Concepto</th><th>Monto</th><th>Fecha</th><th>Nota</th><th></th></tr></thead><tbody>${movs.map((m,i)=>{const t=tc[m.tipo]||tc.gasto;return`<tr><td><span class="cat-pill" style="background:rgba(0,0,0,0.04);color:${t.color};">${t.icon} ${t.label}</span></td><td style="font-size:11px;color:var(--muted);">${m.partida||'—'}</td><td><strong>${m.concepto}</strong></td><td style="font-family:var(--mono);font-weight:800;color:${t.color};">${fmt(m.monto)}</td><td style="font-family:var(--mono);color:var(--muted);font-size:11px;">${m.fecha}</td><td style="font-size:11px;color:var(--muted);">${m.nota||'—'}</td><td><button onclick="deleteCapexMov(${i})" style="background:rgba(255,59,48,0.1);color:var(--danger);border:1px solid rgba(255,59,48,0.2);padding:3px 9px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;">×</button></td></tr>`;}).join('')}</tbody></table>`;
+  if(!movs.length){lista.innerHTML='<div style="text-align:center;padding:28px;color:var(--muted);font-size:13px;font-weight:500;">Sin movimientos registrados aún.</div>';return;}
+  const tc={gasto:{icon:'🟢',lbl:'Gasto',col:'var(--green)'},sobrecosto:{icon:'🔴',lbl:'Sobrecosto',col:'var(--red)'},transferencia:{icon:'🔵',lbl:'Transferencia',col:'var(--blue)'}};
+  lista.innerHTML=`<table class="tbl"><thead><tr><th>Tipo</th><th>Partida</th><th>Concepto</th><th>Monto</th><th>Fecha</th><th>Nota</th><th></th></tr></thead><tbody>${movs.map((m,i)=>{const t=tc[m.tipo]||tc.gasto;return`<tr><td><span class="tag" style="background:rgba(0,0,0,0.04);color:${t.col};">${t.icon} ${t.lbl}</span></td><td style="font-size:11px;color:var(--muted);">${m.partida||'—'}</td><td><strong>${m.concepto}</strong></td><td class="num" style="color:${t.col};">${fmt(m.monto)}</td><td class="mono" style="font-size:11px;color:var(--muted);">${m.fecha}</td><td style="font-size:11px;color:var(--muted);">${m.nota||'—'}</td><td><button onclick="delCapex(${i})" style="background:rgba(255,69,58,0.08);color:var(--red);border:1px solid rgba(255,69,58,0.18);padding:3px 9px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;">×</button></td></tr>`;}).join('')}</tbody></table>`;
 }
 
 function openCapexModal(){document.getElementById('capex-modal').style.display='flex';}
 function closeCapexModal(){document.getElementById('capex-modal').style.display='none';}
 function saveCapexMov(){
   const tipo=document.getElementById('cm-tipo').value;
-  const partida=document.getElementById('cm-partida').options[document.getElementById('cm-partida').selectedIndex].text;
+  const partida=document.getElementById('cm-partida').value;
   const concepto=document.getElementById('cm-concepto').value.trim();
   const monto=parseFloat(document.getElementById('cm-monto').value.replace(/,/g,''));
   const fecha=document.getElementById('cm-fecha').value.trim()||new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});
   const nota=document.getElementById('cm-nota').value.trim();
   if(!concepto||!monto||monto<=0){alert('Concepto y monto son obligatorios');return;}
-  if(!dbData.capex_gastos)dbData.capex_gastos=[];
-  dbData.capex_gastos.push({tipo,partida,concepto,monto,fecha,nota});
-  closeCapexModal();renderCapex();dbSave();showToast('Movimiento registrado ✓');
+  if(!db.capex_gastos)db.capex_gastos=[];
+  db.capex_gastos.push({tipo,partida,concepto,monto,fecha,nota});
+  closeCapexModal();renderCapex();dbSave();toast('Movimiento registrado ✓');
 }
-function deleteCapexMov(idx){if(!confirm('¿Eliminar?'))return;dbData.capex_gastos.splice(idx,1);renderCapex();dbSave();showToast('Eliminado ✓');}
+function delCapex(i){if(!confirm('¿Eliminar?'))return;db.capex_gastos.splice(i,1);renderCapex();dbSave();toast('Eliminado ✓');}
 
-// MATERIALES
-function updateMatStatus(key,val){if(!dbData.mat_status)dbData.mat_status={};dbData.mat_status[key]=val;dbSave();showToast('Estatus actualizado ✓');}
-function loadMatStatus(){if(!dbData.mat_status)return;Object.entries(dbData.mat_status).forEach(([k,v])=>{const el=document.getElementById('mat-'+k);if(el)el.value=v;});}
+/* ── MAT ── */
+function updateMatStatus(k,v){if(!db.mat_status)db.mat_status={};db.mat_status[k]=v;dbSave();toast('Estatus actualizado ✓');}
+function loadMatStatus(){if(!db.mat_status)return;Object.entries(db.mat_status).forEach(([k,v])=>{const el=document.getElementById('mat-'+k);if(el)el.value=v;});}
 
-// FACTURACIÓN
-function renderFacturacion(){
-  const pagos=dbData.facturacion||[];
+/* ── FACT ── */
+function renderFact(){
+  const pagos=db.facturacion||[];
   const lista=document.getElementById('fact-lista');
-  const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
   const sl={'ps-future':'FUTURO','ps-pending':'PENDIENTE','ps-done':'PAGADO'};
-  if(!pagos.length){lista.innerHTML='<div style="text-align:center;padding:28px;color:var(--muted);font-size:13px;font-weight:600;">Sin eventos. Facturación por Definir en Jul 2026.</div>';}
-  else{lista.innerHTML=pagos.map((p,i)=>`<div class="payment-row"><div class="payment-num">${i+1}</div><div class="payment-info"><div class="payment-name">${p.nombre}</div><div class="payment-date">${p.fecha||'TBD'}</div></div><div style="text-align:right;"><div class="payment-amount" style="color:var(--accent2);">${fmt(p.monto)}</div><div class="payment-pct">${p.pct||''} del total</div></div><div style="display:flex;align-items:center;gap:8px;"><div class="payment-status ${p.status}" onclick="cycleFactStatus(${i})">${sl[p.status]||p.status}</div><button onclick="deleteFactEvento(${i})" style="background:rgba(255,59,48,0.1);color:var(--danger);border:1px solid rgba(255,59,48,0.2);padding:3px 9px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;">×</button></div></div>`).join('');}
+  if(!pagos.length){lista.innerHTML='<div style="text-align:center;padding:30px;color:var(--muted);font-size:13px;font-weight:500;">Sin eventos. Facturación por Definir en Jul 2026.</div>';}
+  else lista.innerHTML=pagos.map((p,i)=>`<div class="pay-row"><div class="pay-num">${i+1}</div><div class="pay-info"><div class="pay-name">${p.nombre}</div><div class="pay-date">${p.fecha||'TBD'}</div></div><div class="pay-right"><div class="pay-amount" style="color:var(--blue);">${fmt(p.monto)}</div><div class="pay-pct">${p.pct||''} del total</div></div><div style="display:flex;align-items:center;gap:8px;"><div class="pay-badge ${p.status}" onclick="cycleFact(${i})">${sl[p.status]||p.status}</div><button onclick="delFact(${i})" style="background:rgba(255,69,58,0.08);color:var(--red);border:1px solid rgba(255,69,58,0.18);padding:3px 9px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;">×</button></div></div>`).join('');
   document.getElementById('fact-total').textContent=fmt(pagos.reduce((a,p)=>a+(parseFloat(p.monto)||0),0))+' USD';
 }
-function cycleFactStatus(idx){const c=['ps-future','ps-pending','ps-done'];dbData.facturacion[idx].status=c[(c.indexOf(dbData.facturacion[idx].status)+1)%c.length];renderFacturacion();dbSave();showToast('Estatus actualizado ✓');}
+function cycleFact(i){const c=['ps-future','ps-pending','ps-done'];db.facturacion[i].status=c[(c.indexOf(db.facturacion[i].status)+1)%c.length];renderFact();dbSave();toast('Estatus actualizado ✓');}
 function openFactModal(){document.getElementById('fact-modal-title').textContent='Agregar Evento de Pago';['fn-nombre','fn-monto','fn-pct','fn-fecha'].forEach(id=>document.getElementById(id).value='');document.getElementById('fn-status').value='ps-future';document.getElementById('fact-modal').style.display='flex';}
 function closeFactModal(){document.getElementById('fact-modal').style.display='none';}
-function saveFactEvento(){const nombre=document.getElementById('fn-nombre').value.trim();const monto=parseFloat(document.getElementById('fn-monto').value.replace(/,/g,''));if(!nombre||!monto){alert('Nombre y monto requeridos');return;}if(!dbData.facturacion)dbData.facturacion=[];dbData.facturacion.push({nombre,monto,pct:document.getElementById('fn-pct').value.trim(),fecha:document.getElementById('fn-fecha').value.trim(),status:document.getElementById('fn-status').value});closeFactModal();renderFacturacion();dbSave();showToast('Evento guardado ✓');}
-function deleteFactEvento(idx){if(!confirm('¿Eliminar?'))return;dbData.facturacion.splice(idx,1);renderFacturacion();dbSave();showToast('Eliminado ✓');}
+function saveFactEvento(){const n=document.getElementById('fn-nombre').value.trim();const m=parseFloat(document.getElementById('fn-monto').value.replace(/,/g,''));if(!n||!m){alert('Nombre y monto requeridos');return;}if(!db.facturacion)db.facturacion=[];db.facturacion.push({nombre:n,monto:m,pct:document.getElementById('fn-pct').value.trim(),fecha:document.getElementById('fn-fecha').value.trim(),status:document.getElementById('fn-status').value});closeFactModal();renderFact();dbSave();toast('Evento guardado ✓');}
+function delFact(i){if(!confirm('¿Eliminar?'))return;db.facturacion.splice(i,1);renderFact();dbSave();toast('Eliminado ✓');}
 
-// PENDIENTES
-let pendFilter='all',pendEditIdx=-1;
-function renderPendientes(){
+/* ── PENDIENTES ── */
+let pendF='all',pendEIdx=-1;
+function renderPend(){
   const list=document.getElementById('pend-list'),empty=document.getElementById('pend-empty');
-  const pends=dbData.pendientes||[];
-  const filtered=pendFilter==='all'?pends:pends.filter(p=>p.pri===pendFilter);
-  if(!filtered.length){list.innerHTML='';empty.style.display='block';return;}
+  const pends=db.pendientes||[];
+  const fil=pendF==='all'?pends:pends.filter(p=>p.pri===pendF);
+  if(!fil.length){list.innerHTML='';empty.style.display='block';return;}
   empty.style.display='none';
-  list.innerHTML=filtered.map(p=>{const ri=pends.indexOf(p);const pc={alta:'alta',media:'media',baja:'baja',info:'info'};const pl={alta:'ALTA',media:'MEDIA',baja:'BAJA',info:'INFO'};return`<div class="item" style="align-items:flex-start;"><div class="badge ${pc[p.pri]}">${pl[p.pri]}</div><div class="item-content"><div class="item-title">${p.titulo}</div><div class="item-desc">${p.desc}</div><div class="item-date">${p.fecha||''}</div></div><div style="display:flex;gap:6px;flex-shrink:0;margin-left:8px;"><button onclick="editPend(${ri})" style="background:rgba(0,122,255,0.1);color:var(--accent2);border:1px solid rgba(0,122,255,0.2);padding:5px 12px;border-radius:10px;font-size:11px;font-weight:700;cursor:pointer;">Editar</button><button onclick="deletePend(${ri})" style="background:rgba(255,59,48,0.1);color:var(--danger);border:1px solid rgba(255,59,48,0.2);padding:5px 10px;border-radius:10px;font-size:11px;font-weight:700;cursor:pointer;">×</button></div></div>`;}).join('');
+  list.innerHTML=fil.map(p=>{const ri=pends.indexOf(p);const cl={alta:'alt',media:'med',baja:'baj',info:'inf'};const lb={alta:'ALTA',media:'MEDIA',baja:'BAJA',info:'INFO'};return`<div class="item" style="align-items:flex-start;"><div class="chip ${cl[p.pri]}">${lb[p.pri]}</div><div class="item-body"><div class="item-title">${p.titulo}</div><div class="item-desc">${p.desc}</div><div class="item-date">${p.fecha||''}</div></div><div style="display:flex;gap:6px;flex-shrink:0;margin-left:8px;"><button onclick="editPend(${ri})" style="background:rgba(10,132,255,0.08);color:var(--blue);border:1px solid rgba(10,132,255,0.18);padding:5px 12px;border-radius:9px;font-size:11px;font-weight:700;cursor:pointer;">Editar</button><button onclick="delPend(${ri})" style="background:rgba(255,69,58,0.08);color:var(--red);border:1px solid rgba(255,69,58,0.18);padding:5px 10px;border-radius:9px;font-size:11px;font-weight:700;cursor:pointer;">×</button></div></div>`;}).join('');
 }
-function filterPend(f){pendFilter=f;document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('pf-active'));document.getElementById('pf-'+f).classList.add('pf-active');renderPendientes();}
-function openPendModal(idx=-1){pendEditIdx=idx;const t=document.getElementById('pend-modal-title');if(idx>=0){const p=dbData.pendientes[idx];t.textContent='Editar Pendiente';document.getElementById('pp-pri').value=p.pri;document.getElementById('pp-titulo').value=p.titulo;document.getElementById('pp-desc').value=p.desc;document.getElementById('pp-fecha').value=p.fecha||'';}else{t.textContent='Agregar Pendiente';document.getElementById('pp-pri').value='alta';['pp-titulo','pp-desc','pp-fecha'].forEach(id=>document.getElementById(id).value='');}document.getElementById('pend-modal').style.display='flex';}
-function closePendModal(){document.getElementById('pend-modal').style.display='none';pendEditIdx=-1;}
-function editPend(idx){openPendModal(idx);}
-function savePend(){const titulo=document.getElementById('pp-titulo').value.trim();if(!titulo){alert('Título requerido');return;}if(!dbData.pendientes)dbData.pendientes=[];const p={pri:document.getElementById('pp-pri').value,titulo,desc:document.getElementById('pp-desc').value.trim(),fecha:document.getElementById('pp-fecha').value.trim()};if(pendEditIdx>=0)dbData.pendientes[pendEditIdx]=p;else dbData.pendientes.push(p);closePendModal();renderPendientes();dbSave();showToast(pendEditIdx>=0?'Actualizado ✓':'Pendiente agregado ✓');}
-function deletePend(idx){if(!confirm('¿Eliminar?'))return;dbData.pendientes.splice(idx,1);renderPendientes();dbSave();showToast('Eliminado ✓');}
+function fp(f){pendF=f;document.querySelectorAll('.fpill').forEach(b=>b.classList.remove('active'));document.getElementById('pf-'+f).classList.add('active');renderPend();}
+function openPendModal(idx=-1){pendEIdx=idx;const t=document.getElementById('pend-modal-title');if(idx>=0){const p=db.pendientes[idx];t.textContent='Editar Pendiente';document.getElementById('pp-pri').value=p.pri;document.getElementById('pp-titulo').value=p.titulo;document.getElementById('pp-desc').value=p.desc;document.getElementById('pp-fecha').value=p.fecha||'';}else{t.textContent='Agregar Pendiente';document.getElementById('pp-pri').value='alta';['pp-titulo','pp-desc','pp-fecha'].forEach(id=>document.getElementById(id).value='');}document.getElementById('pend-modal').style.display='flex';}
+function closePendModal(){document.getElementById('pend-modal').style.display='none';pendEIdx=-1;}
+function editPend(i){openPendModal(i);}
+function savePend(){const titulo=document.getElementById('pp-titulo').value.trim();if(!titulo){alert('Título requerido');return;}if(!db.pendientes)db.pendientes=[];const p={pri:document.getElementById('pp-pri').value,titulo,desc:document.getElementById('pp-desc').value.trim(),fecha:document.getElementById('pp-fecha').value.trim()};if(pendEIdx>=0)db.pendientes[pendEIdx]=p;else db.pendientes.push(p);closePendModal();renderPend();dbSave();toast(pendEIdx>=0?'Actualizado ✓':'Pendiente agregado ✓');}
+function delPend(i){if(!confirm('¿Eliminar?'))return;db.pendientes.splice(i,1);renderPend();dbSave();toast('Eliminado ✓');}
 
-// TOAST
-function showToast(msg){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;bottom:28px;right:28px;background:linear-gradient(135deg,#007aff,#34c759);color:#fff;padding:12px 22px;border-radius:16px;font-size:13px;font-weight:700;z-index:9999;transition:opacity 0.4s,transform 0.4s;pointer-events:none;box-shadow:0 8px 24px rgba(0,122,255,0.35);';document.body.appendChild(t);}t.textContent=msg;t.style.opacity='1';t.style.transform='translateY(0)';clearTimeout(t._timer);t._timer=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(8px)';},2400);}
-function resetAll(){if(!confirm('¿Borrar todos los datos?'))return;dbData={pcts:[],facturacion:[],capex_gastos:[],pendientes:[],mat_status:{}};dbSave().then(()=>location.reload());}
+/* ── TOAST ── */
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2500);}
 
+/* ── RESET ── */
+function resetAll(){if(!confirm('¿Borrar todos los datos?'))return;db={pcts:[],facturacion:[],capex_gastos:[],pendientes:[],mat_status:{}};dbSave().then(()=>location.reload());}
+
+/* ── INIT ── */
 async function init(){
-  await dbLoad();applyLoadedPcts();buildTimeline();
-  renderFacturacion();renderPendientes();renderCapex();loadMatStatus();
-  showToast('Dashboard MXCH01 cargado ✓');
+  await dbLoad();applyLoadedPcts();buildTL();renderFact();renderPend();renderCapex();loadMatStatus();
+  toast('Dashboard MXCH01 listo ✓');
 }
 init();
 </script>
