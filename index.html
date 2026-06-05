@@ -543,7 +543,7 @@ footer {
   <div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <div class="card-title" style="margin-bottom:0;"><div class="card-title-dot"></div>Eventos de Pago — MXCH01</div>
-      <button class="btn-primary" onclick="openFactModal()">+ Agregar evento</button>
+      <button class="btn-primary" onclick="openFactModal()">+ Agregar Pago</button>
     </div>
     <div id="fact-lista"><div style="text-align:center;padding:28px;color:var(--muted);font-size:13px;font-weight:500;">Sin eventos definidos. El timeline indica "Facturación por Definir" en Jul 2026.</div></div>
     <div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(100,120,180,0.1);display:flex;justify-content:space-between;align-items:center;">
@@ -553,7 +553,7 @@ footer {
   </div>
   <div id="fact-modal" class="modal-overlay">
     <div class="modal-box">
-      <div class="modal-title" id="fact-modal-title">Agregar Evento de Pago</div>
+      <div class="modal-title" id="fact-modal-title">Agregar Pago</div>
       <div style="display:grid;gap:12px;">
         <div><div class="field-label">Nombre</div><input type="text" id="fn-nombre" placeholder="Ej: Down Payment — 30%" class="field-input"></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
@@ -847,7 +847,9 @@ function renderFacturacion(){
   document.getElementById('fact-total').textContent=fmt(pagos.reduce((a,p)=>a+(parseFloat(p.monto)||0),0))+' USD';
 }
 function cycleFactStatus(idx){const c=['ps-future','ps-pending','ps-done'];dbData.facturacion[idx].status=c[(c.indexOf(dbData.facturacion[idx].status)+1)%c.length];renderFacturacion();dbSave();showToast('Estatus actualizado ✓');}
-function openFactModal(){document.getElementById('fact-modal-title').textContent='Agregar Evento de Pago';['fn-nombre','fn-monto','fn-pct','fn-fecha'].forEach(id=>document.getElementById(id).value='');document.getElementById('fn-status').value='ps-future';document.getElementById('fact-modal').style.display='flex';}
+function openFactModal(){document.getElementById('fact-modal-title').textContent='Agregar Evento de Pago';['fn-nombre','fn-monto','fn-pct'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('fn-fecha-mes').value='';
+    document.getElementById('fn-fecha-anio').value='';document.getElementById('fn-status').value='ps-future';document.getElementById('fact-modal').style.display='flex';}
 function closeFactModal(){document.getElementById('fact-modal').style.display='none';}
 function saveFactEvento(){const nombre=document.getElementById('fn-nombre').value.trim();const monto=parseFloat(document.getElementById('fn-monto').value.replace(/,/g,''));if(!nombre||!monto){alert('Nombre y monto requeridos');return;}if(!dbData.facturacion)dbData.facturacion=[];dbData.facturacion.push({nombre,monto,pct:document.getElementById('fn-pct').value.trim(),fecha:document.getElementById('fn-fecha').value.trim(),status:document.getElementById('fn-status').value});closeFactModal();renderFacturacion();dbSave();showToast('Evento guardado ✓');}
 function deleteFactEvento(idx){if(!confirm('¿Eliminar?'))return;dbData.facturacion.splice(idx,1);renderFacturacion();dbSave();showToast('Eliminado ✓');}
