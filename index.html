@@ -33,7 +33,7 @@
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
-input,select,textarea,button { font-family:var(--font); }
+input,select,textarea,button {  }
 
 body {
   background: linear-gradient(145deg, #dce8fa 0%, #e8edf8 40%, #d8e8f5 70%, #e2ddf5 100%);
@@ -98,7 +98,7 @@ header {
 }
 .status-dot { width:6px; height:6px; border-radius:50%; background:var(--accent); animation:pulse 2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
-.last-update { font-size:11px; color:var(--muted); font-family:var(--font); }
+.last-update { font-size:11px; color:var(--muted);  }
 
 /* ─── NAV ─── */
 nav {
@@ -148,7 +148,7 @@ main { padding:28px 32px; max-width:1400px; margin:0 auto; position:relative; z-
 }
 .card:hover { box-shadow: var(--shadow-lg); }
 .card-title {
-  font-size:10px; font-weight:600; text-transform:uppercase;
+  font-size:11px; font-weight:500; text-transform:uppercase;
   letter-spacing:0.1em; color:var(--muted);
   margin-bottom:18px; display:flex; align-items:center; gap:8px;
 }
@@ -182,7 +182,7 @@ main { padding:28px 32px; max-width:1400px; margin:0 auto; position:relative; z-
 .kpi.orange .kpi-glow { background:var(--accent3); }
 .kpi.yellow .kpi-glow { background:var(--accent4); }
 .kpi-label { font-size:10px; color:var(--muted); font-weight:500; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:10px; }
-.kpi-value { font-size:28px; font-weight:700; line-height:1; letter-spacing:-0.02em; }
+.kpi-value { font-size:27px; font-weight:600; line-height:1; letter-spacing:-0.02em; }
 .kpi-value.green  { color:var(--accent);  }
 .kpi-value.blue   { color:var(--accent2); }
 .kpi-value.orange { color:var(--accent3); }
@@ -208,7 +208,7 @@ main { padding:28px 32px; max-width:1400px; margin:0 auto; position:relative; z-
 .item-content { flex:1; }
 .item-title   { font-size:13px; font-weight:600; margin-bottom:3px; color:var(--text); }
 .item-desc    { font-size:12px; color:var(--text2); line-height:1.6; font-weight:400; }
-.item-date    { font-size:11px; color:var(--muted); font-family:var(--font); margin-top:4px; }
+.item-date    { font-size:11px; color:var(--muted);  margin-top:4px; }
 
 /* ─── BARS ─── */
 .bar-track { background:rgba(100,120,180,0.1); border-radius:6px; height:7px; overflow:hidden; }
@@ -224,9 +224,9 @@ main { padding:28px 32px; max-width:1400px; margin:0 auto; position:relative; z-
 
 /* ─── TIMELINE ─── */
 .timeline-header { display:grid; grid-template-columns:220px 1fr; margin-bottom:8px; }
-.tl-label-head { font-size:11px; color:var(--muted); font-family:var(--font); padding:6px 10px; }
+.tl-label-head { font-size:11px; color:var(--muted);  padding:6px 10px; }
 .tl-months { display:flex; overflow:hidden; }
-.tl-month  { flex:1; font-size:9px; color:var(--muted); font-family:var(--font); text-align:center; padding:6px 2px; border-left:1px solid rgba(100,120,180,0.15); min-width:36px; font-weight:600; }
+.tl-month  { flex:1; font-size:10px; color:var(--muted);  text-align:center; padding:6px 2px; border-left:1px solid rgba(100,120,180,0.15); min-width:36px; font-weight:600; }
 .tl-row    { display:grid; grid-template-columns:220px 1fr; border-bottom:1px solid rgba(100,120,180,0.08); align-items:center; min-height:40px; }
 .tl-row:hover { background:rgba(255,255,255,0.4); border-radius:8px; }
 .tl-name   { font-size:11px; padding:6px 10px; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:400; }
@@ -241,7 +241,7 @@ main { padding:28px 32px; max-width:1400px; margin:0 auto; position:relative; z-
 
 /* ─── MATERIALES TABLE ─── */
 .mat-table { width:100%; border-collapse:collapse; }
-.mat-table th { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; padding:8px 14px; text-align:left; border-bottom:1px solid rgba(100,120,180,0.12); font-family:var(--font); font-weight:500; }
+.mat-table th { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; padding:8px 14px; text-align:left; border-bottom:1px solid rgba(100,120,180,0.12);  font-weight:500; }
 .mat-table td { padding:11px 14px; font-size:13px; border-bottom:1px solid rgba(100,120,180,0.08); vertical-align:middle; color:var(--text); font-weight:400; }
 .mat-table tr:last-child td { border-bottom:none; }
 .mat-table tr:hover td { background:rgba(255,255,255,0.4); }
@@ -255,8 +255,8 @@ main { padding:28px 32px; max-width:1400px; margin:0 auto; position:relative; z-
 .payment-num { width:30px; height:30px; border-radius:50%; background:rgba(0,122,255,0.1); border:1.5px solid rgba(0,122,255,0.2); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:400; color:var(--accent2); flex-shrink:0; }
 .payment-info { flex:1; }
 .payment-name { font-size:14px; font-weight:600; margin-bottom:2px; }
-.payment-date { font-size:11px; color:var(--muted); font-family:var(--font); font-weight:500; }
-.payment-amount { font-size:15px; font-weight:500; font-family:var(--font); }
+.payment-date { font-size:11px; color:var(--muted);  font-weight:500; }
+.payment-amount { font-size:15px; font-weight:500;  }
 .payment-pct  { font-size:11px; color:var(--muted); text-align:right; font-weight:600; }
 .payment-status { font-size:10px; padding:4px 10px; border-radius:20px; font-weight:600; letter-spacing:0.04em; cursor:pointer; transition:all 0.15s; }
 .ps-pending { background:rgba(255,149,0,0.12); color:var(--accent3); border:1px solid rgba(255,149,0,0.25); }
@@ -272,7 +272,7 @@ main { padding:28px 32px; max-width:1400px; margin:0 auto; position:relative; z-
 .btn-primary {
   background: linear-gradient(135deg, var(--accent2), #0a84ff);
   color:#fff; border:none; padding:9px 20px; border-radius:12px;
-  font-weight:700; font-size:13px; cursor:pointer;
+  font-weight:500; font-size:13px; cursor:pointer;
   box-shadow:0 4px 14px rgba(0,122,255,0.3);
   transition:all 0.2s;
   font-weight:500;
@@ -302,7 +302,7 @@ main { padding:28px 32px; max-width:1400px; margin:0 auto; position:relative; z-
 /* ─── FOOTER ─── */
 footer {
   text-align:center; padding:24px; font-size:11px; color:var(--muted);
-  font-family:var(--font); font-weight:500;
+   font-weight:500;
   border-top:1px solid rgba(255,255,255,0.7);
   margin-top:40px; position:relative; z-index:1;
 }
@@ -322,7 +322,7 @@ footer {
 <header>
   <div class="header-inner">
     <div class="logo">
-      <div class="logo-icon" style="font-size:13px;font-weight:700;letter-spacing:-0.03em;">RS</div>
+      <div class="logo-icon" style="font-size:13px;font-weight:600;letter-spacing:-0.03em;">RS</div>
       <div>
         <div class="logo-title">Instalación RS · Dashboard</div>
         <div class="logo-sub">MXCH01 · Raul Guerrero · Rev. 1</div>
@@ -383,10 +383,10 @@ footer {
     <div style="background:linear-gradient(135deg,rgba(0,122,255,0.08) 0%,rgba(52,199,89,0.06) 100%);padding:20px 24px;border-bottom:1px solid rgba(255,255,255,0.7);display:flex;align-items:center;justify-content:space-between;">
       <div>
         <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent2);margin-bottom:4px;">Resumen Ejecutivo</div>
-        <div style="font-size:20px;font-weight:700;color:var(--text);letter-spacing:-0.02em;">MXCH01 — Instalación RS</div>
+        <div style="font-size:20px;font-weight:600;color:var(--text);letter-spacing:-0.02em;">MXCH01 — Instalación RS</div>
       </div>
       <div style="text-align:right;">
-        <div style="font-size:10px;color:var(--muted);font-weight:700;margin-bottom:2px;">RESPONSABLE</div>
+        <div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:2px;">RESPONSABLE</div>
         <div style="font-size:14px;font-weight:600;color:var(--accent2);">Raul Guerrero</div>
       </div>
     </div>
@@ -394,32 +394,32 @@ footer {
       <div style="padding:22px 24px;border-right:1px solid rgba(255,255,255,0.6);">
         <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:14px;">Alcance</div>
         <div style="display:flex;flex-direction:column;gap:12px;">
-          <div style="display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;border-radius:12px;background:rgba(52,199,89,0.12);border:1px solid rgba(52,199,89,0.2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--accent);flex-shrink:0;">35</div><div><div style="font-size:13px;font-weight:700;">Módulos RS Polionda</div><div style="font-size:11px;color:var(--muted);font-weight:600;">$29,931 USD</div></div></div>
-          <div style="display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;border-radius:12px;background:rgba(0,122,255,0.1);border:1px solid rgba(0,122,255,0.2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--accent2);flex-shrink:0;">3.9K</div><div><div style="font-size:13px;font-weight:700;">Cajoneras RS Carton</div><div style="font-size:11px;color:var(--muted);font-weight:600;">Bin 4 + Bin 5 · $26,000</div></div></div>
-          <div style="display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;border-radius:12px;background:rgba(255,149,0,0.1);border:1px solid rgba(255,149,0,0.2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--accent3);flex-shrink:0;">148</div><div><div style="font-size:13px;font-weight:700;">Jaulas Gaiola para NT</div><div style="font-size:11px;color:var(--muted);font-weight:600;">+ 5 traslados · $143,111</div></div></div>
+          <div style="display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;border-radius:12px;background:rgba(52,199,89,0.12);border:1px solid rgba(52,199,89,0.2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:var(--accent);flex-shrink:0;">35</div><div><div style="font-size:13px;font-weight:600;">Módulos RS Polionda</div><div style="font-size:11px;color:var(--muted);font-weight:600;">$29,931 USD</div></div></div>
+          <div style="display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;border-radius:12px;background:rgba(0,122,255,0.1);border:1px solid rgba(0,122,255,0.2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--accent2);flex-shrink:0;">3.9K</div><div><div style="font-size:13px;font-weight:600;">Cajoneras RS Carton</div><div style="font-size:11px;color:var(--muted);font-weight:600;">Bin 4 + Bin 5 · $26,000</div></div></div>
+          <div style="display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;border-radius:12px;background:rgba(255,149,0,0.1);border:1px solid rgba(255,149,0,0.2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:var(--accent3);flex-shrink:0;">148</div><div><div style="font-size:13px;font-weight:600;">Jaulas Gaiola para NT</div><div style="font-size:11px;color:var(--muted);font-weight:600;">+ 5 traslados · $143,111</div></div></div>
         </div>
       </div>
       <div style="padding:22px 24px;border-right:1px solid rgba(255,255,255,0.6);">
         <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:14px;">Fechas Clave</div>
         <div style="display:flex;flex-direction:column;gap:8px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,149,0,0.08);border-radius:10px;border:1px solid rgba(255,149,0,0.15);"><span style="font-size:12px;font-weight:700;">Cierre Bidding</span><span style="font-size:11px;font-weight:600;color:var(--accent3);font-family:var(--font);">26 Jun</span></div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,149,0,0.08);border-radius:10px;border:1px solid rgba(255,149,0,0.15);"><span style="font-size:12px;font-weight:700;">Generación POs</span><span style="font-size:11px;font-weight:600;color:var(--accent3);font-family:var(--font);">29 Jun</span></div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(0,122,255,0.07);border-radius:10px;border:1px solid rgba(0,122,255,0.12);"><span style="font-size:12px;font-weight:700;">Fabricación</span><span style="font-size:11px;font-weight:600;color:var(--accent2);font-family:var(--font);">20 Jul–07 Ago</span></div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(175,82,222,0.08);border-radius:10px;border:1px solid rgba(175,82,222,0.15);"><span style="font-size:12px;font-weight:700;">Ejecución On-Site</span><span style="font-size:11px;font-weight:600;color:var(--purple);font-family:var(--font);">24 Ago–12 Oct</span></div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(52,199,89,0.1);border-radius:10px;border:1px solid rgba(52,199,89,0.2);"><span style="font-size:12px;font-weight:600;color:var(--accent);">🚀 Go-Live</span><span style="font-size:11px;font-weight:500;color:var(--accent);font-family:var(--font);">19 Oct 2026</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,149,0,0.08);border-radius:10px;border:1px solid rgba(255,149,0,0.15);"><span style="font-size:12px;font-weight:600;">Cierre Bidding</span><span style="font-size:11px;font-weight:500;color:var(--accent3);">26 Jun</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,149,0,0.08);border-radius:10px;border:1px solid rgba(255,149,0,0.15);"><span style="font-size:12px;font-weight:600;">Generación POs</span><span style="font-size:11px;font-weight:500;color:var(--accent3);">29 Jun</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(0,122,255,0.07);border-radius:10px;border:1px solid rgba(0,122,255,0.12);"><span style="font-size:12px;font-weight:600;">Fabricación</span><span style="font-size:11px;font-weight:500;color:var(--accent2);">20 Jul–07 Ago</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(175,82,222,0.08);border-radius:10px;border:1px solid rgba(175,82,222,0.15);"><span style="font-size:12px;font-weight:600;">Ejecución On-Site</span><span style="font-size:11px;font-weight:500;color:var(--purple);">24 Ago–12 Oct</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(52,199,89,0.1);border-radius:10px;border:1px solid rgba(52,199,89,0.2);"><span style="font-size:12px;font-weight:400;color:var(--accent);">🚀 Go-Live</span><span style="font-size:11px;font-weight:500;color:var(--accent);">19 Oct 2026</span></div>
         </div>
       </div>
       <div style="padding:22px 24px;">
         <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:14px;">CAPEX por Categoría</div>
         <div style="display:flex;flex-direction:column;gap:11px;">
-          <div><div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:5px;"><span>Gaiola</span><span style="color:var(--accent3);">$143,111</span></div><div class="bar-track"><div class="bar-fill orange" style="width:72%"></div></div></div>
-          <div><div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:5px;"><span>RS Polionda</span><span style="color:var(--accent);">$29,931</span></div><div class="bar-track"><div class="bar-fill green" style="width:15%"></div></div></div>
-          <div><div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:5px;"><span>RS Carton</span><span style="color:var(--accent2);">$26,000</span></div><div class="bar-track"><div class="bar-fill blue" style="width:13%"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:12px;font-weight:400;margin-bottom:5px;"><span>Gaiola</span><span style="color:var(--accent3);">$143,111</span></div><div class="bar-track"><div class="bar-fill orange" style="width:72%"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:12px;font-weight:400;margin-bottom:5px;"><span>RS Polionda</span><span style="color:var(--accent);">$29,931</span></div><div class="bar-track"><div class="bar-fill green" style="width:15%"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:12px;font-weight:400;margin-bottom:5px;"><span>RS Carton</span><span style="color:var(--accent2);">$26,000</span></div><div class="bar-track"><div class="bar-fill blue" style="width:13%"></div></div></div>
         </div>
         <div style="margin-top:16px;padding:14px;background:linear-gradient(135deg,rgba(0,122,255,0.07),rgba(52,199,89,0.05));border-radius:14px;border:1px solid rgba(255,255,255,0.8);">
-          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:4px;"><span style="color:var(--muted)">Total USD</span><span style="font-family:var(--font);font-weight:400;color:var(--accent);">$199,042</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:4px;"><span style="color:var(--muted)">Total MXN</span><span style="font-family:var(--font);font-weight:400;">MXN 3,582,760</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;"><span style="color:var(--muted)">T/C</span><span style="font-family:var(--font);font-weight:400;">$18 MXN/USD</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:400;margin-bottom:4px;"><span style="color:var(--muted)">Total USD</span><span style="font-weight:400;color:var(--accent);">$199,042</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:400;margin-bottom:4px;"><span style="color:var(--muted)">Total MXN</span><span style="font-weight:400;">MXN 3,582,760</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:400;"><span style="color:var(--muted)">T/C</span><span style="font-weight:400;">$18 MXN/USD</span></div>
         </div>
       </div>
     </div>
@@ -452,41 +452,41 @@ footer {
           <circle cx="55" cy="55" r="45" fill="none" stroke="rgba(100,120,180,0.1)" stroke-width="9"/>
           <circle id="circle-gasto" cx="55" cy="55" r="45" fill="none" stroke="#34c759" stroke-width="9" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283" transform="rotate(-90 55 55)" style="transition:stroke-dashoffset 0.8s ease;filter:drop-shadow(0 0 6px rgba(52,199,89,0.4))"/>
           <text x="55" y="52" text-anchor="middle" fill="#34c759" font-size="9" font-weight="400" font-family='Inter, sans-serif' id="circle-gasto-pct">0%</text>
-          <text x="55" y="65" text-anchor="middle" fill="#8a96b8" font-size="7" font-family='Inter, sans-serif' font-weight="400">EJECUTADO</text>
+          <text x="55" y="65" text-anchor="middle" fill="#8a96b8" font-size="8" font-family='Inter, sans-serif' font-weight="400">EJECUTADO</text>
         </svg>
-        <div style="text-align:center;margin-top:6px;"><div style="font-size:15px;font-weight:500;color:var(--accent3);font-family:var(--font);" id="capex-gastado-kpi">$0</div><div style="font-size:10px;color:var(--muted);font-weight:600;">de $199,042</div></div>
+        <div style="text-align:center;margin-top:6px;"><div style="font-size:15px;font-weight:500;color:var(--accent3);" id="capex-gastado-kpi">$0</div><div style="font-size:10px;color:var(--muted);font-weight:600;">de $199,042</div></div>
       </div>
       <div style="display:flex;flex-direction:column;align-items:center;padding:18px 10px;border-left:1px solid rgba(255,255,255,0.6);">
         <svg width="130" height="130" viewBox="0 0 130 130">
           <circle cx="65" cy="65" r="54" fill="none" stroke="rgba(100,120,180,0.1)" stroke-width="11"/>
           <circle id="circle-disp" cx="65" cy="65" r="54" fill="none" stroke="#007aff" stroke-width="11" stroke-linecap="round" stroke-dasharray="339" stroke-dashoffset="0" transform="rotate(-90 65 65)" style="transition:stroke-dashoffset 0.8s ease;filter:drop-shadow(0 0 8px rgba(0,122,255,0.45))"/>
           <text x="65" y="62" text-anchor="middle" fill="#007aff" font-size="9" font-weight="400" font-family='Inter, sans-serif' id="circle-disp-pct">100%</text>
-          <text x="65" y="76" text-anchor="middle" fill="#8a96b8" font-size="7" font-family='Inter, sans-serif' font-weight="400">DISPONIBLE</text>
+          <text x="65" y="76" text-anchor="middle" fill="#8a96b8" font-size="8" font-family='Inter, sans-serif' font-weight="400">DISPONIBLE</text>
         </svg>
-        <div style="text-align:center;margin-top:6px;"><div style="font-size:18px;font-weight:700;color:var(--accent2);font-family:var(--font);" id="capex-disponible-kpi">$199,042</div><div style="font-size:10px;color:var(--muted);font-weight:600;" id="capex-disponible-pct">100% restante</div></div>
+        <div style="text-align:center;margin-top:6px;"><div style="font-size:17px;font-weight:500;color:var(--accent2);" id="capex-disponible-kpi">$199,042</div><div style="font-size:10px;color:var(--muted);font-weight:600;" id="capex-disponible-pct">100% restante</div></div>
       </div>
       <div style="display:flex;flex-direction:column;align-items:center;padding:18px 10px;border-left:1px solid rgba(255,255,255,0.6);">
         <svg width="110" height="110" viewBox="0 0 110 110">
           <circle cx="55" cy="55" r="45" fill="none" stroke="rgba(100,120,180,0.1)" stroke-width="9"/>
           <circle id="circle-ahorro" cx="55" cy="55" r="45" fill="none" stroke="#ffcc00" stroke-width="9" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283" transform="rotate(-90 55 55)" style="transition:stroke-dashoffset 0.8s ease;filter:drop-shadow(0 0 6px rgba(255,204,0,0.4))"/>
           <text x="55" y="52" text-anchor="middle" fill="#ffcc00" font-size="9" font-weight="400" font-family='Inter, sans-serif' id="circle-ahorro-pct">0%</text>
-          <text x="55" y="65" text-anchor="middle" fill="#8a96b8" font-size="7" font-family='Inter, sans-serif' font-weight="400">AHORRO</text>
+          <text x="55" y="65" text-anchor="middle" fill="#8a96b8" font-size="8" font-family='Inter, sans-serif' font-weight="400">AHORRO</text>
         </svg>
-        <div style="text-align:center;margin-top:6px;"><div style="font-size:15px;font-weight:500;color:var(--accent3);font-family:var(--font);" id="capex-ahorro-kpi">$0</div><div style="font-size:10px;color:var(--muted);font-weight:600;">vs presupuestado</div></div>
+        <div style="text-align:center;margin-top:6px;"><div style="font-size:15px;font-weight:500;color:var(--accent3);" id="capex-ahorro-kpi">$0</div><div style="font-size:10px;color:var(--muted);font-weight:600;">vs presupuestado</div></div>
       </div>
       <div style="display:flex;flex-direction:column;align-items:center;padding:18px 10px;border-left:1px solid rgba(255,255,255,0.6);">
         <svg width="110" height="110" viewBox="0 0 110 110">
           <circle cx="55" cy="55" r="45" fill="none" stroke="rgba(100,120,180,0.1)" stroke-width="9"/>
           <circle id="circle-sobre" cx="55" cy="55" r="45" fill="none" stroke="#ff3b30" stroke-width="9" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283" transform="rotate(-90 55 55)" style="transition:stroke-dashoffset 0.8s ease;filter:drop-shadow(0 0 6px rgba(255,59,48,0.4))"/>
           <text x="55" y="52" text-anchor="middle" fill="#ff3b30" font-size="9" font-weight="400" font-family='Inter, sans-serif' id="circle-sobre-pct">0%</text>
-          <text x="55" y="65" text-anchor="middle" fill="#8a96b8" font-size="7" font-family='Inter, sans-serif' font-weight="400">SOBRECOSTO</text>
+          <text x="55" y="65" text-anchor="middle" fill="#8a96b8" font-size="8" font-family='Inter, sans-serif' font-weight="400">SOBRECOSTO</text>
         </svg>
-        <div style="text-align:center;margin-top:6px;"><div style="font-size:16px;font-weight:700;color:var(--danger);font-family:var(--font);" id="capex-sobre-kpi">$0</div><div style="font-size:10px;color:var(--muted);font-weight:600;">0% sobre presupuesto</div></div>
+        <div style="text-align:center;margin-top:6px;"><div style="font-size:16px;font-weight:500;color:var(--danger);" id="capex-sobre-kpi">$0</div><div style="font-size:10px;color:var(--muted);font-weight:600;">0% sobre presupuesto</div></div>
       </div>
     </div>
     <div style="border-top:1px solid rgba(255,255,255,0.7);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;background:rgba(0,122,255,0.03);border-radius:0 0 20px 20px;">
-      <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">CAPEX Total Aprobado</div>
-      <div style="font-size:17px;font-weight:500;font-family:var(--font);">$199,042 <span style="font-size:12px;color:var(--muted);font-weight:600;">USD · MXN 3,582,760</span></div>
+      <div style="font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.08em;">CAPEX Total Aprobado</div>
+      <div style="font-size:17px;font-weight:500;">$199,042 <span style="font-size:12px;color:var(--muted);font-weight:600;">USD · MXN 3,582,760</span></div>
     </div>
   </div>
 
@@ -494,17 +494,17 @@ footer {
     <div class="card"><div class="card-title"><div class="card-title-dot" style="background:linear-gradient(135deg,var(--accent3),#ff9f0a)"></div>Gaiola — $143,111</div>
       <div class="capex-bar-wrap"><div class="capex-bar-label"><span>Jaulas metálicas ×148</span><span style="color:var(--accent3)">$98,667</span></div><div class="bar-track"><div class="bar-fill orange" style="width:69%"></div></div></div>
       <div class="capex-bar-wrap"><div class="capex-bar-label"><span>Traslado ×5</span><span style="color:var(--accent3)">$44,444</span></div><div class="bar-track"><div class="bar-fill orange" style="width:31%"></div></div></div>
-      <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(100,120,180,0.1);display:flex;justify-content:space-between;"><span style="font-size:12px;color:var(--muted);font-weight:700;">Subtotal</span><span style="font-size:15px;font-weight:500;color:var(--accent3);font-family:var(--font);">$143,111</span></div>
+      <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(100,120,180,0.1);display:flex;justify-content:space-between;"><span style="font-size:12px;color:var(--muted);font-weight:600;">Subtotal</span><span style="font-size:15px;font-weight:500;color:var(--accent3);">$143,111</span></div>
     </div>
     <div class="card"><div class="card-title"><div class="card-title-dot" style="background:linear-gradient(135deg,var(--accent),#30d158)"></div>RS Polionda — $29,931</div>
       <div class="capex-bar-wrap"><div class="capex-bar-label"><span>Módulos ×35</span><span style="color:var(--accent)">$29,931</span></div><div class="bar-track"><div class="bar-fill green" style="width:100%"></div></div></div>
       <div style="font-size:11px;color:var(--muted);font-weight:600;margin-top:6px;">@$15,393 MXN/unitario</div>
-      <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(100,120,180,0.1);display:flex;justify-content:space-between;"><span style="font-size:12px;color:var(--muted);font-weight:700;">Subtotal</span><span style="font-size:15px;font-weight:500;color:var(--accent3);font-family:var(--font);">$29,931</span></div>
+      <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(100,120,180,0.1);display:flex;justify-content:space-between;"><span style="font-size:12px;color:var(--muted);font-weight:600;">Subtotal</span><span style="font-size:15px;font-weight:500;color:var(--accent3);">$29,931</span></div>
     </div>
     <div class="card"><div class="card-title"><div class="card-title-dot" style="background:linear-gradient(135deg,var(--accent2),#0a84ff)"></div>RS Carton — $26,000</div>
       <div class="capex-bar-wrap"><div class="capex-bar-label"><span>Bin 4 ×3,744</span><span style="color:var(--accent2)">$24,627</span></div><div class="bar-track"><div class="bar-fill blue" style="width:95%"></div></div></div>
       <div class="capex-bar-wrap"><div class="capex-bar-label"><span>Bin 5 ×140</span><span style="color:var(--accent2)">$1,373</span></div><div class="bar-track"><div class="bar-fill blue" style="width:5%"></div></div></div>
-      <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(100,120,180,0.1);display:flex;justify-content:space-between;"><span style="font-size:12px;color:var(--muted);font-weight:700;">Subtotal</span><span style="font-size:15px;font-weight:500;color:var(--accent3);font-family:var(--font);">$26,000</span></div>
+      <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(100,120,180,0.1);display:flex;justify-content:space-between;"><span style="font-size:12px;color:var(--muted);font-weight:600;">Subtotal</span><span style="font-size:15px;font-weight:500;color:var(--accent3);">$26,000</span></div>
     </div>
   </div>
 
@@ -547,8 +547,8 @@ footer {
     </div>
     <div id="fact-lista"><div style="text-align:center;padding:28px;color:var(--muted);font-size:13px;font-weight:600;">Sin eventos definidos. El timeline indica "Facturación por Definir" en Jul 2026.</div></div>
     <div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(100,120,180,0.1);display:flex;justify-content:space-between;align-items:center;">
-      <span style="font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">Total Comprometido</span>
-      <span style="font-size:20px;font-weight:500;color:var(--accent);font-family:var(--font);" id="fact-total">$0 USD</span>
+      <span style="font-size:12px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;">Total Comprometido</span>
+      <span style="font-size:20px;font-weight:500;color:var(--accent);" id="fact-total">$0 USD</span>
     </div>
   </div>
   <div id="fact-modal" class="modal-overlay">
@@ -581,15 +581,15 @@ footer {
     <table class="mat-table">
       <thead><tr><th>Material / Equipo</th><th>Categoría</th><th>Cantidad</th><th>Costo MXN</th><th>Costo USD</th><th>Estatus</th></tr></thead>
       <tbody>
-        <tr><td>Módulos RS de polionda</td><td><span class="cat-pill cat-rs">RS Polionda</span></td><td style="font-family:var(--font);font-weight:400;">35 u.</td><td style="font-family:var(--font);">MXN 538,762</td><td style="font-family:var(--font);font-weight:400;color:var(--accent);">$29,931</td><td><select onchange="updateMatStatus('polionda',this.value)" id="mat-polionda" class="field-input" style="padding:5px 10px;font-size:11px;font-weight:700;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
-        <tr><td>Cajoneras Bin 4</td><td><span class="cat-pill cat-gaiola">RS Carton</span></td><td style="font-family:var(--font);font-weight:400;">3,744 u.</td><td style="font-family:var(--font);">MXN 443,290</td><td style="font-family:var(--font);font-weight:400;color:var(--accent2);">$24,627</td><td><select onchange="updateMatStatus('bin4',this.value)" id="mat-bin4" class="field-input" style="padding:5px 10px;font-size:11px;font-weight:700;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
-        <tr><td>Cajoneras Bin 5</td><td><span class="cat-pill cat-gaiola">RS Carton</span></td><td style="font-family:var(--font);font-weight:400;">140 u.</td><td style="font-family:var(--font);">MXN 24,709</td><td style="font-family:var(--font);font-weight:400;color:var(--accent2);">$1,373</td><td><select onchange="updateMatStatus('bin5',this.value)" id="mat-bin5" class="field-input" style="padding:5px 10px;font-size:11px;font-weight:700;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
-        <tr><td>Jaulas metálicas para NT</td><td><span class="cat-pill" style="background:rgba(255,149,0,0.12);color:var(--accent3);">Gaiola</span></td><td style="font-family:var(--font);font-weight:400;">148 u.</td><td style="font-family:var(--font);">MXN 1,776,000</td><td style="font-family:var(--font);font-weight:400;color:var(--accent3);">$98,667</td><td><select onchange="updateMatStatus('jaulas',this.value)" id="mat-jaulas" class="field-input" style="padding:5px 10px;font-size:11px;font-weight:700;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
-        <tr><td>Traslado de jaulas</td><td><span class="cat-pill" style="background:rgba(255,149,0,0.12);color:var(--accent3);">Gaiola</span></td><td style="font-family:var(--font);font-weight:400;">5 viajes</td><td style="font-family:var(--font);">MXN 800,000</td><td style="font-family:var(--font);font-weight:400;color:var(--accent3);">$44,444</td><td><select onchange="updateMatStatus('traslado',this.value)" id="mat-traslado" class="field-input" style="padding:5px 10px;font-size:11px;font-weight:700;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
+        <tr><td>Módulos RS de polionda</td><td><span class="cat-pill cat-rs">RS Polionda</span></td><td style="font-weight:400;">35 u.</td><td style="">MXN 538,762</td><td style="font-weight:400;color:var(--accent);">$29,931</td><td><select onchange="updateMatStatus('polionda',this.value)" id="mat-polionda" class="field-input" style="padding:5px 10px;font-size:11px;font-weight:600;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
+        <tr><td>Cajoneras Bin 4</td><td><span class="cat-pill cat-gaiola">RS Carton</span></td><td style="font-weight:400;">3,744 u.</td><td style="">MXN 443,290</td><td style="font-weight:400;color:var(--accent2);">$24,627</td><td><select onchange="updateMatStatus('bin4',this.value)" id="mat-bin4" class="field-input" style="padding:5px 10px;font-size:11px;font-weight:600;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
+        <tr><td>Cajoneras Bin 5</td><td><span class="cat-pill cat-gaiola">RS Carton</span></td><td style="font-weight:400;">140 u.</td><td style="">MXN 24,709</td><td style="font-weight:400;color:var(--accent2);">$1,373</td><td><select onchange="updateMatStatus('bin5',this.value)" id="mat-bin5" class="field-input" style="padding:5px 10px;font-size:11px;font-weight:600;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
+        <tr><td>Jaulas metálicas para NT</td><td><span class="cat-pill" style="background:rgba(255,149,0,0.12);color:var(--accent3);">Gaiola</span></td><td style="font-weight:400;">148 u.</td><td style="">MXN 1,776,000</td><td style="font-weight:400;color:var(--accent3);">$98,667</td><td><select onchange="updateMatStatus('jaulas',this.value)" id="mat-jaulas" class="field-input" style="padding:5px 10px;font-size:11px;font-weight:600;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
+        <tr><td>Traslado de jaulas</td><td><span class="cat-pill" style="background:rgba(255,149,0,0.12);color:var(--accent3);">Gaiola</span></td><td style="font-weight:400;">5 viajes</td><td style="">MXN 800,000</td><td style="font-weight:400;color:var(--accent3);">$44,444</td><td><select onchange="updateMatStatus('traslado',this.value)" id="mat-traslado" class="field-input" style="padding:5px 10px;font-size:11px;font-weight:600;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
         <tr style="background:rgba(0,122,255,0.04);">
-          <td colspan="3" style="font-weight:700;font-size:13px;font-family:var(--font);">TOTAL</td>
-          <td style="font-weight:700;font-family:var(--font);">MXN 3,582,761</td>
-          <td style="font-weight:700;font-family:var(--font);color:var(--accent);">$199,042</td>
+          <td colspan="3" style="font-weight:600;font-size:13px;">TOTAL</td>
+          <td style="font-weight:500;">MXN 3,582,761</td>
+          <td style="font-weight:600;color:var(--accent);">$199,042</td>
           <td></td>
         </tr>
       </tbody>
@@ -749,7 +749,7 @@ function buildTimeline(){
     const nd=document.createElement('div');nd.className='tl-name'+(t.s?' summary':'');
     nd.style.paddingLeft=(8+(t.l-1)*10)+'px';
     const fd=s=>new Date(s).toLocaleDateString('es-MX',{day:'2-digit',month:'short'});
-    nd.innerHTML=`<div style="font-size:${t.s?10:11}px;font-weight:${t.s?600:400};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${t.name}</div><div style="font-size:9px;color:var(--muted);font-family:var(--font);white-space:nowrap;font-weight:400;">${fd(t.start)} – ${fd(t.end)}</div>`;
+    nd.innerHTML=`<div style="font-size:${t.s?10:11}px;font-weight:${t.s?500:400};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${t.name}</div><div style="font-size:9px;color:var(--muted);white-space:nowrap;font-weight:400;">${fd(t.start)} – ${fd(t.end)}</div>`;
     row.appendChild(nd);
     const ba=document.createElement('div');ba.className='tl-bar-area';
     months.forEach(m=>{const mDate=new Date(m.y,m.m,1);const off=(mDate-TL_START)/86400000;const pct=(off/TOTAL_DAYS)*100;if(pct>=0&&pct<=100){const gl=document.createElement('div');gl.className='tl-grid-line month-line';gl.style.left=pct+'%';ba.appendChild(gl);}});
@@ -772,7 +772,7 @@ function buildPctInputs(){
     if(t.s)return;
     const w=document.createElement('div');
     w.style.cssText='display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.8);border-radius:12px;padding:8px 12px;backdrop-filter:blur(10px);';
-    w.innerHTML=`<span style="flex:1;font-size:11px;font-weight:600;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.name}</span><input type="number" min="0" max="100" value="${t.pct}" data-idx="${i}" style="width:52px;background:rgba(0,122,255,0.08);color:var(--accent2);border:1.5px solid rgba(0,122,255,0.2);border-radius:8px;padding:4px 6px;font-family:var(--font);font-size:12px;font-weight:700;text-align:right;outline:none;"><span style="font-size:11px;color:var(--muted);font-weight:700;">%</span>`;
+    w.innerHTML=`<span style="flex:1;font-size:11px;font-weight:500;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.name}</span><input type="number" min="0" max="100" value="${t.pct}" data-idx="${i}" style="width:52px;background:rgba(0,122,255,0.08);color:var(--accent2);border:1.5px solid rgba(0,122,255,0.2);border-radius:8px;padding:4px 6px;font-size:12px;font-weight:600;text-align:right;outline:none;"><span style="font-size:11px;color:var(--muted);font-weight:600;">%</span>`;
     c.appendChild(w);
   });
 }
@@ -813,7 +813,7 @@ function renderCapex(){
   const lista=document.getElementById('capex-lista');
   if(!movs.length){lista.innerHTML='<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px;font-weight:600;">Sin movimientos registrados.</div>';return;}
   const tc={gasto:{icon:'🟢',label:'Gasto',color:'var(--accent)'},sobrecosto:{icon:'🔴',label:'Sobrecosto',color:'var(--danger)'},transferencia:{icon:'🔵',label:'Transferencia',color:'var(--accent2)'}};
-  lista.innerHTML=`<table class="mat-table"><thead><tr><th>Tipo</th><th>Partida</th><th>Concepto</th><th>Monto</th><th>Fecha</th><th>Nota</th><th></th></tr></thead><tbody>${movs.map((m,i)=>{const t=tc[m.tipo]||tc.gasto;return`<tr><td><span class="cat-pill" style="background:rgba(0,0,0,0.04);color:${t.color};">${t.icon} ${t.label}</span></td><td style="font-size:11px;color:var(--muted);">${m.partida||'—'}</td><td><span style='font-weight:500;'>${m.concepto}</span></td><td style="font-family:var(--font);font-weight:400;color:${t.color};">${fmt(m.monto)}</td><td style="font-family:var(--font);color:var(--muted);font-size:11px;">${m.fecha}</td><td style="font-size:11px;color:var(--muted);">${m.nota||'—'}</td><td><button onclick="deleteCapexMov(${i})" style="background:rgba(255,59,48,0.1);color:var(--danger);border:1px solid rgba(255,59,48,0.2);padding:3px 9px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;">×</button></td></tr>`;}).join('')}</tbody></table>`;
+  lista.innerHTML=`<table class="mat-table"><thead><tr><th>Tipo</th><th>Partida</th><th>Concepto</th><th>Monto</th><th>Fecha</th><th>Nota</th><th></th></tr></thead><tbody>${movs.map((m,i)=>{const t=tc[m.tipo]||tc.gasto;return`<tr><td><span class="cat-pill" style="background:rgba(0,0,0,0.04);color:${t.color};">${t.icon} ${t.label}</span></td><td style="font-size:11px;color:var(--muted);">${m.partida||'—'}</td><td><span style='font-weight:500;'>${m.concepto}</span></td><td style="font-weight:400;color:${t.color};">${fmt(m.monto)}</td><td style="color:var(--muted);font-size:11px;">${m.fecha}</td><td style="font-size:11px;color:var(--muted);">${m.nota||'—'}</td><td><button onclick="deleteCapexMov(${i})" style="background:rgba(255,59,48,0.1);color:var(--danger);border:1px solid rgba(255,59,48,0.2);padding:3px 9px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;">×</button></td></tr>`;}).join('')}</tbody></table>`;
 }
 
 function openCapexModal(){document.getElementById('capex-modal').style.display='flex';}
@@ -843,7 +843,7 @@ function renderFacturacion(){
   const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
   const sl={'ps-future':'FUTURO','ps-pending':'PENDIENTE','ps-done':'PAGADO'};
   if(!pagos.length){lista.innerHTML='<div style="text-align:center;padding:28px;color:var(--muted);font-size:13px;font-weight:600;">Sin eventos. Facturación por Definir en Jul 2026.</div>';}
-  else{lista.innerHTML=pagos.map((p,i)=>`<div class="payment-row"><div class="payment-num">${i+1}</div><div class="payment-info"><div class="payment-name">${p.nombre}</div><div class="payment-date">${p.fecha||'TBD'}</div></div><div style="text-align:right;"><div class="payment-amount" style="color:var(--accent2);">${fmt(p.monto)}</div><div class="payment-pct">${p.pct||''} del total</div></div><div style="display:flex;align-items:center;gap:8px;"><div class="payment-status ${p.status}" onclick="cycleFactStatus(${i})">${sl[p.status]||p.status}</div><button onclick="deleteFactEvento(${i})" style="background:rgba(255,59,48,0.1);color:var(--danger);border:1px solid rgba(255,59,48,0.2);padding:3px 9px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;">×</button></div></div>`).join('');}
+  else{lista.innerHTML=pagos.map((p,i)=>`<div class="payment-row"><div class="payment-num">${i+1}</div><div class="payment-info"><div class="payment-name">${p.nombre}</div><div class="payment-date">${p.fecha||'TBD'}</div></div><div style="text-align:right;"><div class="payment-amount" style="color:var(--accent2);">${fmt(p.monto)}</div><div class="payment-pct">${p.pct||''} del total</div></div><div style="display:flex;align-items:center;gap:8px;"><div class="payment-status ${p.status}" onclick="cycleFactStatus(${i})">${sl[p.status]||p.status}</div><button onclick="deleteFactEvento(${i})" style="background:rgba(255,59,48,0.1);color:var(--danger);border:1px solid rgba(255,59,48,0.2);padding:3px 9px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;">×</button></div></div>`).join('');}
   document.getElementById('fact-total').textContent=fmt(pagos.reduce((a,p)=>a+(parseFloat(p.monto)||0),0))+' USD';
 }
 function cycleFactStatus(idx){const c=['ps-future','ps-pending','ps-done'];dbData.facturacion[idx].status=c[(c.indexOf(dbData.facturacion[idx].status)+1)%c.length];renderFacturacion();dbSave();showToast('Estatus actualizado ✓');}
@@ -860,7 +860,7 @@ function renderPendientes(){
   const filtered=pendFilter==='all'?pends:pends.filter(p=>p.pri===pendFilter);
   if(!filtered.length){list.innerHTML='';empty.style.display='block';return;}
   empty.style.display='none';
-  list.innerHTML=filtered.map(p=>{const ri=pends.indexOf(p);const pc={alta:'alta',media:'media',baja:'baja',info:'info'};const pl={alta:'ALTA',media:'MEDIA',baja:'BAJA',info:'INFO'};return`<div class="item" style="align-items:flex-start;"><div class="badge ${pc[p.pri]}">${pl[p.pri]}</div><div class="item-content"><div class="item-title">${p.titulo}</div><div class="item-desc">${p.desc}</div><div class="item-date">${p.fecha||''}</div></div><div style="display:flex;gap:6px;flex-shrink:0;margin-left:8px;"><button onclick="editPend(${ri})" style="background:rgba(0,122,255,0.1);color:var(--accent2);border:1px solid rgba(0,122,255,0.2);padding:5px 12px;border-radius:10px;font-size:11px;font-weight:700;cursor:pointer;">Editar</button><button onclick="deletePend(${ri})" style="background:rgba(255,59,48,0.1);color:var(--danger);border:1px solid rgba(255,59,48,0.2);padding:5px 10px;border-radius:10px;font-size:11px;font-weight:700;cursor:pointer;">×</button></div></div>`;}).join('');
+  list.innerHTML=filtered.map(p=>{const ri=pends.indexOf(p);const pc={alta:'alta',media:'media',baja:'baja',info:'info'};const pl={alta:'ALTA',media:'MEDIA',baja:'BAJA',info:'INFO'};return`<div class="item" style="align-items:flex-start;"><div class="badge ${pc[p.pri]}">${pl[p.pri]}</div><div class="item-content"><div class="item-title">${p.titulo}</div><div class="item-desc">${p.desc}</div><div class="item-date">${p.fecha||''}</div></div><div style="display:flex;gap:6px;flex-shrink:0;margin-left:8px;"><button onclick="editPend(${ri})" style="background:rgba(0,122,255,0.1);color:var(--accent2);border:1px solid rgba(0,122,255,0.2);padding:5px 12px;border-radius:10px;font-size:11px;font-weight:600;cursor:pointer;">Editar</button><button onclick="deletePend(${ri})" style="background:rgba(255,59,48,0.1);color:var(--danger);border:1px solid rgba(255,59,48,0.2);padding:5px 10px;border-radius:10px;font-size:11px;font-weight:600;cursor:pointer;">×</button></div></div>`;}).join('');
 }
 function filterPend(f){pendFilter=f;document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('pf-active'));document.getElementById('pf-'+f).classList.add('pf-active');renderPendientes();}
 function openPendModal(idx=-1){pendEditIdx=idx;const t=document.getElementById('pend-modal-title');if(idx>=0){const p=dbData.pendientes[idx];t.textContent='Editar Pendiente';document.getElementById('pp-pri').value=p.pri;document.getElementById('pp-titulo').value=p.titulo;document.getElementById('pp-desc').value=p.desc;document.getElementById('pp-fecha').value=p.fecha||'';}else{t.textContent='Agregar Pendiente';document.getElementById('pp-pri').value='alta';['pp-titulo','pp-desc','pp-fecha'].forEach(id=>document.getElementById(id).value='');}document.getElementById('pend-modal').style.display='flex';}
@@ -870,7 +870,7 @@ function savePend(){const titulo=document.getElementById('pp-titulo').value.trim
 function deletePend(idx){if(!confirm('¿Eliminar?'))return;dbData.pendientes.splice(idx,1);renderPendientes();dbSave();showToast('Eliminado ✓');}
 
 // TOAST
-function showToast(msg){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;bottom:28px;right:28px;background:linear-gradient(135deg,#007aff,#34c759);color:#fff;padding:12px 22px;border-radius:16px;font-size:13px;font-weight:700;z-index:9999;transition:opacity 0.4s,transform 0.4s;pointer-events:none;box-shadow:0 8px 24px rgba(0,122,255,0.35);';document.body.appendChild(t);}t.textContent=msg;t.style.opacity='1';t.style.transform='translateY(0)';clearTimeout(t._timer);t._timer=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(8px)';},2400);}
+function showToast(msg){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;bottom:28px;right:28px;background:linear-gradient(135deg,#007aff,#34c759);color:#fff;padding:12px 22px;border-radius:16px;font-size:13px;font-weight:500;z-index:9999;transition:opacity 0.4s,transform 0.4s;pointer-events:none;box-shadow:0 8px 24px rgba(0,122,255,0.35);';document.body.appendChild(t);}t.textContent=msg;t.style.opacity='1';t.style.transform='translateY(0)';clearTimeout(t._timer);t._timer=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(8px)';},2400);}
 function resetAll(){if(!confirm('¿Borrar todos los datos?'))return;dbData={pcts:[],facturacion:[],capex_gastos:[],pendientes:[],mat_status:{}};dbSave().then(()=>location.reload());}
 
 async function init(){
