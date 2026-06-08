@@ -3,6 +3,8 @@
   "facturacion": [],
   "capex_gastos": [],
   "mat_status": {},
+  "io_number": "— (editar desde dashboard)",
+  "alfred_ticket": "— (editar desde dashboard)",
   "pendientes": [
     {
       "pri": "alta",
@@ -46,7 +48,5 @@
       "desc": "Gemba Walk (14 Oct) y Handover (15 Oct) previos al Go-Live del 19 Oct 2026.",
       "fecha": "14–15 Oct 2026"
     }
-  ],
-  "io_number": "123",
-  "alfred_ticket": "456"
+  ]
 }
