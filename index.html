@@ -206,7 +206,7 @@ footer { text-align:center; padding:24px; font-size:11px; color:var(--muted); fo
 <main>
 <div id="overview" class="section active">
   <div class="kpi-row">
-    <div class="kpi green"><div class="kpi-glow"></div><div class="kpi-label">Avance General</div><div class="kpi-value green">45%</div><div class="kpi-sub">Procurement · Bidding</div></div>
+    <div class="kpi green"><div class="kpi-glow"></div><div class="kpi-label">Avance General</div><div class="kpi-value green" id="kpi-avance">45%</div><div class="kpi-sub" id="kpi-avance-sub">Procurement · Bidding</div></div>
     <div class="kpi blue"><div class="kpi-glow"></div><div class="kpi-label">CAPEX Total</div><div class="kpi-value blue">$199K</div><div class="kpi-sub">USD · MXN 3,582,760</div></div>
     <div class="kpi orange"><div class="kpi-glow"></div><div class="kpi-label">Próximo Hito</div><div class="kpi-value orange">29 Jun</div><div class="kpi-sub">Generación de POs</div></div>
     <div class="kpi yellow"><div class="kpi-glow"></div><div class="kpi-label">Go-Live</div><div class="kpi-value yellow">19 Oct</div><div class="kpi-sub">2026 · 137 días</div></div>
@@ -290,7 +290,7 @@ footer { text-align:center; padding:24px; font-size:11px; color:var(--muted); fo
 <div id="timeline" class="section">
   <div class="card">
     <div class="card-title"><div class="card-title-dot"></div>Gantt — MXCH01 · Dic 2025 – Oct 2026</div>
-    <div style="font-size:11px;color:var(--muted);font-weight:500;margin-bottom:16px;">▲ Línea naranja = HOY (04 Jun 2026) · Avance general: <strong style="color:var(--accent2)">45%</strong></div>
+    <div style="font-size:11px;color:var(--muted);font-weight:500;margin-bottom:16px;">▲ Línea naranja = HOY (04 Jun 2026) · Avance general: <strong style="color:var(--accent2)" id="gantt-avance">45%</strong></div>
     <div id="tl-container" style="overflow-x:auto;"><div style="min-width:900px;">
       <div class="timeline-header"><div class="tl-label-head">Tarea</div><div class="tl-months" id="tl-months"></div></div>
       <div id="tl-rows"></div>
@@ -501,29 +501,43 @@ const tasks=[{l:1,s:true,name:'MXCH01',start:'2025-12-15',end:'2026-10-19',pct:4
 const COLORS={1:'#007aff',2:'#007aff',3:'#34c759',4:'#8a96b8'};
 function dayOffset(d){return(new Date(d)-TL_START)/86400000;}
 function buildTimeline(){const months=[];let d=new Date(TL_START);while(d<=TL_END){months.push({y:d.getFullYear(),m:d.getMonth(),label:d.toLocaleString('es-MX',{month:'short',year:'2-digit'})});d.setMonth(d.getMonth()+1);}const mEl=document.getElementById('tl-months');mEl.innerHTML='';months.forEach(m=>{const el=document.createElement('div');el.className='tl-month';el.textContent=m.label;mEl.appendChild(el);});const rEl=document.getElementById('tl-rows');rEl.innerHTML='';tasks.forEach((t,i)=>{const row=document.createElement('div');row.className='tl-row';const nd=document.createElement('div');nd.className='tl-name'+(t.s?' summary':'');nd.style.paddingLeft=(8+(t.l-1)*10)+'px';const fd=s=>new Date(s).toLocaleDateString('es-MX',{day:'2-digit',month:'short'});nd.innerHTML=`<div style="font-size:${t.s?10:11}px;font-weight:${t.s?800:500};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${t.name}</div><div style="font-size:9px;color:var(--muted);white-space:nowrap;font-weight:500;">${fd(t.start)} – ${fd(t.end)}</div>`;row.appendChild(nd);const ba=document.createElement('div');ba.className='tl-bar-area';months.forEach(m=>{const mDate=new Date(m.y,m.m,1);const off=(mDate-TL_START)/86400000;const pct=(off/TOTAL_DAYS)*100;if(pct>=0&&pct<=100){const gl=document.createElement('div');gl.className='tl-grid-line month-line';gl.style.left=pct+'%';ba.appendChild(gl);}});const tl=document.createElement('div');tl.className='today-line';tl.style.left=(((TODAY-TL_START)/86400000/TOTAL_DAYS)*100)+'%';ba.appendChild(tl);const so=dayOffset(t.start),eo=dayOffset(t.end)+1;const lp=(so/TOTAL_DAYS)*100,wp=Math.max(0.3,((eo-so)/TOTAL_DAYS)*100);const bar=document.createElement('div');bar.className='tl-bar';bar.id='bar-'+i;bar.style.left=lp+'%';bar.style.width=wp+'%';bar.style.background='rgba(100,120,180,0.12)';bar.style.border='1px solid rgba(100,120,180,0.2)';bar.style.borderRadius='6px';const fill=document.createElement('div');fill.className='tl-bar-fill';fill.id='fill-'+i;fill.style.width=t.pct+'%';fill.style.background=COLORS[t.l]||'#8a96b8';fill.style.borderRadius='6px';bar.appendChild(fill);
-if(!t.s){
-  const sel=document.createElement('select');
-  sel.className='tl-inline-select';
-  sel.title='% avance: '+t.name;
-  [0,25,50,75,100].forEach(v=>{
-    const o=document.createElement('option');
-    o.value=v; o.textContent=v+'%';
-    if(v===t.pct)o.selected=true;
-    sel.appendChild(o);
-  });
-  sel.addEventListener('click',e=>e.stopPropagation());
-  sel.addEventListener('change',e=>{
-    e.stopPropagation();
-    const pct=parseInt(sel.value);
-    tasks[i].pct=pct;
-    fill.style.width=pct+'%';
-    dbData.pcts=tasks.map(t=>t.pct);
-    dbSave();showToast(t.name+': '+pct+'% ✓');
-  });
-  bar.appendChild(sel);
-} else if(t.pct>0&&wp>5){
-  const pl=document.createElement('div');pl.className='tl-pct';pl.id='pctlabel-'+i;pl.textContent=t.pct+'%';bar.appendChild(pl);
+const sel=document.createElement('select');
+sel.className='tl-inline-select';
+sel.title='% avance: '+t.name;
+[0,25,50,75,100].forEach(v=>{
+  const o=document.createElement('option');
+  o.value=v; o.textContent=v+'%';
+  if(t.pct>=v && (v===100 || t.pct<(v===0?1:v+1))){}
+  if(v===t.pct)o.selected=true;
+  sel.appendChild(o);
+});
+// If current pct is not in options, select closest
+if(![0,25,50,75,100].includes(t.pct)){
+  const closest=[0,25,50,75,100].reduce((a,b)=>Math.abs(b-t.pct)<Math.abs(a-t.pct)?b:a);
+  sel.value=closest;
 }
+sel.addEventListener('click',e=>e.stopPropagation());
+sel.addEventListener('change',e=>{
+  e.stopPropagation();
+  const pct=parseInt(sel.value);
+  tasks[i].pct=pct;
+  fill.style.width=pct+'%';
+  // Recalculate overall progress: average of non-summary tasks
+  const nonSummary=tasks.filter(t=>!t.s);
+  const avg=Math.round(nonSummary.reduce((a,t)=>a+t.pct,0)/nonSummary.length);
+  // Update summary task (index 0)
+  tasks[0].pct=avg;
+  const fill0=document.getElementById('fill-0');if(fill0)fill0.style.width=avg+'%';
+  const sel0=bar.parentElement&&document.querySelector('#bar-0 .tl-inline-select');
+  // Update KPI in overview
+  const kpiEl=document.getElementById('kpi-avance');
+  if(kpiEl)kpiEl.textContent=avg+'%';
+  const kpiSub=document.getElementById('kpi-avance-sub');
+  if(kpiSub)kpiSub.textContent='Avance calculado';
+  dbData.pcts=tasks.map(t=>t.pct);
+  const ganttLbl=document.getElementById('gantt-avance');if(ganttLbl)ganttLbl.textContent=avg+'%';dbSave();showToast(t.name+': '+pct+'% ✓');
+});
+bar.appendChild(sel);
 ba.appendChild(bar);row.appendChild(ba);rEl.appendChild(row);});buildPctInputs();}
 function buildPctInputs(){const c=document.getElementById('pct-inputs');c.innerHTML='';tasks.forEach((t,i)=>{if(t.s)return;const w=document.createElement('div');w.style.cssText='display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.8);border-radius:12px;padding:8px 12px;backdrop-filter:blur(10px);';w.innerHTML=`<span style="flex:1;font-size:11px;font-weight:500;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.name}</span><input type="number" min="0" max="100" value="${t.pct}" data-idx="${i}" style="width:52px;background:rgba(0,122,255,0.08);color:var(--accent2);border:1.5px solid rgba(0,122,255,0.2);border-radius:8px;padding:4px 6px;font-size:12px;font-weight:500;text-align:right;outline:none;"><span style="font-size:11px;color:var(--muted);font-weight:500;">%</span>`;c.appendChild(w);});}
 function applyPcts(){document.querySelectorAll('#pct-inputs input[data-idx]').forEach(inp=>{const i=parseInt(inp.dataset.idx);const pct=Math.min(100,Math.max(0,parseInt(inp.value)||0));tasks[i].pct=pct;const f=document.getElementById('fill-'+i);if(f)f.style.width=pct+'%';let lbl=document.getElementById('pctlabel-'+i);if(lbl)lbl.textContent=pct+'%';else if(pct>0){const bar=document.getElementById('bar-'+i);if(bar){const nl=document.createElement('div');nl.className='tl-pct';nl.id='pctlabel-'+i;nl.textContent=pct+'%';bar.appendChild(nl);}}});dbData.pcts=tasks.map(t=>t.pct);dbSave();showToast('Porcentajes guardados ✓');}
