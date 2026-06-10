@@ -597,25 +597,33 @@ function updateMatStatus(key,val){if(!dbData.mat_status)dbData.mat_status={};dbD
 function loadMatStatus(){if(!dbData.mat_status)return;Object.entries(dbData.mat_status).forEach(([k,v])=>{const el=document.getElementById('mat-'+k);if(el)el.value=v;});}
 function updateMatKPIs(){
   const gastos = dbData.capex_gastos||[];
-  // Count unique partidas by their best po_status
+  const rank = {'good-receipt':3,'po-emitida':2,'po-aprobacion':1};
+  // Map partida text to best po_status
   const partidaStatus = {};
   gastos.forEach(g=>{
-    const p = g.partida;
-    const s = g.po_status||'no-ordenado';
-    const rank = {'good-receipt':3,'po-emitida':2,'po-aprobacion':1,'no-ordenado':0};
+    const p = g.partida||'';
+    const s = g.po_status;
+    if(!s || !rank[s]) return;
     if(!partidaStatus[p] || rank[s] > rank[partidaStatus[p]]) partidaStatus[p] = s;
   });
-  const allPartidas = ['gaiola-jaulas','gaiola-traslado','polionda','carton-bin4','carton-bin5'];
-  const total = allPartidas.length;
-  let recibido=0, pedido=0;
-  allPartidas.forEach(p=>{
-    // Check mat_status first (manual override), then capex_gastos
-    const matS = dbData.mat_status && dbData.mat_status[p.replace('-','').replace('-','')];
-    const s = matS || partidaStatus[p];
+  // All partidas in the materiales table
+  const matRows = document.querySelectorAll('.mat-table tbody tr:not(.total-row)');
+  let total=0, recibido=0, pedido=0;
+  matRows.forEach(row=>{
+    const nameCell = row.querySelector('td:first-child strong, td:first-child');
+    if(!nameCell) return;
+    total++;
+    const matName = nameCell.textContent.trim();
+    // Find matching gasto by partida text similarity
+    const matchedPartida = Object.keys(partidaStatus).find(p=>
+      p.toLowerCase().includes(matName.toLowerCase().split(' ')[0]) ||
+      matName.toLowerCase().includes(p.toLowerCase().split('—')[1]?.trim().split('·')[0]?.trim().toLowerCase()||'')
+    );
+    const s = matchedPartida ? partidaStatus[matchedPartida] : null;
     if(s==='good-receipt') recibido++;
     else if(s==='po-emitida'||s==='po-aprobacion') pedido++;
-    // no status = faltante (counted automatically)
   });
+  if(total===0) total=5; // fallback
   const faltante = total - recibido - pedido;
   const elT=document.getElementById('mat-total');
   const elR=document.getElementById('mat-recibido');
