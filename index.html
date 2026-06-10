@@ -631,7 +631,7 @@ function updateMatKPIs(){
   });
   const toMatStatus = s => s==="good-receipt"?"recibido":(s==="po-emitida"||s==="po-aprobacion")?"pedido":"";
   // Direct mapping: partida text -> mat select id
-  const partidaToMatId={"Gaiola — Jaulas ×148 · $98,667":"mat-gaiola-jaulas","Gaiola — Traslado ×5 · $44,444":"mat-gaiola-traslado","RS Polionda — ×35 · $29,931":"mat-polionda","RS Carton — Bin 4 · $24,627":"mat-carton-bin4","RS Carton — Bin 5 · $1,373":"mat-carton-bin5"};
+  const partidaToMatId={"Gaiola — Jaulas ×148 · $98,667":"mat-jaulas","Gaiola — Traslado ×5 · $44,444":"mat-traslado","RS Polionda — ×35 · $29,931":"mat-polionda","RS Carton — Bin 4 · $24,627":"mat-bin4","RS Carton — Bin 5 · $1,373":"mat-bin5"};
   Object.entries(capexStatus).forEach(([partidaText, poStatus])=>{
     const matStatus=toMatStatus(poStatus);
     if(!matStatus) return;
