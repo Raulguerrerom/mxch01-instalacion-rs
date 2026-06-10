@@ -192,7 +192,7 @@ footer { text-align:center; padding:24px; font-size:11px; color:var(--muted); fo
     </div>
     <div class="header-right">
       <div class="status-pill"><div class="status-dot"></div>EN EJECUCIÓN</div>
-      <div class="last-update">04 Jun 2026</div>
+      <div class="last-update"><span id="header-date">--</span></div>
     </div>
   </div>
 </header>
@@ -749,7 +749,7 @@ async function fetchTipoCambio() {
     }
   } catch(e) { TC_MXN_USD = 18; }
 }
-async function init(){await fetchTipoCambio();await dbLoad();applyLoadedPcts();buildTimeline();renderFacturacion();renderPendientes();renderCapex();loadMatStatus();updateMatKPIs();renderRefs();showToast('Dashboard MXCH01 cargado ✓');}
+async function init(){const hd=document.getElementById('header-date');if(hd)hd.textContent=new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});await fetchTipoCambio();await dbLoad();applyLoadedPcts();buildTimeline();renderFacturacion();renderPendientes();renderCapex();loadMatStatus();updateMatKPIs();renderRefs();showToast('Dashboard MXCH01 cargado ✓');}
 init();
 </script>
 </body>
