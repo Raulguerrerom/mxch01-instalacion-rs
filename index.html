@@ -564,18 +564,21 @@ const CAPEX_TOTAL=199042;
 function renderCapex(){const movs=dbData.capex_gastos||[];const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');const totalGasto=movs.filter(m=>m.tipo==='gasto').reduce((a,m)=>a+(parseFloat(m.monto)||0),0);const totalSobre=movs.filter(m=>m.tipo==='sobrecosto').reduce((a,m)=>a+(parseFloat(m.monto)||0),0);const disponible=CAPEX_TOTAL-totalGasto-totalSobre;
   // Ahorro: budget of touched partidas minus what was spent on them
   const partidaBudget={'gaiola-jaulas':98667,'gaiola-traslado':44444,'polionda':29931,'carton-bin4':24627,'carton-bin5':1373};
-  const touchedPartidas={};
+  // Ahorro: extract budget from partida text (e.g. "RS Carton — Bin 4 · $24,627")
+  // Group gastos by partida, sum spent, compare to budget in partida text
+  const partidaGastos={};
   movs.filter(m=>m.tipo==='gasto').forEach(m=>{
-    const key=m.partida?.split('·')[0]?.trim();
-    // match partida key from options
-    const matchKey=Object.keys(partidaBudget).find(k=>m.partida?.toLowerCase().includes(k.replace('-',' ').split('-')[0]));
-    if(matchKey){
-      touchedPartidas[matchKey]=(touchedPartidas[matchKey]||0)+(parseFloat(m.monto)||0);
+    const key=m.partida||'';
+    partidaGastos[key]=(partidaGastos[key]||0)+(parseFloat(m.monto)||0);
+  });
+  let totalAhorro=0;
+  Object.entries(partidaGastos).forEach(([partida,gastado])=>{
+    const match=partida.match(/\$([\d,]+)\s*$/);
+    if(match){
+      const budget=parseFloat(match[1].replace(/,/g,''));
+      if(gastado<budget) totalAhorro+=budget-gastado;
     }
   });
-  const totalPresupuestadoTocado=Object.keys(touchedPartidas).reduce((a,k)=>a+(partidaBudget[k]||0),0);
-  const totalGastoEnTocadas=Object.values(touchedPartidas).reduce((a,v)=>a+v,0);
-  const totalAhorro=Math.max(0,totalPresupuestadoTocado-totalGastoEnTocadas);
   const pctG=(totalGasto/CAPEX_TOTAL)*100,pctS=(totalSobre/CAPEX_TOTAL)*100,pctD=Math.max(0,100-pctG-pctS);
   const pctA=CAPEX_TOTAL>0?Math.min(100,(totalAhorro/CAPEX_TOTAL)*100):0;const setC=(id,pct,circ)=>{const el=document.getElementById(id);if(el)el.style.strokeDashoffset=circ-(circ*Math.min(pct,100)/100);};const setL=(id,t)=>{const el=document.getElementById(id);if(el){el.textContent=t;el.setAttribute('font-size','9');el.setAttribute('font-weight','700');}};setC('circle-gasto',pctG,283);setC('circle-disp',pctD,339);setC('circle-sobre',pctS,283);setC('circle-ahorro',pctA,283);setL('circle-gasto-pct',Math.round(pctG)+'%');setL('circle-disp-pct',Math.round(pctD)+'%');setL('circle-sobre-pct',Math.round(pctS)+'%');setL('circle-ahorro-pct',Math.round(pctA)+'%');document.getElementById('capex-gastado-kpi').textContent=fmt(totalGasto);document.getElementById('capex-disponible-kpi').textContent=fmt(Math.max(0,disponible));document.getElementById('capex-disponible-pct').textContent=Math.round(pctD)+'% restante';document.getElementById('capex-sobre-kpi').textContent=fmt(totalSobre);const ahorroEl=document.getElementById('capex-ahorro-kpi');if(ahorroEl)ahorroEl.textContent=fmt(totalAhorro);const lista=document.getElementById('capex-lista');if(!movs.length){lista.innerHTML='<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px;font-weight:500;">Sin movimientos registrados.</div>';return;}const tc={gasto:{icon:'🟢',label:'Gasto',color:'var(--accent)'},sobrecosto:{icon:'🔴',label:'Sobrecosto',color:'var(--danger)'},transferencia:{icon:'🔵',label:'Transferencia',color:'var(--accent2)'}};lista.innerHTML=`<table class="mat-table"><thead><tr><th>Tipo</th><th>Partida</th><th>Concepto</th><th>Monto</th><th>Fecha</th><th>Nota</th><th></th></tr></thead><tbody>${movs.map((m,i)=>{const t=tc[m.tipo]||tc.gasto;return`<tr><td><span class="cat-pill" style="background:rgba(0,0,0,0.04);color:${t.color};">${t.icon} ${t.label}</span></td><td style="font-size:11px;color:var(--muted);">${m.partida||'—'}</td><td><strong>${m.concepto||m.partida||'—'}</strong></td><td style="font-weight:500;color:${t.color};">${fmt(m.monto)}</td><td style="color:var(--muted);font-size:11px;">${m.fecha}</td><td style="font-size:11px;color:var(--muted);">${m.nota||'—'}</td><td style="white-space:nowrap;"><button onclick="editCapexMov(${i})" style="background:rgba(0,122,255,0.08);color:var(--accent2);border:1px solid rgba(0,122,255,0.2);padding:3px 9px;border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;margin-right:4px;">✏️</button><button onclick="deleteCapexMov(${i})" style="background:rgba(255,59,48,0.1);color:var(--danger);border:1px solid rgba(255,59,48,0.2);padding:3px 9px;border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;">×</button></td></tr>`;}).join('')}</tbody></table>`;}
 function openCapexModal(){editingCapexIdx=-1;document.getElementById('capex-modal-title').textContent='Registrar Movimiento';document.getElementById('capex-modal').style.display='flex';}
