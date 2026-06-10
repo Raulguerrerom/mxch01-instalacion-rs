@@ -633,7 +633,7 @@ function updateMatKPIs(){
   Object.entries(capexStatus).forEach(([partida, poStatus])=>{
     const matStatus = toMatStatus(poStatus);
     if(!matStatus) return;
-    document.querySelectorAll(".mat-table tbody tr:not(.total-row)").forEach(row=>{
+    (document.getElementById("materiales")||document).querySelectorAll(".mat-table tbody tr:not(.total-row)").forEach(row=>{
       const nameCell = row.querySelector("td strong");
       const sel = row.querySelector("select");
       if(!nameCell||!sel||sel.value) return;
@@ -643,7 +643,7 @@ function updateMatKPIs(){
       if(match){sel.value=matStatus;sel.className="mat-status-select "+matStatus;}
     });
   });
-  const rows = document.querySelectorAll(".mat-table tbody tr:not(.total-row)");
+  const matSec=document.getElementById("materiales");const rows = (matSec||document).querySelectorAll(".mat-table tbody tr:not(.total-row)");
   let total=0,recibido=0,pedido=0;
   rows.forEach(row=>{
     const sel=row.querySelector("select");
@@ -665,7 +665,9 @@ function updateMatKPIs(){
   sortMatTable();
 }
 function sortMatTable(){
-  const tbody=document.querySelector(".mat-table tbody");
+  const matSection=document.getElementById("materiales");
+  if(!matSection) return;
+  const tbody=matSection.querySelector(".mat-table tbody");
   if(!tbody) return;
   const totalRow=[...tbody.querySelectorAll("tr")].find(r=>r.classList.contains("total-row"));
   const dataRows=[...tbody.querySelectorAll("tr:not(.total-row):not(.mat-section-header)")];
