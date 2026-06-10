@@ -349,7 +349,7 @@ footer { text-align:center; padding:24px; font-size:11px; color:var(--muted); fo
   </div>
   <div id="capex-modal" class="modal-overlay">
     <div class="modal-box">
-      <div class="modal-title">Registrar Movimiento</div>
+      <div class="modal-title" id="capex-modal-title">Registrar Movimiento</div>
       <div style="display:grid;gap:12px;">
         <div><div class="field-label">Tipo</div><select id="cm-tipo" class="field-input"><option value="gasto">🟢 Gasto</option><option value="sobrecosto">🔴 Sobrecosto</option><option value="transferencia">🔵 Transferencia</option></select></div>
         <div><div class="field-label">Partida</div><select id="cm-partida" class="field-input"><option value="gaiola-jaulas">Gaiola — Jaulas ×148 · $98,667</option><option value="gaiola-traslado">Gaiola — Traslado ×5 · $44,444</option><option value="polionda">RS Polionda — ×35 · $29,931</option><option value="carton-bin4">RS Carton — Bin 4 · $24,627</option><option value="carton-bin5">RS Carton — Bin 5 · $1,373</option></select></div>
@@ -471,6 +471,7 @@ const GH_FILE  = 'data-mxch01.json';
 const GH_API   = `https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`;
 let ghSHA = '';
 let TC_MXN_USD = 18;
+let editingCapexIdx = -1;
 let dbData={pcts:[],facturacion:[],capex_gastos:[],mat_status:{},pendientes:[{pri:'alta',titulo:'Generación de POs — 4 categorías',desc:'Emitir POs para RS Carton, RS Polionda, Gaiola e Instalación. Inicio: 29 Jun, cierre: 03 Jul 2026.',fecha:'03 Jul 2026'},{pri:'alta',titulo:'Aprobación de POs',desc:'Gaiola, RS Carton, RS Polionda e Instalación requieren aprobación formal. 06–17 Jul 2026.',fecha:'17 Jul 2026'},{pri:'media',titulo:'Cerrar Bidding RS Polionda',desc:'Bidding al 50%. Requiere cierre antes del 26 Jun para no bloquear PO.',fecha:'26 Jun 2026'},{pri:'media',titulo:'Cerrar Bidding Gaiola',desc:'Bidding al 50%. Necesario para cotización final y emisión de PO.',fecha:'26 Jun 2026'},{pri:'media',titulo:'Definir Facturación',desc:'El timeline marca hito el 20 Jul como TBD. Confirmar esquema con Finanzas.',fecha:'20 Jul 2026'},{pri:'baja',titulo:'Preparación del área de recibo',desc:'Briefing, asignación de zonas y verificación de layout en piso. Inicio: 24 Ago 2026.',fecha:'24 Ago 2026'},{pri:'info',titulo:'Gemba Walk + Handover operación',desc:'Gemba Walk (14 Oct) y Handover (15 Oct) previos al Go-Live del 19 Oct 2026.',fecha:'14–15 Oct 2026'}]};
 async function dbLoad() {
   try {
@@ -557,9 +558,17 @@ function applyPcts(){document.querySelectorAll('#pct-inputs input[data-idx]').fo
 function applyLoadedPcts(){if(!dbData.pcts||!dbData.pcts.length)return;dbData.pcts.forEach((p,i)=>{if(i<tasks.length)tasks[i].pct=p;});}
 const CAPEX_TOTAL=199042;
 function renderCapex(){const movs=dbData.capex_gastos||[];const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');const totalGasto=movs.filter(m=>m.tipo==='gasto').reduce((a,m)=>a+(parseFloat(m.monto)||0),0);const totalSobre=movs.filter(m=>m.tipo==='sobrecosto').reduce((a,m)=>a+(parseFloat(m.monto)||0),0);const disponible=CAPEX_TOTAL-totalGasto-totalSobre;const pctG=(totalGasto/CAPEX_TOTAL)*100,pctS=(totalSobre/CAPEX_TOTAL)*100,pctD=Math.max(0,100-pctG-pctS);const setC=(id,pct,circ)=>{const el=document.getElementById(id);if(el)el.style.strokeDashoffset=circ-(circ*Math.min(pct,100)/100);};const setL=(id,t)=>{const el=document.getElementById(id);if(el){el.textContent=t;el.setAttribute('font-size','9');el.setAttribute('font-weight','700');}};setC('circle-gasto',pctG,283);setC('circle-disp',pctD,339);setC('circle-sobre',pctS,283);setL('circle-gasto-pct',Math.round(pctG)+'%');setL('circle-disp-pct',Math.round(pctD)+'%');setL('circle-sobre-pct',Math.round(pctS)+'%');document.getElementById('capex-gastado-kpi').textContent=fmt(totalGasto);document.getElementById('capex-disponible-kpi').textContent=fmt(Math.max(0,disponible));document.getElementById('capex-disponible-pct').textContent=Math.round(pctD)+'% restante';document.getElementById('capex-sobre-kpi').textContent=fmt(totalSobre);const lista=document.getElementById('capex-lista');if(!movs.length){lista.innerHTML='<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px;font-weight:500;">Sin movimientos registrados.</div>';return;}const tc={gasto:{icon:'🟢',label:'Gasto',color:'var(--accent)'},sobrecosto:{icon:'🔴',label:'Sobrecosto',color:'var(--danger)'},transferencia:{icon:'🔵',label:'Transferencia',color:'var(--accent2)'}};lista.innerHTML=`<table class="mat-table"><thead><tr><th>Tipo</th><th>Partida</th><th>Concepto</th><th>Monto</th><th>Fecha</th><th>Nota</th><th></th></tr></thead><tbody>${movs.map((m,i)=>{const t=tc[m.tipo]||tc.gasto;return`<tr><td><span class="cat-pill" style="background:rgba(0,0,0,0.04);color:${t.color};">${t.icon} ${t.label}</span></td><td style="font-size:11px;color:var(--muted);">${m.partida||'—'}</td><td><strong>${m.concepto||m.partida||'—'}</strong></td><td style="font-weight:500;color:${t.color};">${fmt(m.monto)}</td><td style="color:var(--muted);font-size:11px;">${m.fecha}</td><td style="font-size:11px;color:var(--muted);">${m.nota||'—'}</td><td><button onclick="deleteCapexMov(${i})" style="background:rgba(255,59,48,0.1);color:var(--danger);border:1px solid rgba(255,59,48,0.2);padding:3px 9px;border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;">×</button></td></tr>`;}).join('')}</tbody></table>`;}
-function openCapexModal(){document.getElementById('capex-modal').style.display='flex';}
+function openCapexModal(){editingCapexIdx=-1;document.getElementById('capex-modal-title').textContent='Registrar Movimiento';document.getElementById('capex-modal').style.display='flex';}
 function closeCapexModal(){document.getElementById('capex-modal').style.display='none';}
-function saveCapexMov(){const tipo=document.getElementById('cm-tipo').value;const partida=document.getElementById('cm-partida').options[document.getElementById('cm-partida').selectedIndex].text;const concepto=document.getElementById('cm-partida').options[document.getElementById('cm-partida').selectedIndex]?.text.split('·')[0].trim()||partida;const monedaVal=document.getElementById('capex-moneda')?.value||'USD';const montoRaw=parseFloat(document.getElementById('cm-monto').value.replace(/,/g,''))||0;const monto=monedaVal==='MXN'?(montoRaw/(TC_MXN_USD||18)):montoRaw;const fecha=document.getElementById('cm-fecha').value.trim()||new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});const nota=document.getElementById('cm-nota').value.trim();if(!monto||monto<=0){alert('Monto es obligatorio');return;}if(!dbData.capex_gastos)dbData.capex_gastos=[];const poStatus=document.getElementById('cm-po-status')?.value||'no-ordenado';dbData.capex_gastos.push({tipo,partida,concepto,monto,fecha,nota,po_status:poStatus});closeCapexModal();renderCapex();updateMatKPIs();dbSave();showToast('Movimiento registrado ✓');}
+function saveCapexMov(){const tipo=document.getElementById('cm-tipo').value;const partida=document.getElementById('cm-partida').options[document.getElementById('cm-partida').selectedIndex].text;const concepto=document.getElementById('cm-partida').options[document.getElementById('cm-partida').selectedIndex]?.text.split('·')[0].trim()||partida;const monedaVal=document.getElementById('capex-moneda')?.value||'USD';const montoRaw=parseFloat(document.getElementById('cm-monto').value.replace(/,/g,''))||0;const monto=monedaVal==='MXN'?(montoRaw/(TC_MXN_USD||18)):montoRaw;const fecha=document.getElementById('cm-fecha').value.trim()||new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});const nota=document.getElementById('cm-nota').value.trim();if(!monto||monto<=0){alert('Monto es obligatorio');return;}if(!dbData.capex_gastos)dbData.capex_gastos=[];const poStatus=document.getElementById('cm-po-status')?.value||'no-ordenado';if(editingCapexIdx >= 0) {
+    dbData.capex_gastos[editingCapexIdx] = {tipo,partida,concepto,monto,fecha,nota,po_status:poStatus};
+    editingCapexIdx = -1;
+    showToast('Movimiento actualizado ✓');
+  } else {
+    dbData.capex_gastos.push({tipo,partida,concepto,monto,fecha,nota,po_status:poStatus});
+    showToast('Movimiento registrado ✓');
+  }
+  closeCapexModal();renderCapex();updateMatKPIs();dbSave();}
 function deleteCapexMov(idx){if(!confirm('¿Eliminar?'))return;dbData.capex_gastos.splice(idx,1);renderCapex();dbSave();showToast('Eliminado ✓');}
 function updateMatStatus(key,val){if(!dbData.mat_status)dbData.mat_status={};dbData.mat_status[key]=val;dbSave();showToast('Estatus actualizado ✓');}
 function loadMatStatus(){if(!dbData.mat_status)return;Object.entries(dbData.mat_status).forEach(([k,v])=>{const el=document.getElementById('mat-'+k);if(el)el.value=v;});}
@@ -628,6 +637,22 @@ function updateMontoLabel() {
   }
 }
 
+
+function editCapexMov(i) {
+  const m = dbData.capex_gastos[i];
+  if(!m) return;
+  editingCapexIdx = i;
+  document.getElementById('capex-modal-title').textContent = 'Editar Movimiento';
+  document.getElementById('cm-tipo').value = m.tipo || 'gasto';
+  document.getElementById('cm-partida').value = m.partida_id || 
+    [...document.getElementById('cm-partida').options].find(o => o.text.includes(m.partida?.split('—')[1]?.trim().split('·')[0]?.trim()||''))?.value || '';
+  document.getElementById('cm-monto').value = m.monto || '';
+  document.getElementById('cm-fecha').value = m.fecha || '';
+  if(document.getElementById('cm-po-status')) document.getElementById('cm-po-status').value = m.po_status || 'po-aprobacion';
+  document.getElementById('cm-nota').value = m.nota || '';
+  document.getElementById('capex-modal').style.display = 'flex';
+  updateMontoLabel();
+}
 async function fetchTipoCambio() {
   try {
     const res = await fetch('https://open.er-api.com/v6/latest/USD');
