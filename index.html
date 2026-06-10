@@ -424,8 +424,8 @@ footer { text-align:center; padding:24px; font-size:11px; color:var(--muted); fo
       <thead><tr><th>Material / Equipo</th><th>Categoría</th><th>Cantidad</th><th>Costo MXN</th><th>Costo USD</th><th>Estatus</th></tr></thead>
       <tbody>
         <tr><td><strong>Módulos RS de polionda</strong></td><td><span class="cat-pill cat-rs">RS Polionda</span></td><td>35 u.</td><td>MXN 538,762</td><td style="color:var(--accent);">$29,931</td><td><select onchange="updateMatStatus('polionda',this.value)" id="mat-polionda" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="pedido">🟡 Pedido</option><option value="recibido">🟢 Recibido</option></select></td></tr>
-        <tr><td><strong>Cajoneras Bin 4</strong></td><td><span class="cat-pill cat-gaiola">RS Carton</span></td><td>3,744 u.</td><td>MXN 443,290</td><td style="color:var(--accent2);">$24,627</td><td><select onchange="updateMatStatus('bin4',this.value)" id="mat-bin4" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="pedido">🟡 Pedido</option><option value="recibido">🟢 Recibido</option></select></td></tr>
-        <tr><td><strong>Cajoneras Bin 5</strong></td><td><span class="cat-pill cat-gaiola">RS Carton</span></td><td>140 u.</td><td>MXN 24,709</td><td style="color:var(--accent2);">$1,373</td><td><select onchange="updateMatStatus('bin5',this.value)" id="mat-bin5" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="pedido">🟡 Pedido</option><option value="recibido">🟢 Recibido</option></select></td></tr>
+        <tr><td><strong>Cajoneras Bin 4</strong></td><td><span class="cat-pill cat-gaiola">RS Carton</span></td><td>3,744 u.</td><td>MXN 443,290</td><td style="color:var(--accent2);" id="mat-usd-bin4">$24,627</td><td><select onchange="updateMatStatus('bin4',this.value)" id="mat-bin4" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="pedido">🟡 Pedido</option><option value="recibido">🟢 Recibido</option></select></td></tr>
+        <tr><td><strong>Cajoneras Bin 5</strong></td><td><span class="cat-pill cat-gaiola">RS Carton</span></td><td>140 u.</td><td>MXN 24,709</td><td style="color:var(--accent2);" id="mat-usd-bin5">$1,373</td><td><select onchange="updateMatStatus('bin5',this.value)" id="mat-bin5" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="pedido">🟡 Pedido</option><option value="recibido">🟢 Recibido</option></select></td></tr>
         <tr><td><strong>Jaulas metálicas para NT</strong></td><td><span class="cat-pill" style="background:rgba(255,149,0,0.12);color:var(--accent3);">Gaiola</span></td><td>148 u.</td><td>MXN 1,776,000</td><td style="color:var(--accent3);">$98,667</td><td><select onchange="updateMatStatus('jaulas',this.value)" id="mat-jaulas" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="pedido">🟡 Pedido</option><option value="recibido">🟢 Recibido</option></select></td></tr>
         <tr><td><strong>Traslado de jaulas</strong></td><td><span class="cat-pill" style="background:rgba(255,149,0,0.12);color:var(--accent3);">Gaiola</span></td><td>5 viajes</td><td>MXN 800,000</td><td style="color:var(--accent3);">$44,444</td><td><select onchange="updateMatStatus('traslado',this.value)" id="mat-traslado" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="pedido">🟡 Pedido</option><option value="recibido">🟢 Recibido</option></select></td></tr>
         <tr style="background:rgba(0,122,255,0.04);"><td colspan="3" style="font-weight:500;">TOTAL</td><td style="font-weight:500;">MXN 3,582,761</td><td style="font-weight:500;color:var(--accent);">$199,042</td><td></td></tr>
@@ -609,6 +609,25 @@ function saveCapexMov(){const tipo=document.getElementById('cm-tipo').value;cons
 function deleteCapexMov(idx){if(!confirm('¿Eliminar?'))return;dbData.capex_gastos.splice(idx,1);renderCapex();dbSave();showToast('Eliminado ✓');}
 function updateMatStatus(key,val){if(!dbData.mat_status)dbData.mat_status={};dbData.mat_status[key]=val;const el=document.getElementById('mat-'+key);if(el)el.className='mat-status-select '+(val||'sin-estado');dbSave();showToast('Estatus actualizado ✓');updateMatKPIs();}
 function loadMatStatus(){
+  // Update COSTO USD from actual capex gastos
+  const matUsdMap={'gaiola-jaulas':'mat-usd-jaulas','gaiola-traslado':'mat-usd-traslado','polionda':'mat-usd-polionda','carton-bin4':'mat-usd-bin4','carton-bin5':'mat-usd-bin5'};
+  const gastos = dbData.capex_gastos||[];
+  const partidaGastos={};
+  gastos.forEach(g=>{
+    const partSel=document.getElementById('cm-partida');
+    // Find option value for this partida text
+    let pval=null;
+    if(partSel){for(let o of partSel.options){if(o.text===g.partida){pval=o.value;break;}}}
+    if(pval) partidaGastos[pval]=(partidaGastos[pval]||0)+(parseFloat(g.monto)||0);
+  });
+  Object.entries(matUsdMap).forEach(([partVal,usdId])=>{
+    const el=document.getElementById(usdId);
+    if(el && partidaGastos[partVal]!=null){
+      const gastado=partidaGastos[partVal];
+      el.textContent='$'+Math.round(gastado).toLocaleString('en-US');
+      el.style.color=gastado>0?'var(--accent2)':'var(--muted)';
+    }
+  });
   // Apply saved statuses
   if(dbData.mat_status){
     Object.entries(dbData.mat_status).forEach(([k,v])=>{
