@@ -612,90 +612,83 @@ function loadMatStatus(){
   const totalRow = [...tbody.querySelectorAll('tr')].find(r=>r.classList.contains('total-row'));
   const dataRows = [...tbody.querySelectorAll('tr:not(.total-row)')];
   const order = {'good-receipt':0,'po-emitida':1,'po-aprobacion':2,'':3};
+  dataRows.sort((a,b)=>{
+    const sa = a.querySelector('select')?.value||'';
+    const sb = b.querySelector('select')?.value||'';
+    return (order[sa]??3)-(order[sb]??3);
+  });
   sortMatTable();
 }
 function updateMatKPIs(){
   const gastos = dbData.capex_gastos||[];
-  const rank = {'good-receipt':3,'po-emitida':2,'po-aprobacion':1};
-  // Map partida text to best po_status from CAPEX
+  const rank = {"good-receipt":3,"po-emitida":2,"po-aprobacion":1};
   const capexStatus = {};
   gastos.forEach(g=>{
-    const p = g.partida||'';
+    const p = g.partida||"";
     const s = g.po_status;
     if(!s || !rank[s]) return;
     if(!capexStatus[p] || rank[s] > rank[capexStatus[p]]) capexStatus[p] = s;
   });
-  // Convert capex po_status to mat status
-  const toMatStatus = s => s==='good-receipt'?'recibido':(s==='po-emitida'||s==='po-aprobacion')?'pedido':'';
-  // Apply capex status to mat selects if not manually set
+  const toMatStatus = s => s==="good-receipt"?"recibido":(s==="po-emitida"||s==="po-aprobacion")?"pedido":"";
   Object.entries(capexStatus).forEach(([partida, poStatus])=>{
     const matStatus = toMatStatus(poStatus);
     if(!matStatus) return;
-    // Find matching select by partida text
-    document.querySelectorAll('.mat-table tbody tr:not(.total-row)').forEach(row=>{
-      const nameCell = row.querySelector('td strong');
-      const sel = row.querySelector('select');
-      if(!nameCell||!sel) return;
+    document.querySelectorAll(".mat-table tbody tr:not(.total-row)").forEach(row=>{
+      const nameCell = row.querySelector("td strong");
+      const sel = row.querySelector("select");
+      if(!nameCell||!sel||sel.value) return;
       const name = nameCell.textContent.trim().toLowerCase();
       const p = partida.toLowerCase();
-      const match = p.includes(name.split(' ')[0]) || name.includes(p.split('—')[1]?.trim().split('·')[0]?.trim()||'zzz');
-      if(match && !sel.value) {
-        sel.value = matStatus;
-        sel.className = 'mat-status-select ' + matStatus;
-      }
+      const match = p.includes(name.split(" ")[0]) || name.split(" ").some(w=>p.includes(w)&&w.length>3);
+      if(match){sel.value=matStatus;sel.className="mat-status-select "+matStatus;}
     });
   });
-  // Count from selects
-  const rows = document.querySelectorAll('.mat-table tbody tr:not(.total-row)');
-  let total=0, recibido=0, pedido=0;
+  const rows = document.querySelectorAll(".mat-table tbody tr:not(.total-row)");
+  let total=0,recibido=0,pedido=0;
   rows.forEach(row=>{
-    const sel = row.querySelector('select');
+    const sel=row.querySelector("select");
     if(!sel) return;
     total++;
-    const s = sel.value||'';
-    if(s==='recibido') recibido++;
-    else if(s==='pedido') pedido++;
+    if(sel.value==="recibido") recibido++;
+    else if(sel.value==="pedido") pedido++;
   });
   if(total===0) total=5;
-  const faltante = total - recibido - pedido;
-  const elT=document.getElementById('mat-total');
-  const elR=document.getElementById('mat-recibido');
-  const elP=document.getElementById('mat-pedido');
-  const elF=document.getElementById('mat-faltante');
+  const faltante=total-recibido-pedido;
+  const elT=document.getElementById("mat-total");
+  const elR=document.getElementById("mat-recibido");
+  const elP=document.getElementById("mat-pedido");
+  const elF=document.getElementById("mat-faltante");
   if(elT) elT.textContent=total;
   if(elR) elR.textContent=recibido;
   if(elP) elP.textContent=pedido;
   if(elF) elF.textContent=faltante;
-  // Re-sort table
   sortMatTable();
 }
 function sortMatTable(){
-  const tbody = document.querySelector('.mat-table tbody');
+  const tbody=document.querySelector(".mat-table tbody");
   if(!tbody) return;
-  const totalRow = [...tbody.querySelectorAll('tr')].find(r=>r.classList.contains('total-row'));
-  const dataRows = [...tbody.querySelectorAll('tr:not(.total-row)')];
-  const order = {'recibido':0,'pedido':1,'':2};
+  const totalRow=[...tbody.querySelectorAll("tr")].find(r=>r.classList.contains("total-row"));
+  const dataRows=[...tbody.querySelectorAll("tr:not(.total-row):not(.mat-section-header)")];
+  const order={"recibido":0,"pedido":1,"":2};
   dataRows.sort((a,b)=>{
-    const sa = a.querySelector('select')?.value||'';
-    const sb = b.querySelector('select')?.value||'';
+    const sa=a.querySelector("select")?.value||"";
+    const sb=b.querySelector("select")?.value||"";
     return (order[sa]??2)-(order[sb]??2);
   });
-  // Add section headers
-  let lastGroup = null;
-  const groupLabels = {'recibido':'🟢 Recibidos','pedido':'🟡 Pedidos','':'🟠 Por pedir'};
-  const groupColors = {'recibido':'rgba(52,199,89,0.08)','pedido':'rgba(255,204,0,0.08)','':'rgba(255,149,0,0.08)'};
-  // Remove old section headers
-  tbody.querySelectorAll('.mat-section-header').forEach(h=>h.remove());
+  tbody.querySelectorAll(".mat-section-header").forEach(h=>h.remove());
+  const groupLabels={"recibido":"🟢 Recibidos","pedido":"🟡 Pedidos","":"🟠 Por pedir"};
+  const groupColors={"recibido":"rgba(52,199,89,0.06)","pedido":"rgba(255,204,0,0.06)","":"rgba(255,149,0,0.06)"};
+  let lastGroup=null;
   dataRows.forEach(r=>{
-    const group = r.querySelector('select')?.value||'';
-    if(group !== lastGroup){
-      const hdr = document.createElement('tr');
-      hdr.className = 'mat-section-header';
-      hdr.innerHTML = \`<td colspan="6" style="padding:8px 14px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;background:\${groupColors[group]};color:var(--muted);border-bottom:1px solid rgba(100,120,180,0.1);">\${groupLabels[group]}</td>\`;
-      tbody.insertBefore(hdr, totalRow||null);
-      lastGroup = group;
+    const group=r.querySelector("select")?.value||"";
+    if(group!==lastGroup){
+      const hdr=document.createElement("tr");
+      hdr.className="mat-section-header";
+      hdr.innerHTML="<td colspan=\"6\" style=\"padding:6px 14px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;background:"+groupColors[group]+";color:var(--muted);border-bottom:1px solid rgba(100,120,180,0.1);\">"+groupLabels[group]+"</td>";
+      tbody.insertBefore(hdr,totalRow||null);
+      lastGroup=group;
     }
-    tbody.insertBefore(r, totalRow||null);
+    tbody.insertBefore(r,totalRow||null);
   });
 }
 
