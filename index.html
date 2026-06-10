@@ -636,7 +636,7 @@ function updateMatKPIs(){
     const matStatus=toMatStatus(poStatus);
     if(!matStatus) return;
     const matId=partidaToMatId[partidaText];
-    if(matId){const sel=document.getElementById(matId);if(sel&&!sel.value){sel.value=matStatus;sel.className="mat-status-select "+matStatus;}}
+    if(matId){const sel=document.getElementById(matId);if(sel){sel.value=matStatus;sel.className="mat-status-select "+matStatus;}}
   });
   const matSec=document.getElementById("materiales");const rows = (matSec||document).querySelectorAll(".mat-table tbody tr:not(.total-row)");
   let total=0,recibido=0,pedido=0;
