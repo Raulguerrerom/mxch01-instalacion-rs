@@ -595,6 +595,16 @@ function saveCapexMov(){const tipo=document.getElementById('cm-tipo').value;cons
     dbData.capex_gastos.push({tipo,partida,concepto,monto,fecha,nota,po_status:poStatus});
     showToast('Movimiento registrado ✓');
   }
+  // Sync po_status to mat_status so it persists across tabs
+  const partValMap={'gaiola-jaulas':'jaulas','gaiola-traslado':'traslado','polionda':'polionda','carton-bin4':'bin4','carton-bin5':'bin5'};
+  const partSel=document.getElementById('cm-partida');
+  const partVal=partSel?.options[partSel?.selectedIndex]?.value;
+  const matKey=partValMap[partVal];
+  if(matKey && poStatus){
+    if(!dbData.mat_status) dbData.mat_status={};
+    const matStatus=poStatus==='good-receipt'?'recibido':(poStatus==='po-emitida'||poStatus==='po-aprobacion')?'pedido':'';
+    if(matStatus) dbData.mat_status[matKey]=matStatus;
+  }
   closeCapexModal();renderCapex();updateMatKPIs();dbSave();}
 function deleteCapexMov(idx){if(!confirm('¿Eliminar?'))return;dbData.capex_gastos.splice(idx,1);renderCapex();dbSave();showToast('Eliminado ✓');}
 function updateMatStatus(key,val){if(!dbData.mat_status)dbData.mat_status={};dbData.mat_status[key]=val;const el=document.getElementById('mat-'+key);if(el)el.className='mat-status-select '+(val||'sin-estado');dbSave();showToast('Estatus actualizado ✓');updateMatKPIs();}
