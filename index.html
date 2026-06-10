@@ -598,7 +598,7 @@ function saveCapexMov(){const tipo=document.getElementById('cm-tipo').value;cons
   }
   closeCapexModal();renderCapex();updateMatKPIs();dbSave();}
 function deleteCapexMov(idx){if(!confirm('¿Eliminar?'))return;dbData.capex_gastos.splice(idx,1);renderCapex();dbSave();showToast('Eliminado ✓');}
-function updateMatStatus(key,val){if(!dbData.mat_status)dbData.mat_status={};dbData.mat_status[key]=val;dbSave();showToast('Estatus actualizado ✓');}
+function updateMatStatus(key,val){if(!dbData.mat_status)dbData.mat_status={};dbData.mat_status[key]=val;const el=document.getElementById('mat-'+key);if(el)el.className='mat-status-select '+(val||'sin-estado');dbSave();showToast('Estatus actualizado ✓');updateMatKPIs();}
 function loadMatStatus(){if(!dbData.mat_status)return;Object.entries(dbData.mat_status).forEach(([k,v])=>{const el=document.getElementById('mat-'+k);if(el){el.value=v;el.className='mat-status-select '+(v||'sin-estado');}});}
 function updateMatKPIs(){
   const gastos = dbData.capex_gastos||[];
