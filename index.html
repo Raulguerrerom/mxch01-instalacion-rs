@@ -369,7 +369,7 @@ footer { text-align:center; padding:24px; font-size:11px; color:var(--muted); fo
           </div>
           <div><div class="field-label">Fecha</div><input type="text" id="cm-fecha" placeholder="04 Jun 2026" class="field-input"></div>
         </div>
-        <div><div class="field-label">Estatus PO</div><select id="cm-po-status" class="field-input"><option value="no-ordenado">⚪ No ordenado</option><option value="po-aprobacion">🟡 PO en Aprobación</option><option value="po-emitida">🔵 PO Emitida</option><option value="good-receipt">🟢 Good Receipt</option></select></div>
+        <div><div class="field-label">Estatus PO</div><select id="cm-po-status" class="field-input"><option value="po-aprobacion">🟡 PO en Aprobación</option><option value="po-emitida">🔵 PO Emitida</option><option value="good-receipt">🟢 Good Receipt</option></select></div>
         <div><div class="field-label">Nota</div><input type="text" id="cm-nota" placeholder="Referencia, factura..." class="field-input"></div>
       </div>
       <div style="display:flex;gap:10px;margin-top:18px;">
@@ -576,9 +576,10 @@ function updateMatKPIs(){
   const total = allPartidas.length;
   let recibido=0, pedido=0;
   allPartidas.forEach(p=>{
-    const s = partidaStatus[p]||'no-ordenado';
+    const s = partidaStatus[p];
     if(s==='good-receipt') recibido++;
     else if(s==='po-emitida'||s==='po-aprobacion') pedido++;
+    // no status = faltante (counted automatically)
   });
   const faltante = total - recibido - pedido;
   const elT=document.getElementById('mat-total');
