@@ -414,10 +414,10 @@ footer { text-align:center; padding:24px; font-size:11px; color:var(--muted); fo
 </div>
 <div id="materiales" class="section">
   <div class="kpi-row" style="margin-bottom:20px;">
-    <div class="kpi green"><div class="kpi-glow"></div><div class="kpi-label">Total Items</div><div class="kpi-value green" id="mat-total">5</div><div class="kpi-sub">total items</div></div>
-    <div class="kpi blue"><div class="kpi-glow"></div><div class="kpi-label">Recibidos</div><div class="kpi-value blue" id="mat-recibido">0</div><div class="kpi-sub">recibidos</div></div>
-    <div class="kpi orange"><div class="kpi-glow"></div><div class="kpi-label">Pedidos</div><div class="kpi-value orange" id="mat-pedido">5</div><div class="kpi-sub">pedidos</div></div>
-    <div class="kpi yellow"><div class="kpi-glow"></div><div class="kpi-label">Faltantes</div><div class="kpi-value yellow" id="mat-faltante">5</div><div class="kpi-sub">faltantes</div></div>
+    <div class="kpi green"><div class="kpi-glow"></div><div class="kpi-label">Total Items</div><div class="kpi-value blue" id="mat-total">5</div><div class="kpi-sub">total items</div></div>
+    <div class="kpi blue"><div class="kpi-glow"></div><div class="kpi-label">Recibidos</div><div class="kpi-value green" id="mat-recibido">0</div><div class="kpi-sub">recibidos</div></div>
+    <div class="kpi orange"><div class="kpi-glow"></div><div class="kpi-label">Pedidos</div><div class="kpi-value yellow" id="mat-pedido">5</div><div class="kpi-sub">pedidos</div></div>
+    <div class="kpi yellow"><div class="kpi-glow"></div><div class="kpi-label">Faltantes</div><div class="kpi-value orange" id="mat-faltante">5</div><div class="kpi-sub">faltantes</div></div>
   </div>
   <div class="card">
     <div class="card-title"><div class="card-title-dot"></div>Lista de Materiales — CAPEX MXCH01</div>
@@ -599,7 +599,27 @@ function saveCapexMov(){const tipo=document.getElementById('cm-tipo').value;cons
   closeCapexModal();renderCapex();updateMatKPIs();dbSave();}
 function deleteCapexMov(idx){if(!confirm('¿Eliminar?'))return;dbData.capex_gastos.splice(idx,1);renderCapex();dbSave();showToast('Eliminado ✓');}
 function updateMatStatus(key,val){if(!dbData.mat_status)dbData.mat_status={};dbData.mat_status[key]=val;const el=document.getElementById('mat-'+key);if(el)el.className='mat-status-select '+(val||'sin-estado');dbSave();showToast('Estatus actualizado ✓');updateMatKPIs();}
-function loadMatStatus(){if(!dbData.mat_status)return;Object.entries(dbData.mat_status).forEach(([k,v])=>{const el=document.getElementById('mat-'+k);if(el){el.value=v;el.className='mat-status-select '+(v||'sin-estado');}});}
+function loadMatStatus(){
+  // Apply saved statuses
+  if(dbData.mat_status){
+    Object.entries(dbData.mat_status).forEach(([k,v])=>{
+      const el=document.getElementById('mat-'+k);
+      if(el){el.value=v;el.className='mat-status-select '+(v||'sin-estado');}
+    });
+  }
+  // Sort table rows by status: good-receipt first, then po-emitida/po-aprobacion, then sin-estado
+  const tbody = document.querySelector('.mat-table tbody');
+  if(!tbody) return;
+  const totalRow = [...tbody.querySelectorAll('tr')].find(r=>r.classList.contains('total-row'));
+  const dataRows = [...tbody.querySelectorAll('tr:not(.total-row)')];
+  const order = {'good-receipt':0,'po-emitida':1,'po-aprobacion':2,'':3};
+  dataRows.sort((a,b)=>{
+    const sa = a.querySelector('select')?.value||'';
+    const sb = b.querySelector('select')?.value||'';
+    return (order[sa]??3)-(order[sb]??3);
+  });
+  dataRows.forEach(r=>tbody.insertBefore(r,totalRow||null));
+}
 function updateMatKPIs(){
   const gastos = dbData.capex_gastos||[];
   const rank = {'good-receipt':3,'po-emitida':2,'po-aprobacion':1};
