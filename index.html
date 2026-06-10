@@ -139,9 +139,8 @@ main { padding:28px 32px; max-width:1400px; margin:0 auto; position:relative; z-
 .mat-table tr:last-child td { border-bottom:none; }
 .mat-table tr:hover td { background:rgba(255,255,255,0.4); }
 .mat-status-select { padding:5px 10px;font-size:11px;border-radius:20px;font-weight:500;border:1.5px solid;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;text-align:center;min-width:150px; }
-.mat-status-select.po-aprobacion { background:rgba(255,204,0,0.12);color:#b8860b;border-color:rgba(255,204,0,0.4); }
-.mat-status-select.po-emitida { background:rgba(0,122,255,0.1);color:var(--accent2);border-color:rgba(0,122,255,0.3); }
-.mat-status-select.good-receipt { background:rgba(52,199,89,0.12);color:var(--accent);border-color:rgba(52,199,89,0.4); }
+.mat-status-select.pedido { background:rgba(255,204,0,0.12);color:#b8860b;border-color:rgba(255,204,0,0.4); }
+.mat-status-select.recibido { background:rgba(52,199,89,0.12);color:var(--accent);border-color:rgba(52,199,89,0.4); }
 .mat-status-select.sin-estado { background:rgba(255,149,0,0.1);color:var(--accent3);border-color:rgba(255,149,0,0.3); }
 .cat-pill { font-size:10px; padding:3px 10px; border-radius:20px; font-weight:500; letter-spacing:0.04em; }
 .cat-rs { background:rgba(52,199,89,0.12); color:var(--accent); }
@@ -374,7 +373,7 @@ footer { text-align:center; padding:24px; font-size:11px; color:var(--muted); fo
           </div>
           <div><div class="field-label">Fecha</div><input type="text" id="cm-fecha" placeholder="04 Jun 2026" class="field-input"></div>
         </div>
-        <div><div class="field-label">Estatus PO</div><select id="cm-po-status" class="field-input"><option value="">🟠 Por pedir</option><option value="po-aprobacion">🟡 PO en Aprobación</option><option value="po-emitida">🔵 PO Emitida</option><option value="good-receipt">🟢 Good Receipt</option></select></div>
+        <div><div class="field-label">Estatus PO</div><select id="cm-po-status" class="field-input"><option value="">🟠 Por pedir</option><option value="pedido">🟡 Pedido</option><option value="recibido">🟢 Recibido</option></select></div>
         <div><div class="field-label">Nota</div><input type="text" id="cm-nota" placeholder="Referencia, factura..." class="field-input"></div>
       </div>
       <div style="display:flex;gap:10px;margin-top:18px;">
@@ -424,11 +423,11 @@ footer { text-align:center; padding:24px; font-size:11px; color:var(--muted); fo
     <table class="mat-table">
       <thead><tr><th>Material / Equipo</th><th>Categoría</th><th>Cantidad</th><th>Costo MXN</th><th>Costo USD</th><th>Estatus</th></tr></thead>
       <tbody>
-        <tr><td><strong>Módulos RS de polionda</strong></td><td><span class="cat-pill cat-rs">RS Polionda</span></td><td>35 u.</td><td>MXN 538,762</td><td style="color:var(--accent);">$29,931</td><td><select onchange="updateMatStatus('polionda',this.value)" id="mat-polionda" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="po-aprobacion">🟡 PO en Aprobación</option><option value="po-emitida">🔵 PO Emitida</option><option value="good-receipt">🟢 Good Receipt</option></select></td></tr>
-        <tr><td><strong>Cajoneras Bin 4</strong></td><td><span class="cat-pill cat-gaiola">RS Carton</span></td><td>3,744 u.</td><td>MXN 443,290</td><td style="color:var(--accent2);">$24,627</td><td><select onchange="updateMatStatus('bin4',this.value)" id="mat-bin4" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="po-aprobacion">🟡 PO en Aprobación</option><option value="po-emitida">🔵 PO Emitida</option><option value="good-receipt">🟢 Good Receipt</option></select></td></tr>
-        <tr><td><strong>Cajoneras Bin 5</strong></td><td><span class="cat-pill cat-gaiola">RS Carton</span></td><td>140 u.</td><td>MXN 24,709</td><td style="color:var(--accent2);">$1,373</td><td><select onchange="updateMatStatus('bin5',this.value)" id="mat-bin5" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="po-aprobacion">🟡 PO en Aprobación</option><option value="po-emitida">🔵 PO Emitida</option><option value="good-receipt">🟢 Good Receipt</option></select></td></tr>
-        <tr><td><strong>Jaulas metálicas para NT</strong></td><td><span class="cat-pill" style="background:rgba(255,149,0,0.12);color:var(--accent3);">Gaiola</span></td><td>148 u.</td><td>MXN 1,776,000</td><td style="color:var(--accent3);">$98,667</td><td><select onchange="updateMatStatus('jaulas',this.value)" id="mat-jaulas" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="po-aprobacion">🟡 PO en Aprobación</option><option value="po-emitida">🔵 PO Emitida</option><option value="good-receipt">🟢 Good Receipt</option></select></td></tr>
-        <tr><td><strong>Traslado de jaulas</strong></td><td><span class="cat-pill" style="background:rgba(255,149,0,0.12);color:var(--accent3);">Gaiola</span></td><td>5 viajes</td><td>MXN 800,000</td><td style="color:var(--accent3);">$44,444</td><td><select onchange="updateMatStatus('traslado',this.value)" id="mat-traslado" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="po-aprobacion">🟡 PO en Aprobación</option><option value="po-emitida">🔵 PO Emitida</option><option value="good-receipt">🟢 Good Receipt</option></select></td></tr>
+        <tr><td><strong>Módulos RS de polionda</strong></td><td><span class="cat-pill cat-rs">RS Polionda</span></td><td>35 u.</td><td>MXN 538,762</td><td style="color:var(--accent);">$29,931</td><td><select onchange="updateMatStatus('polionda',this.value)" id="mat-polionda" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="pedido">🟡 Pedido</option><option value="recibido">🟢 Recibido</option></select></td></tr>
+        <tr><td><strong>Cajoneras Bin 4</strong></td><td><span class="cat-pill cat-gaiola">RS Carton</span></td><td>3,744 u.</td><td>MXN 443,290</td><td style="color:var(--accent2);">$24,627</td><td><select onchange="updateMatStatus('bin4',this.value)" id="mat-bin4" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="pedido">🟡 Pedido</option><option value="recibido">🟢 Recibido</option></select></td></tr>
+        <tr><td><strong>Cajoneras Bin 5</strong></td><td><span class="cat-pill cat-gaiola">RS Carton</span></td><td>140 u.</td><td>MXN 24,709</td><td style="color:var(--accent2);">$1,373</td><td><select onchange="updateMatStatus('bin5',this.value)" id="mat-bin5" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="pedido">🟡 Pedido</option><option value="recibido">🟢 Recibido</option></select></td></tr>
+        <tr><td><strong>Jaulas metálicas para NT</strong></td><td><span class="cat-pill" style="background:rgba(255,149,0,0.12);color:var(--accent3);">Gaiola</span></td><td>148 u.</td><td>MXN 1,776,000</td><td style="color:var(--accent3);">$98,667</td><td><select onchange="updateMatStatus('jaulas',this.value)" id="mat-jaulas" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="pedido">🟡 Pedido</option><option value="recibido">🟢 Recibido</option></select></td></tr>
+        <tr><td><strong>Traslado de jaulas</strong></td><td><span class="cat-pill" style="background:rgba(255,149,0,0.12);color:var(--accent3);">Gaiola</span></td><td>5 viajes</td><td>MXN 800,000</td><td style="color:var(--accent3);">$44,444</td><td><select onchange="updateMatStatus('traslado',this.value)" id="mat-traslado" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="pedido">🟡 Pedido</option><option value="recibido">🟢 Recibido</option></select></td></tr>
         <tr style="background:rgba(0,122,255,0.04);"><td colspan="3" style="font-weight:500;">TOTAL</td><td style="font-weight:500;">MXN 3,582,761</td><td style="font-weight:500;color:var(--accent);">$199,042</td><td></td></tr>
       </tbody>
     </table>
@@ -613,42 +612,51 @@ function loadMatStatus(){
   const totalRow = [...tbody.querySelectorAll('tr')].find(r=>r.classList.contains('total-row'));
   const dataRows = [...tbody.querySelectorAll('tr:not(.total-row)')];
   const order = {'good-receipt':0,'po-emitida':1,'po-aprobacion':2,'':3};
-  dataRows.sort((a,b)=>{
-    const sa = a.querySelector('select')?.value||'';
-    const sb = b.querySelector('select')?.value||'';
-    return (order[sa]??3)-(order[sb]??3);
-  });
-  dataRows.forEach(r=>tbody.insertBefore(r,totalRow||null));
+  sortMatTable();
 }
 function updateMatKPIs(){
   const gastos = dbData.capex_gastos||[];
   const rank = {'good-receipt':3,'po-emitida':2,'po-aprobacion':1};
-  // Map partida text to best po_status
-  const partidaStatus = {};
+  // Map partida text to best po_status from CAPEX
+  const capexStatus = {};
   gastos.forEach(g=>{
     const p = g.partida||'';
     const s = g.po_status;
     if(!s || !rank[s]) return;
-    if(!partidaStatus[p] || rank[s] > rank[partidaStatus[p]]) partidaStatus[p] = s;
+    if(!capexStatus[p] || rank[s] > rank[capexStatus[p]]) capexStatus[p] = s;
   });
-  // All partidas in the materiales table
-  const matRows = document.querySelectorAll('.mat-table tbody tr:not(.total-row)');
+  // Convert capex po_status to mat status
+  const toMatStatus = s => s==='good-receipt'?'recibido':(s==='po-emitida'||s==='po-aprobacion')?'pedido':'';
+  // Apply capex status to mat selects if not manually set
+  Object.entries(capexStatus).forEach(([partida, poStatus])=>{
+    const matStatus = toMatStatus(poStatus);
+    if(!matStatus) return;
+    // Find matching select by partida text
+    document.querySelectorAll('.mat-table tbody tr:not(.total-row)').forEach(row=>{
+      const nameCell = row.querySelector('td strong');
+      const sel = row.querySelector('select');
+      if(!nameCell||!sel) return;
+      const name = nameCell.textContent.trim().toLowerCase();
+      const p = partida.toLowerCase();
+      const match = p.includes(name.split(' ')[0]) || name.includes(p.split('—')[1]?.trim().split('·')[0]?.trim()||'zzz');
+      if(match && !sel.value) {
+        sel.value = matStatus;
+        sel.className = 'mat-status-select ' + matStatus;
+      }
+    });
+  });
+  // Count from selects
+  const rows = document.querySelectorAll('.mat-table tbody tr:not(.total-row)');
   let total=0, recibido=0, pedido=0;
-  matRows.forEach(row=>{
-    const nameCell = row.querySelector('td:first-child strong, td:first-child');
-    if(!nameCell) return;
+  rows.forEach(row=>{
+    const sel = row.querySelector('select');
+    if(!sel) return;
     total++;
-    const matName = nameCell.textContent.trim();
-    // Find matching gasto by partida text similarity
-    const matchedPartida = Object.keys(partidaStatus).find(p=>
-      p.toLowerCase().includes(matName.toLowerCase().split(' ')[0]) ||
-      matName.toLowerCase().includes(p.toLowerCase().split('—')[1]?.trim().split('·')[0]?.trim().toLowerCase()||'')
-    );
-    const s = matchedPartida ? partidaStatus[matchedPartida] : null;
-    if(s==='good-receipt') recibido++;
-    else if(s==='po-emitida'||s==='po-aprobacion') pedido++;
+    const s = sel.value||'';
+    if(s==='recibido') recibido++;
+    else if(s==='pedido') pedido++;
   });
-  if(total===0) total=5; // fallback
+  if(total===0) total=5;
   const faltante = total - recibido - pedido;
   const elT=document.getElementById('mat-total');
   const elR=document.getElementById('mat-recibido');
@@ -658,6 +666,37 @@ function updateMatKPIs(){
   if(elR) elR.textContent=recibido;
   if(elP) elP.textContent=pedido;
   if(elF) elF.textContent=faltante;
+  // Re-sort table
+  sortMatTable();
+}
+function sortMatTable(){
+  const tbody = document.querySelector('.mat-table tbody');
+  if(!tbody) return;
+  const totalRow = [...tbody.querySelectorAll('tr')].find(r=>r.classList.contains('total-row'));
+  const dataRows = [...tbody.querySelectorAll('tr:not(.total-row)')];
+  const order = {'recibido':0,'pedido':1,'':2};
+  dataRows.sort((a,b)=>{
+    const sa = a.querySelector('select')?.value||'';
+    const sb = b.querySelector('select')?.value||'';
+    return (order[sa]??2)-(order[sb]??2);
+  });
+  // Add section headers
+  let lastGroup = null;
+  const groupLabels = {'recibido':'🟢 Recibidos','pedido':'🟡 Pedidos','':'🟠 Por pedir'};
+  const groupColors = {'recibido':'rgba(52,199,89,0.08)','pedido':'rgba(255,204,0,0.08)','':'rgba(255,149,0,0.08)'};
+  // Remove old section headers
+  tbody.querySelectorAll('.mat-section-header').forEach(h=>h.remove());
+  dataRows.forEach(r=>{
+    const group = r.querySelector('select')?.value||'';
+    if(group !== lastGroup){
+      const hdr = document.createElement('tr');
+      hdr.className = 'mat-section-header';
+      hdr.innerHTML = \`<td colspan="6" style="padding:8px 14px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;background:\${groupColors[group]};color:var(--muted);border-bottom:1px solid rgba(100,120,180,0.1);">\${groupLabels[group]}</td>\`;
+      tbody.insertBefore(hdr, totalRow||null);
+      lastGroup = group;
+    }
+    tbody.insertBefore(r, totalRow||null);
+  });
 }
 
 function renderFacturacion(){const pagos=dbData.facturacion||[];const lista=document.getElementById('fact-lista');const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');const sl={'ps-future':'FUTURO','ps-pending':'PENDIENTE','ps-done':'PAGADO'};if(!pagos.length){lista.innerHTML='<div style="text-align:center;padding:28px;color:var(--muted);font-size:13px;font-weight:500;">Sin eventos. Facturación por Definir en Jul 2026.</div>';}else{lista.innerHTML=pagos.map((p,i)=>`<div class="payment-row"><div class="payment-num">${i+1}</div><div class="payment-info"><div class="payment-name">${p.nombre}</div><div class="payment-date">${p.fecha||'TBD'}</div></div><div style="text-align:right;"><div class="payment-amount" style="color:var(--accent2);">${fmt(p.monto)}</div><div class="payment-pct">${p.pct||''} del total</div></div><div style="display:flex;align-items:center;gap:8px;"><div class="payment-status ${p.status}" onclick="cycleFactStatus(${i})">${sl[p.status]||p.status}</div><button onclick="deleteFactEvento(${i})" style="background:rgba(255,59,48,0.1);color:var(--danger);border:1px solid rgba(255,59,48,0.2);padding:3px 9px;border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;">×</button></div></div>`).join('');}document.getElementById('fact-total').textContent=fmt(pagos.reduce((a,p)=>a+(parseFloat(p.monto)||0),0))+' USD';}
