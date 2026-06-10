@@ -355,7 +355,18 @@ footer { text-align:center; padding:24px; font-size:11px; color:var(--muted); fo
         <div><div class="field-label">Partida</div><select id="cm-partida" class="field-input"><option value="gaiola-jaulas">Gaiola — Jaulas ×148 · $98,667</option><option value="gaiola-traslado">Gaiola — Traslado ×5 · $44,444</option><option value="polionda">RS Polionda — ×35 · $29,931</option><option value="carton-bin4">RS Carton — Bin 4 · $24,627</option><option value="carton-bin5">RS Carton — Bin 5 · $1,373</option></select></div>
         <div><div class="field-label">Concepto</div><input type="text" id="cm-concepto" placeholder="Descripción del movimiento" class="field-input"></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-          <div><div class="field-label">Monto (USD)</div><input type="text" inputmode="decimal" id="cm-monto" placeholder="0.00" class="field-input"></div>
+          <div>
+            <div class="field-label">Monto</div>
+            <div style="display:grid;grid-template-columns:auto 1fr;gap:6px;">
+              <select id="capex-moneda" onchange="updateMontoLabel()"
+                style="background:var(--glass2);color:var(--text);border:1px solid var(--glass-border);padding:9px 10px;border-radius:6px;font-size:13px;font-weight:500;">
+                <option value="USD">🇺🇸 USD</option>
+                <option value="MXN">🇲🇽 MXN</option>
+              </select>
+              <input type="text" inputmode="decimal" id="cm-monto" placeholder="0.00" class="field-input">
+            </div>
+            <div id="capex-conversion" style="display:none;margin-top:5px;font-size:11px;color:var(--accent2);padding:4px 8px;background:rgba(0,122,255,0.06);border-radius:5px;"></div>
+          </div>
           <div><div class="field-label">Fecha</div><input type="text" id="cm-fecha" placeholder="04 Jun 2026" class="field-input"></div>
         </div>
         <div><div class="field-label">Nota</div><input type="text" id="cm-nota" placeholder="Referencia, factura..." class="field-input"></div>
@@ -568,6 +579,17 @@ function editRef(tipo){const ids={io:'io-display',alfred:'alfred-display'};const
 function renderRefs(){const io=document.getElementById('io-display');const alfred=document.getElementById('alfred-display');if(io)io.textContent=dbData.io_number||'—';if(alfred)alfred.textContent=dbData.alfred_ticket||'—';}
 function showToast(msg){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;bottom:28px;right:28px;background:linear-gradient(135deg,#007aff,#34c759);color:#fff;padding:12px 22px;border-radius:16px;font-size:13px;font-weight:500;z-index:9999;transition:opacity 0.4s,transform 0.4s;pointer-events:none;box-shadow:0 8px 24px rgba(0,122,255,0.35);';document.body.appendChild(t);}t.textContent=msg;t.style.opacity='1';t.style.transform='translateY(0)';clearTimeout(t._timer);t._timer=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(8px)';},2400);}
 function resetAll(){if(!confirm('¿Borrar todos los datos?'))return;dbData={pcts:[],facturacion:[],capex_gastos:[],pendientes:[],mat_status:{}};dbSave();location.reload();}
+function updateMontoLabel() {
+  const moneda = document.getElementById('capex-moneda')?.value;
+  const monto = parseFloat((document.getElementById('cm-monto')||document.getElementById('capex-monto'))?.value?.replace(/,/g,''));
+  const conv = document.getElementById('capex-conversion');
+  if(moneda === 'MXN' && TC_MXN_USD && monto > 0) {
+    const usd = monto / TC_MXN_USD;
+    if(conv) { conv.style.display = 'block'; conv.textContent = `≈ USD $${usd.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})} al T/C de $${TC_MXN_USD.toFixed(2)}`; }
+  } else {
+    if(conv) conv.style.display = 'none';
+  }
+}
 async function init(){await dbLoad();applyLoadedPcts();buildTimeline();renderFacturacion();renderPendientes();renderCapex();loadMatStatus();renderRefs();showToast('Dashboard MXCH01 cargado ✓');}
 init();
 </script>
