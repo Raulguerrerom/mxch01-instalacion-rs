@@ -630,18 +630,13 @@ function updateMatKPIs(){
     if(!capexStatus[p] || rank[s] > rank[capexStatus[p]]) capexStatus[p] = s;
   });
   const toMatStatus = s => s==="good-receipt"?"recibido":(s==="po-emitida"||s==="po-aprobacion")?"pedido":"";
-  Object.entries(capexStatus).forEach(([partida, poStatus])=>{
-    const matStatus = toMatStatus(poStatus);
+  // Direct mapping: partida text -> mat select id
+  const partidaToMatId={"Gaiola \u2014 Jaulas \u00d7148 \u00b7 $98,667":"mat-gaiola-jaulas","Gaiola \u2014 Traslado \u00d75 \u00b7 $44,444":"mat-gaiola-traslado","RS Polionda \u2014 \u00d735 \u00b7 $29,931":"mat-polionda","RS Carton \u2014 Bin 4 \u00b7 $24,627":"mat-carton-bin4","RS Carton \u2014 Bin 5 \u00b7 $1,373":"mat-carton-bin5"};
+  Object.entries(capexStatus).forEach(([partidaText, poStatus])=>{
+    const matStatus=toMatStatus(poStatus);
     if(!matStatus) return;
-    (document.getElementById("materiales")||document).querySelectorAll(".mat-table tbody tr:not(.total-row)").forEach(row=>{
-      const nameCell = row.querySelector("td strong");
-      const sel = row.querySelector("select");
-      if(!nameCell||!sel||sel.value) return;
-      const name = nameCell.textContent.trim().toLowerCase();
-      const p = partida.toLowerCase();
-      const match = p.includes(name.split(" ")[0]) || name.split(" ").some(w=>p.includes(w)&&w.length>3);
-      if(match){sel.value=matStatus;sel.className="mat-status-select "+matStatus;}
-    });
+    const matId=partidaToMatId[partidaText];
+    if(matId){const sel=document.getElementById(matId);if(sel&&!sel.value){sel.value=matStatus;sel.className="mat-status-select "+matStatus;}}
   });
   const matSec=document.getElementById("materiales");const rows = (matSec||document).querySelectorAll(".mat-table tbody tr:not(.total-row)");
   let total=0,recibido=0,pedido=0;
