@@ -470,6 +470,7 @@ const GH_REPO  = 'Raulguerrerom/mxch01-instalacion-rs';
 const GH_FILE  = 'data-mxch01.json';
 const GH_API   = `https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`;
 let ghSHA = '';
+let TC_MXN_USD = 18;
 let dbData={pcts:[],facturacion:[],capex_gastos:[],mat_status:{},pendientes:[{pri:'alta',titulo:'Generación de POs — 4 categorías',desc:'Emitir POs para RS Carton, RS Polionda, Gaiola e Instalación. Inicio: 29 Jun, cierre: 03 Jul 2026.',fecha:'03 Jul 2026'},{pri:'alta',titulo:'Aprobación de POs',desc:'Gaiola, RS Carton, RS Polionda e Instalación requieren aprobación formal. 06–17 Jul 2026.',fecha:'17 Jul 2026'},{pri:'media',titulo:'Cerrar Bidding RS Polionda',desc:'Bidding al 50%. Requiere cierre antes del 26 Jun para no bloquear PO.',fecha:'26 Jun 2026'},{pri:'media',titulo:'Cerrar Bidding Gaiola',desc:'Bidding al 50%. Necesario para cotización final y emisión de PO.',fecha:'26 Jun 2026'},{pri:'media',titulo:'Definir Facturación',desc:'El timeline marca hito el 20 Jul como TBD. Confirmar esquema con Finanzas.',fecha:'20 Jul 2026'},{pri:'baja',titulo:'Preparación del área de recibo',desc:'Briefing, asignación de zonas y verificación de layout en piso. Inicio: 24 Ago 2026.',fecha:'24 Ago 2026'},{pri:'info',titulo:'Gemba Walk + Handover operación',desc:'Gemba Walk (14 Oct) y Handover (15 Oct) previos al Go-Live del 19 Oct 2026.',fecha:'14–15 Oct 2026'}]};
 async function dbLoad() {
   try {
@@ -626,7 +627,19 @@ function updateMontoLabel() {
     conv.style.display = 'none';
   }
 }
-async function init(){await dbLoad();applyLoadedPcts();buildTimeline();renderFacturacion();renderPendientes();renderCapex();loadMatStatus();updateMatKPIs();renderRefs();showToast('Dashboard MXCH01 cargado ✓');}
+
+async function fetchTipoCambio() {
+  try {
+    const res = await fetch('https://open.er-api.com/v6/latest/USD');
+    const data = await res.json();
+    if(data.rates && data.rates.MXN) {
+      TC_MXN_USD = data.rates.MXN;
+      const el = document.getElementById('tc-overview');
+      if(el) el.textContent = '$'+TC_MXN_USD.toFixed(2)+' MXN/USD';
+    }
+  } catch(e) { TC_MXN_USD = 18; }
+}
+async function init(){await fetchTipoCambio();await dbLoad();applyLoadedPcts();buildTimeline();renderFacturacion();renderPendientes();renderCapex();loadMatStatus();updateMatKPIs();renderRefs();showToast('Dashboard MXCH01 cargado ✓');}
 init();
 </script>
 </body>
