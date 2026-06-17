@@ -138,11 +138,6 @@ main { padding:28px 32px; max-width:1400px; margin:0 auto; position:relative; z-
 .mat-table td { padding:11px 14px; font-size:13px; border-bottom:1px solid rgba(100,120,180,0.08); vertical-align:middle; color:var(--text); font-weight:500; }
 .mat-table tr:last-child td { border-bottom:none; }
 .mat-table tr:hover td { background:rgba(255,255,255,0.4); }
-.mat-status-select { padding:5px 10px;font-size:11px;border-radius:20px;font-weight:500;border:1.5px solid;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;text-align:center;min-width:150px; }
-.mat-status-select.po-aprobacion { background:rgba(255,204,0,0.12);color:#b8860b;border-color:rgba(255,204,0,0.4); }
-.mat-status-select.po-emitida { background:rgba(0,122,255,0.1);color:var(--accent2);border-color:rgba(0,122,255,0.3); }
-.mat-status-select.good-receipt { background:rgba(52,199,89,0.12);color:var(--accent);border-color:rgba(52,199,89,0.4); }
-.mat-status-select.sin-estado { background:rgba(255,149,0,0.1);color:var(--accent3);border-color:rgba(255,149,0,0.3); }
 .cat-pill { font-size:10px; padding:3px 10px; border-radius:20px; font-weight:500; letter-spacing:0.04em; }
 .cat-rs { background:rgba(52,199,89,0.12); color:var(--accent); }
 .cat-gaiola { background:rgba(0,122,255,0.1); color:var(--accent2); }
@@ -354,11 +349,11 @@ footer { text-align:center; padding:24px; font-size:11px; color:var(--muted); fo
   </div>
   <div id="capex-modal" class="modal-overlay">
     <div class="modal-box">
-      <div class="modal-title" id="capex-modal-title">Registrar Movimiento</div>
+      <div class="modal-title">Registrar Movimiento</div>
       <div style="display:grid;gap:12px;">
         <div><div class="field-label">Tipo</div><select id="cm-tipo" class="field-input"><option value="gasto">🟢 Gasto</option><option value="sobrecosto">🔴 Sobrecosto</option><option value="transferencia">🔵 Transferencia</option></select></div>
         <div><div class="field-label">Partida</div><select id="cm-partida" class="field-input"><option value="gaiola-jaulas">Gaiola — Jaulas ×148 · $98,667</option><option value="gaiola-traslado">Gaiola — Traslado ×5 · $44,444</option><option value="polionda">RS Polionda — ×35 · $29,931</option><option value="carton-bin4">RS Carton — Bin 4 · $24,627</option><option value="carton-bin5">RS Carton — Bin 5 · $1,373</option></select></div>
-        
+        <div><div class="field-label">Concepto</div><input type="text" id="cm-concepto" placeholder="Descripción del movimiento" class="field-input"></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
           <div>
             <div class="field-label">Monto</div>
@@ -368,13 +363,12 @@ footer { text-align:center; padding:24px; font-size:11px; color:var(--muted); fo
                 <option value="USD">🇺🇸 USD</option>
                 <option value="MXN">🇲🇽 MXN</option>
               </select>
-              <input type="text" inputmode="decimal" id="cm-monto" placeholder="0.00" class="field-input" oninput="updateMontoLabel()">
+              <input type="text" inputmode="decimal" id="cm-monto" placeholder="0.00" class="field-input">
             </div>
             <div id="capex-conversion" style="display:none;margin-top:5px;font-size:11px;color:var(--accent2);padding:4px 8px;background:rgba(0,122,255,0.06);border-radius:5px;"></div>
           </div>
           <div><div class="field-label">Fecha</div><input type="text" id="cm-fecha" placeholder="04 Jun 2026" class="field-input"></div>
         </div>
-        <div><div class="field-label">Estatus PO</div><select id="cm-po-status" class="field-input"><option value="">🟠 Por pedir</option><option value="po-aprobacion">🟡 PO en Aprobación</option><option value="po-emitida">🔵 PO Emitida</option><option value="good-receipt">🟢 Good Receipt</option></select></div>
         <div><div class="field-label">Nota</div><input type="text" id="cm-nota" placeholder="Referencia, factura..." class="field-input"></div>
       </div>
       <div style="display:flex;gap:10px;margin-top:18px;">
@@ -414,21 +408,21 @@ footer { text-align:center; padding:24px; font-size:11px; color:var(--muted); fo
 </div>
 <div id="materiales" class="section">
   <div class="kpi-row" style="margin-bottom:20px;">
-    <div class="kpi green"><div class="kpi-glow"></div><div class="kpi-label">Total Items</div><div class="kpi-value blue" id="mat-total">5</div><div class="kpi-sub">total items</div></div>
-    <div class="kpi blue"><div class="kpi-glow"></div><div class="kpi-label">Recibidos</div><div class="kpi-value green" id="mat-recibido">0</div><div class="kpi-sub">recibidos</div></div>
-    <div class="kpi orange"><div class="kpi-glow"></div><div class="kpi-label">Pedidos</div><div class="kpi-value yellow" id="mat-pedido">5</div><div class="kpi-sub">pedidos</div></div>
-    <div class="kpi yellow"><div class="kpi-glow"></div><div class="kpi-label">Faltantes</div><div class="kpi-value orange" id="mat-faltante">5</div><div class="kpi-sub">faltantes</div></div>
+    <div class="kpi green"><div class="kpi-glow"></div><div class="kpi-label">Items CAPEX</div><div class="kpi-value green">5</div><div class="kpi-sub">en seguimiento</div></div>
+    <div class="kpi blue"><div class="kpi-glow"></div><div class="kpi-label">CAPEX Total</div><div class="kpi-value blue">$199K</div><div class="kpi-sub">USD aprobado</div></div>
+    <div class="kpi orange"><div class="kpi-glow"></div><div class="kpi-label">Mayor Partida</div><div class="kpi-value orange">$99K</div><div class="kpi-sub">Jaulas ×148</div></div>
+    <div class="kpi yellow"><div class="kpi-glow"></div><div class="kpi-label">T/C</div><div class="kpi-value yellow">$18</div><div class="kpi-sub">MXN / USD</div></div>
   </div>
   <div class="card">
     <div class="card-title"><div class="card-title-dot"></div>Lista de Materiales — CAPEX MXCH01</div>
     <table class="mat-table">
       <thead><tr><th>Material / Equipo</th><th>Categoría</th><th>Cantidad</th><th>Costo MXN</th><th>Costo USD</th><th>Estatus</th></tr></thead>
       <tbody>
-        <tr><td><strong>Módulos RS de polionda</strong></td><td><span class="cat-pill cat-rs">RS Polionda</span></td><td>35 u.</td><td>MXN 538,762</td><td style="color:var(--accent);">$29,931</td><td><select onchange="updateMatStatus('polionda',this.value)" id="mat-polionda" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="po-aprobacion">🟡 PO en Aprobación</option><option value="po-emitida">🔵 PO Emitida</option><option value="good-receipt">🟢 Good Receipt</option></select></td></tr>
-        <tr><td><strong>Cajoneras Bin 4</strong></td><td><span class="cat-pill cat-gaiola">RS Carton</span></td><td>3,744 u.</td><td>MXN 443,290</td><td style="color:var(--accent2);">$24,627</td><td><select onchange="updateMatStatus('bin4',this.value)" id="mat-bin4" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="po-aprobacion">🟡 PO en Aprobación</option><option value="po-emitida">🔵 PO Emitida</option><option value="good-receipt">🟢 Good Receipt</option></select></td></tr>
-        <tr><td><strong>Cajoneras Bin 5</strong></td><td><span class="cat-pill cat-gaiola">RS Carton</span></td><td>140 u.</td><td>MXN 24,709</td><td style="color:var(--accent2);">$1,373</td><td><select onchange="updateMatStatus('bin5',this.value)" id="mat-bin5" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="po-aprobacion">🟡 PO en Aprobación</option><option value="po-emitida">🔵 PO Emitida</option><option value="good-receipt">🟢 Good Receipt</option></select></td></tr>
-        <tr><td><strong>Jaulas metálicas para NT</strong></td><td><span class="cat-pill" style="background:rgba(255,149,0,0.12);color:var(--accent3);">Gaiola</span></td><td>148 u.</td><td>MXN 1,776,000</td><td style="color:var(--accent3);">$98,667</td><td><select onchange="updateMatStatus('jaulas',this.value)" id="mat-jaulas" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="po-aprobacion">🟡 PO en Aprobación</option><option value="po-emitida">🔵 PO Emitida</option><option value="good-receipt">🟢 Good Receipt</option></select></td></tr>
-        <tr><td><strong>Traslado de jaulas</strong></td><td><span class="cat-pill" style="background:rgba(255,149,0,0.12);color:var(--accent3);">Gaiola</span></td><td>5 viajes</td><td>MXN 800,000</td><td style="color:var(--accent3);">$44,444</td><td><select onchange="updateMatStatus('traslado',this.value)" id="mat-traslado" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="po-aprobacion">🟡 PO en Aprobación</option><option value="po-emitida">🔵 PO Emitida</option><option value="good-receipt">🟢 Good Receipt</option></select></td></tr>
+        <tr><td><strong>Módulos RS de polionda</strong></td><td><span class="cat-pill cat-rs">RS Polionda</span></td><td>35 u.</td><td>MXN 538,762</td><td style="color:var(--accent);">$29,931</td><td><select onchange="updateMatStatus('polionda',this.value)" id="mat-polionda" class="field-input" style="padding:5px 10px;font-size:11px;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
+        <tr><td><strong>Cajoneras Bin 4</strong></td><td><span class="cat-pill cat-gaiola">RS Carton</span></td><td>3,744 u.</td><td>MXN 443,290</td><td style="color:var(--accent2);">$24,627</td><td><select onchange="updateMatStatus('bin4',this.value)" id="mat-bin4" class="field-input" style="padding:5px 10px;font-size:11px;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
+        <tr><td><strong>Cajoneras Bin 5</strong></td><td><span class="cat-pill cat-gaiola">RS Carton</span></td><td>140 u.</td><td>MXN 24,709</td><td style="color:var(--accent2);">$1,373</td><td><select onchange="updateMatStatus('bin5',this.value)" id="mat-bin5" class="field-input" style="padding:5px 10px;font-size:11px;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
+        <tr><td><strong>Jaulas metálicas para NT</strong></td><td><span class="cat-pill" style="background:rgba(255,149,0,0.12);color:var(--accent3);">Gaiola</span></td><td>148 u.</td><td>MXN 1,776,000</td><td style="color:var(--accent3);">$98,667</td><td><select onchange="updateMatStatus('jaulas',this.value)" id="mat-jaulas" class="field-input" style="padding:5px 10px;font-size:11px;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
+        <tr><td><strong>Traslado de jaulas</strong></td><td><span class="cat-pill" style="background:rgba(255,149,0,0.12);color:var(--accent3);">Gaiola</span></td><td>5 viajes</td><td>MXN 800,000</td><td style="color:var(--accent3);">$44,444</td><td><select onchange="updateMatStatus('traslado',this.value)" id="mat-traslado" class="field-input" style="padding:5px 10px;font-size:11px;"><option value="pendiente">🔵 Bidding</option><option value="po-emitida">🟡 PO Emitida</option><option value="recibido">🟢 Recibido</option></select></td></tr>
         <tr style="background:rgba(0,122,255,0.04);"><td colspan="3" style="font-weight:500;">TOTAL</td><td style="font-weight:500;">MXN 3,582,761</td><td style="font-weight:500;color:var(--accent);">$199,042</td><td></td></tr>
       </tbody>
     </table>
@@ -475,29 +469,23 @@ const GH_REPO  = 'Raulguerrerom/mxch01-instalacion-rs';
 const GH_FILE  = 'data-mxch01.json';
 const GH_API   = `https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`;
 let ghSHA = '';
-let TC_MXN_USD = 18;
-let editingCapexIdx = -1;
 let dbData={pcts:[],facturacion:[],capex_gastos:[],mat_status:{},pendientes:[{pri:'alta',titulo:'Generación de POs — 4 categorías',desc:'Emitir POs para RS Carton, RS Polionda, Gaiola e Instalación. Inicio: 29 Jun, cierre: 03 Jul 2026.',fecha:'03 Jul 2026'},{pri:'alta',titulo:'Aprobación de POs',desc:'Gaiola, RS Carton, RS Polionda e Instalación requieren aprobación formal. 06–17 Jul 2026.',fecha:'17 Jul 2026'},{pri:'media',titulo:'Cerrar Bidding RS Polionda',desc:'Bidding al 50%. Requiere cierre antes del 26 Jun para no bloquear PO.',fecha:'26 Jun 2026'},{pri:'media',titulo:'Cerrar Bidding Gaiola',desc:'Bidding al 50%. Necesario para cotización final y emisión de PO.',fecha:'26 Jun 2026'},{pri:'media',titulo:'Definir Facturación',desc:'El timeline marca hito el 20 Jul como TBD. Confirmar esquema con Finanzas.',fecha:'20 Jul 2026'},{pri:'baja',titulo:'Preparación del área de recibo',desc:'Briefing, asignación de zonas y verificación de layout en piso. Inicio: 24 Ago 2026.',fecha:'24 Ago 2026'},{pri:'info',titulo:'Gemba Walk + Handover operación',desc:'Gemba Walk (14 Oct) y Handover (15 Oct) previos al Go-Live del 19 Oct 2026.',fecha:'14–15 Oct 2026'}]};
 async function dbLoad() {
   try {
+    // Use raw public URL to avoid CORS issues when reading
     const rawUrl = `https://raw.githubusercontent.com/${GH_REPO}/main/${GH_FILE}?t=${Date.now()}`;
     const res = await fetch(rawUrl);
     if(res.ok) {
       const parsed = await res.json();
       dbData = {...dbData, ...parsed};
     }
-  } catch(e) { console.warn('dbLoad read error:', e); }
-  try {
+    // Also get SHA for saving later
     const apiRes = await fetch(GH_API, {
       headers: {'Authorization': `token ${GH_TOKEN}`, 'Accept': 'application/vnd.github.v3+json'}
     });
     const apiJson = await apiRes.json();
     if(apiJson.sha) ghSHA = apiJson.sha;
-    else ghSHA = '1cea3d099f8512ef2589c99fd2f0b3080a3e6c2d';
-  } catch(e) {
-    ghSHA = '1cea3d099f8512ef2589c99fd2f0b3080a3e6c2d';
-    console.warn('SHA fallback used');
-  }
+  } catch(e) { console.warn('GitHub load error:', e); }
 }
 async function dbSave() {
   try {
@@ -566,100 +554,13 @@ function buildPctInputs(){const c=document.getElementById('pct-inputs');c.innerH
 function applyPcts(){document.querySelectorAll('#pct-inputs input[data-idx]').forEach(inp=>{const i=parseInt(inp.dataset.idx);const pct=Math.min(100,Math.max(0,parseInt(inp.value)||0));tasks[i].pct=pct;const f=document.getElementById('fill-'+i);if(f)f.style.width=pct+'%';let lbl=document.getElementById('pctlabel-'+i);if(lbl)lbl.textContent=pct+'%';else if(pct>0){const bar=document.getElementById('bar-'+i);if(bar){const nl=document.createElement('div');nl.className='tl-pct';nl.id='pctlabel-'+i;nl.textContent=pct+'%';bar.appendChild(nl);}}});dbData.pcts=tasks.map(t=>t.pct);dbSave();showToast('Porcentajes guardados ✓');}
 function applyLoadedPcts(){if(!dbData.pcts||!dbData.pcts.length)return;dbData.pcts.forEach((p,i)=>{if(i<tasks.length)tasks[i].pct=p;});}
 const CAPEX_TOTAL=199042;
-function renderCapex(){const movs=dbData.capex_gastos||[];const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');const totalGasto=movs.filter(m=>m.tipo==='gasto').reduce((a,m)=>a+(parseFloat(m.monto)||0),0);const totalSobre=movs.filter(m=>m.tipo==='sobrecosto').reduce((a,m)=>a+(parseFloat(m.monto)||0),0);const disponible=CAPEX_TOTAL-totalGasto-totalSobre;
-  // Ahorro: budget of touched partidas minus what was spent on them
-  const partidaBudget={'gaiola-jaulas':98667,'gaiola-traslado':44444,'polionda':29931,'carton-bin4':24627,'carton-bin5':1373};
-  // Ahorro: extract budget from partida text (e.g. "RS Carton — Bin 4 · $24,627")
-  // Group gastos by partida, sum spent, compare to budget in partida text
-  const partidaGastos={};
-  movs.filter(m=>m.tipo==='gasto').forEach(m=>{
-    const key=m.partida||'';
-    partidaGastos[key]=(partidaGastos[key]||0)+(parseFloat(m.monto)||0);
-  });
-  let totalAhorro=0;
-  Object.entries(partidaGastos).forEach(([partida,gastado])=>{
-    const match=partida.match(/\$([\d,]+)\s*$/);
-    if(match){
-      const budget=parseFloat(match[1].replace(/,/g,''));
-      if(gastado<budget) totalAhorro+=budget-gastado;
-    }
-  });
-  const pctG=(totalGasto/CAPEX_TOTAL)*100,pctS=(totalSobre/CAPEX_TOTAL)*100,pctD=Math.max(0,100-pctG-pctS);
-  const pctA=CAPEX_TOTAL>0?Math.min(100,(totalAhorro/CAPEX_TOTAL)*100):0;const setC=(id,pct,circ)=>{const el=document.getElementById(id);if(el)el.style.strokeDashoffset=circ-(circ*Math.min(pct,100)/100);};const setL=(id,t)=>{const el=document.getElementById(id);if(el){el.textContent=t;el.setAttribute('font-size','9');el.setAttribute('font-weight','700');}};setC('circle-gasto',pctG,283);setC('circle-disp',pctD,339);setC('circle-sobre',pctS,283);setC('circle-ahorro',pctA,283);setL('circle-gasto-pct',Math.round(pctG)+'%');setL('circle-disp-pct',Math.round(pctD)+'%');setL('circle-sobre-pct',Math.round(pctS)+'%');setL('circle-ahorro-pct',Math.round(pctA)+'%');document.getElementById('capex-gastado-kpi').textContent=fmt(totalGasto);document.getElementById('capex-disponible-kpi').textContent=fmt(Math.max(0,disponible));document.getElementById('capex-disponible-pct').textContent=Math.round(pctD)+'% restante';document.getElementById('capex-sobre-kpi').textContent=fmt(totalSobre);const ahorroEl=document.getElementById('capex-ahorro-kpi');if(ahorroEl)ahorroEl.textContent=fmt(totalAhorro);const lista=document.getElementById('capex-lista');if(!movs.length){lista.innerHTML='<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px;font-weight:500;">Sin movimientos registrados.</div>';return;}const tc={gasto:{icon:'🟢',label:'Gasto',color:'var(--accent)'},sobrecosto:{icon:'🔴',label:'Sobrecosto',color:'var(--danger)'},transferencia:{icon:'🔵',label:'Transferencia',color:'var(--accent2)'}};lista.innerHTML=`<table class="mat-table"><thead><tr><th>Tipo</th><th>Partida</th><th>Concepto</th><th>Monto</th><th>Fecha</th><th>Nota</th><th></th></tr></thead><tbody>${movs.map((m,i)=>{const t=tc[m.tipo]||tc.gasto;return`<tr><td><span class="cat-pill" style="background:rgba(0,0,0,0.04);color:${t.color};">${t.icon} ${t.label}</span></td><td style="font-size:11px;color:var(--muted);">${m.partida||'—'}</td><td><strong>${m.concepto||m.partida||'—'}</strong></td><td style="font-weight:500;color:${t.color};">${fmt(m.monto)}</td><td style="color:var(--muted);font-size:11px;">${m.fecha}</td><td style="font-size:11px;color:var(--muted);">${m.nota||'—'}</td><td style="white-space:nowrap;"><button onclick="editCapexMov(${i})" style="background:rgba(0,122,255,0.08);color:var(--accent2);border:1px solid rgba(0,122,255,0.2);padding:3px 9px;border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;margin-right:4px;">✏️</button><button onclick="deleteCapexMov(${i})" style="background:rgba(255,59,48,0.1);color:var(--danger);border:1px solid rgba(255,59,48,0.2);padding:3px 9px;border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;">×</button></td></tr>`;}).join('')}</tbody></table>`;}
-function openCapexModal(){editingCapexIdx=-1;document.getElementById('capex-modal-title').textContent='Registrar Movimiento';document.getElementById('capex-modal').style.display='flex';}
+function renderCapex(){const movs=dbData.capex_gastos||[];const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');const totalGasto=movs.filter(m=>m.tipo==='gasto').reduce((a,m)=>a+(parseFloat(m.monto)||0),0);const totalSobre=movs.filter(m=>m.tipo==='sobrecosto').reduce((a,m)=>a+(parseFloat(m.monto)||0),0);const disponible=CAPEX_TOTAL-totalGasto-totalSobre;const pctG=(totalGasto/CAPEX_TOTAL)*100,pctS=(totalSobre/CAPEX_TOTAL)*100,pctD=Math.max(0,100-pctG-pctS);const setC=(id,pct,circ)=>{const el=document.getElementById(id);if(el)el.style.strokeDashoffset=circ-(circ*Math.min(pct,100)/100);};const setL=(id,t)=>{const el=document.getElementById(id);if(el){el.textContent=t;el.setAttribute('font-size','9');el.setAttribute('font-weight','700');}};setC('circle-gasto',pctG,283);setC('circle-disp',pctD,339);setC('circle-sobre',pctS,283);setL('circle-gasto-pct',Math.round(pctG)+'%');setL('circle-disp-pct',Math.round(pctD)+'%');setL('circle-sobre-pct',Math.round(pctS)+'%');document.getElementById('capex-gastado-kpi').textContent=fmt(totalGasto);document.getElementById('capex-disponible-kpi').textContent=fmt(Math.max(0,disponible));document.getElementById('capex-disponible-pct').textContent=Math.round(pctD)+'% restante';document.getElementById('capex-sobre-kpi').textContent=fmt(totalSobre);const lista=document.getElementById('capex-lista');if(!movs.length){lista.innerHTML='<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px;font-weight:500;">Sin movimientos registrados.</div>';return;}const tc={gasto:{icon:'🟢',label:'Gasto',color:'var(--accent)'},sobrecosto:{icon:'🔴',label:'Sobrecosto',color:'var(--danger)'},transferencia:{icon:'🔵',label:'Transferencia',color:'var(--accent2)'}};lista.innerHTML=`<table class="mat-table"><thead><tr><th>Tipo</th><th>Partida</th><th>Concepto</th><th>Monto</th><th>Fecha</th><th>Nota</th><th></th></tr></thead><tbody>${movs.map((m,i)=>{const t=tc[m.tipo]||tc.gasto;return`<tr><td><span class="cat-pill" style="background:rgba(0,0,0,0.04);color:${t.color};">${t.icon} ${t.label}</span></td><td style="font-size:11px;color:var(--muted);">${m.partida||'—'}</td><td><strong>${m.concepto}</strong></td><td style="font-weight:500;color:${t.color};">${fmt(m.monto)}</td><td style="color:var(--muted);font-size:11px;">${m.fecha}</td><td style="font-size:11px;color:var(--muted);">${m.nota||'—'}</td><td><button onclick="deleteCapexMov(${i})" style="background:rgba(255,59,48,0.1);color:var(--danger);border:1px solid rgba(255,59,48,0.2);padding:3px 9px;border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;">×</button></td></tr>`;}).join('')}</tbody></table>`;}
+function openCapexModal(){document.getElementById('capex-modal').style.display='flex';}
 function closeCapexModal(){document.getElementById('capex-modal').style.display='none';}
-function saveCapexMov(){const tipo=document.getElementById('cm-tipo').value;const partida=document.getElementById('cm-partida').options[document.getElementById('cm-partida').selectedIndex].text;const concepto=document.getElementById('cm-partida').options[document.getElementById('cm-partida').selectedIndex]?.text.split('·')[0].trim()||partida;const monedaVal=document.getElementById('capex-moneda')?.value||'USD';const montoRaw=parseFloat(document.getElementById('cm-monto').value.replace(/,/g,''))||0;const monto=monedaVal==='MXN'?(montoRaw/(TC_MXN_USD||18)):montoRaw;const fecha=document.getElementById('cm-fecha').value.trim()||new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});const nota=document.getElementById('cm-nota').value.trim();if(!monto||monto<=0){alert('Monto es obligatorio');return;}if(!dbData.capex_gastos)dbData.capex_gastos=[];const poStatus=document.getElementById('cm-po-status')?.value||'no-ordenado';if(editingCapexIdx >= 0) {
-    dbData.capex_gastos[editingCapexIdx] = {tipo,partida,concepto,monto,fecha,nota,po_status:poStatus};
-    editingCapexIdx = -1;
-    showToast('Movimiento actualizado ✓');
-  } else {
-    dbData.capex_gastos.push({tipo,partida,concepto,monto,fecha,nota,po_status:poStatus});
-    showToast('Movimiento registrado ✓');
-  }
-  closeCapexModal();renderCapex();updateMatKPIs();dbSave();}
+function saveCapexMov(){const tipo=document.getElementById('cm-tipo').value;const partida=document.getElementById('cm-partida').options[document.getElementById('cm-partida').selectedIndex].text;const concepto=document.getElementById('cm-concepto').value.trim();const monto=parseFloat(document.getElementById('cm-monto').value.replace(/,/g,''));const fecha=document.getElementById('cm-fecha').value.trim()||new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});const nota=document.getElementById('cm-nota').value.trim();if(!concepto||!monto||monto<=0){alert('Concepto y monto son obligatorios');return;}if(!dbData.capex_gastos)dbData.capex_gastos=[];dbData.capex_gastos.push({tipo,partida,concepto,monto,fecha,nota});closeCapexModal();renderCapex();dbSave();showToast('Movimiento registrado ✓');}
 function deleteCapexMov(idx){if(!confirm('¿Eliminar?'))return;dbData.capex_gastos.splice(idx,1);renderCapex();dbSave();showToast('Eliminado ✓');}
-function updateMatStatus(key,val){if(!dbData.mat_status)dbData.mat_status={};dbData.mat_status[key]=val;const el=document.getElementById('mat-'+key);if(el)el.className='mat-status-select '+(val||'sin-estado');dbSave();showToast('Estatus actualizado ✓');updateMatKPIs();}
-function loadMatStatus(){
-  // Apply saved statuses
-  if(dbData.mat_status){
-    Object.entries(dbData.mat_status).forEach(([k,v])=>{
-      const el=document.getElementById('mat-'+k);
-      if(el){el.value=v;el.className='mat-status-select '+(v||'sin-estado');}
-    });
-  }
-  // Sort table rows by status: good-receipt first, then po-emitida/po-aprobacion, then sin-estado
-  const tbody = document.querySelector('.mat-table tbody');
-  if(!tbody) return;
-  const totalRow = [...tbody.querySelectorAll('tr')].find(r=>r.classList.contains('total-row'));
-  const dataRows = [...tbody.querySelectorAll('tr:not(.total-row)')];
-  const order = {'good-receipt':0,'po-emitida':1,'po-aprobacion':2,'':3};
-  dataRows.sort((a,b)=>{
-    const sa = a.querySelector('select')?.value||'';
-    const sb = b.querySelector('select')?.value||'';
-    return (order[sa]??3)-(order[sb]??3);
-  });
-  dataRows.forEach(r=>tbody.insertBefore(r,totalRow||null));
-}
-function updateMatKPIs(){
-  const gastos = dbData.capex_gastos||[];
-  const rank = {'good-receipt':3,'po-emitida':2,'po-aprobacion':1};
-  // Map partida text to best po_status
-  const partidaStatus = {};
-  gastos.forEach(g=>{
-    const p = g.partida||'';
-    const s = g.po_status;
-    if(!s || !rank[s]) return;
-    if(!partidaStatus[p] || rank[s] > rank[partidaStatus[p]]) partidaStatus[p] = s;
-  });
-  // All partidas in the materiales table
-  const matRows = document.querySelectorAll('.mat-table tbody tr:not(.total-row)');
-  let total=0, recibido=0, pedido=0;
-  matRows.forEach(row=>{
-    const nameCell = row.querySelector('td:first-child strong, td:first-child');
-    if(!nameCell) return;
-    total++;
-    const matName = nameCell.textContent.trim();
-    // Find matching gasto by partida text similarity
-    const matchedPartida = Object.keys(partidaStatus).find(p=>
-      p.toLowerCase().includes(matName.toLowerCase().split(' ')[0]) ||
-      matName.toLowerCase().includes(p.toLowerCase().split('—')[1]?.trim().split('·')[0]?.trim().toLowerCase()||'')
-    );
-    const s = matchedPartida ? partidaStatus[matchedPartida] : null;
-    if(s==='good-receipt') recibido++;
-    else if(s==='po-emitida'||s==='po-aprobacion') pedido++;
-  });
-  if(total===0) total=5; // fallback
-  const faltante = total - recibido - pedido;
-  const elT=document.getElementById('mat-total');
-  const elR=document.getElementById('mat-recibido');
-  const elP=document.getElementById('mat-pedido');
-  const elF=document.getElementById('mat-faltante');
-  if(elT) elT.textContent=total;
-  if(elR) elR.textContent=recibido;
-  if(elP) elP.textContent=pedido;
-  if(elF) elF.textContent=faltante;
-}
-
+function updateMatStatus(key,val){if(!dbData.mat_status)dbData.mat_status={};dbData.mat_status[key]=val;dbSave();showToast('Estatus actualizado ✓');}
+function loadMatStatus(){if(!dbData.mat_status)return;Object.entries(dbData.mat_status).forEach(([k,v])=>{const el=document.getElementById('mat-'+k);if(el)el.value=v;});}
 function renderFacturacion(){const pagos=dbData.facturacion||[];const lista=document.getElementById('fact-lista');const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');const sl={'ps-future':'FUTURO','ps-pending':'PENDIENTE','ps-done':'PAGADO'};if(!pagos.length){lista.innerHTML='<div style="text-align:center;padding:28px;color:var(--muted);font-size:13px;font-weight:500;">Sin eventos. Facturación por Definir en Jul 2026.</div>';}else{lista.innerHTML=pagos.map((p,i)=>`<div class="payment-row"><div class="payment-num">${i+1}</div><div class="payment-info"><div class="payment-name">${p.nombre}</div><div class="payment-date">${p.fecha||'TBD'}</div></div><div style="text-align:right;"><div class="payment-amount" style="color:var(--accent2);">${fmt(p.monto)}</div><div class="payment-pct">${p.pct||''} del total</div></div><div style="display:flex;align-items:center;gap:8px;"><div class="payment-status ${p.status}" onclick="cycleFactStatus(${i})">${sl[p.status]||p.status}</div><button onclick="deleteFactEvento(${i})" style="background:rgba(255,59,48,0.1);color:var(--danger);border:1px solid rgba(255,59,48,0.2);padding:3px 9px;border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;">×</button></div></div>`).join('');}document.getElementById('fact-total').textContent=fmt(pagos.reduce((a,p)=>a+(parseFloat(p.monto)||0),0))+' USD';}
 function cycleFactStatus(idx){const c=['ps-future','ps-pending','ps-done'];dbData.facturacion[idx].status=c[(c.indexOf(dbData.facturacion[idx].status)+1)%c.length];renderFacturacion();dbSave();showToast('Estatus actualizado ✓');}
 function openFactModal(){document.getElementById('fact-modal-title').textContent='Agregar Evento de Pago';['fn-nombre','fn-monto','fn-pct','fn-fecha'].forEach(id=>document.getElementById(id).value='');document.getElementById('fn-status').value='ps-future';document.getElementById('fact-modal').style.display='flex';}
@@ -680,47 +581,16 @@ function showToast(msg){let t=document.getElementById('toast');if(!t){t=document
 function resetAll(){if(!confirm('¿Borrar todos los datos?'))return;dbData={pcts:[],facturacion:[],capex_gastos:[],pendientes:[],mat_status:{}};dbSave();location.reload();}
 function updateMontoLabel() {
   const moneda = document.getElementById('capex-moneda')?.value;
-  const monto = parseFloat((document.getElementById('cm-monto')||{}).value)||0;
+  const monto = parseFloat((document.getElementById('cm-monto')||document.getElementById('capex-monto'))?.value?.replace(/,/g,''));
   const conv = document.getElementById('capex-conversion');
-  if(!conv) return;
-  if(moneda === 'MXN' && monto > 0) {
-    const tc = TC_MXN_USD || 18;
-    const usd = (monto / tc).toFixed(2);
-    conv.style.display = 'block';
-    conv.innerHTML = `💱 T/C: $${tc.toFixed(2)} MXN/USD &nbsp;→&nbsp; <strong>$${parseFloat(usd).toLocaleString('en-US', {minimumFractionDigits:2})} USD</strong>`;
+  if(moneda === 'MXN' && TC_MXN_USD && monto > 0) {
+    const usd = monto / TC_MXN_USD;
+    if(conv) { conv.style.display = 'block'; conv.textContent = `≈ USD $${usd.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})} al T/C de $${TC_MXN_USD.toFixed(2)}`; }
   } else {
-    conv.style.display = 'none';
+    if(conv) conv.style.display = 'none';
   }
 }
-
-
-function editCapexMov(i) {
-  const m = dbData.capex_gastos[i];
-  if(!m) return;
-  editingCapexIdx = i;
-  document.getElementById('capex-modal-title').textContent = 'Editar Movimiento';
-  document.getElementById('cm-tipo').value = m.tipo || 'gasto';
-  document.getElementById('cm-partida').value = m.partida_id || 
-    [...document.getElementById('cm-partida').options].find(o => o.text.includes(m.partida?.split('—')[1]?.trim().split('·')[0]?.trim()||''))?.value || '';
-  document.getElementById('cm-monto').value = m.monto || '';
-  document.getElementById('cm-fecha').value = m.fecha || '';
-  if(document.getElementById('cm-po-status')) document.getElementById('cm-po-status').value = m.po_status || 'po-aprobacion';
-  document.getElementById('cm-nota').value = m.nota || '';
-  document.getElementById('capex-modal').style.display = 'flex';
-  updateMontoLabel();
-}
-async function fetchTipoCambio() {
-  try {
-    const res = await fetch('https://open.er-api.com/v6/latest/USD');
-    const data = await res.json();
-    if(data.rates && data.rates.MXN) {
-      TC_MXN_USD = data.rates.MXN;
-      const el = document.getElementById('tc-overview');
-      if(el) el.textContent = '$'+TC_MXN_USD.toFixed(2)+' MXN/USD';
-    }
-  } catch(e) { TC_MXN_USD = 18; }
-}
-async function init(){await fetchTipoCambio();await dbLoad();applyLoadedPcts();buildTimeline();renderFacturacion();renderPendientes();renderCapex();loadMatStatus();updateMatKPIs();renderRefs();showToast('Dashboard MXCH01 cargado ✓');}
+async function init(){await dbLoad();applyLoadedPcts();buildTimeline();renderFacturacion();renderPendientes();renderCapex();loadMatStatus();renderRefs();showToast('Dashboard MXCH01 cargado ✓');}
 init();
 </script>
 </body>
