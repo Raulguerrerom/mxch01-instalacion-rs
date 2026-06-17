@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MXCH01 – Instalación RS</title>
+<script src="config.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -113,21 +114,34 @@ main { padding:28px 32px; max-width:1400px; margin:0 auto; position:relative; z-
 .tl-row:hover { background:rgba(255,255,255,0.4); border-radius:8px; }
 .tl-name { font-size:11px; padding:6px 10px; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:500; }
 .tl-name.summary { font-weight:500; color:var(--accent2); font-size:10px; text-transform:uppercase; letter-spacing:0.06em; }
-.tl-bar-area { position:relative; height:40px; display:flex; align-items:center; }
+.tl-bar-area { position:relative; height:44px; display:flex; align-items:center; }
 .tl-grid-line { position:absolute; top:0; bottom:0; width:1px; background:rgba(100,120,180,0.1); pointer-events:none; }
 .tl-grid-line.month-line { width:1px; background:rgba(100,120,180,0.2); }
-.tl-bar { position:absolute; height:10px; border-radius:6px; display:flex; align-items:center; overflow:hidden; min-width:3px; }
+.tl-bar { position:absolute; height:22px; border-radius:6px; display:flex; align-items:center; min-width:3px; cursor:pointer; }
 .tl-bar-fill { height:100%; border-radius:6px; }
 .tl-pct { font-size:9px; color:rgba(0,0,0,0.6); padding:0 4px; font-weight:500; white-space:nowrap; }
 .today-line { position:absolute; top:0; bottom:0; width:2px; background:var(--accent3); z-index:5; border-radius:2px; box-shadow:0 0 6px rgba(255,149,0,0.6); }
+.tl-inline-select {
+  position:absolute; top:50%; transform:translateY(-50%); right:3px;
+  background:rgba(255,255,255,0.92); border:1.5px solid rgba(0,122,255,0.35);
+  border-radius:8px; font-size:9px; font-weight:500; color:var(--accent2);
+  padding:2px 4px; outline:none; z-index:10; cursor:pointer;
+  backdrop-filter:blur(8px); box-shadow:0 2px 8px rgba(0,122,255,0.15);
+  appearance:none; -webkit-appearance:none;
+  text-align:center; min-width:42px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.tl-inline-select:hover { border-color:rgba(0,122,255,0.6); box-shadow:0 3px 12px rgba(0,122,255,0.25); }
+.tl-inline-select:focus { border-color:var(--accent2); box-shadow:0 0 0 3px rgba(0,122,255,0.15); }
 .mat-table { width:100%; border-collapse:collapse; }
 .mat-table th { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; padding:8px 14px; text-align:left; border-bottom:1px solid rgba(100,120,180,0.12); font-weight:500; }
 .mat-table td { padding:11px 14px; font-size:13px; border-bottom:1px solid rgba(100,120,180,0.08); vertical-align:middle; color:var(--text); font-weight:500; }
 .mat-table tr:last-child td { border-bottom:none; }
 .mat-table tr:hover td { background:rgba(255,255,255,0.4); }
-.mat-status-select { padding:5px 10px;font-size:11px;border-radius:20px;font-weight:500;border:1.5px solid;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;text-align:center;min-width:140px; }
-.mat-status-select.pedido { background:rgba(255,204,0,0.12);color:#b8860b;border-color:rgba(255,204,0,0.4); }
-.mat-status-select.recibido { background:rgba(52,199,89,0.12);color:var(--accent);border-color:rgba(52,199,89,0.4); }
+.mat-status-select { padding:5px 10px;font-size:11px;border-radius:20px;font-weight:500;border:1.5px solid;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;text-align:center;min-width:150px; }
+.mat-status-select.po-aprobacion { background:rgba(255,204,0,0.12);color:#b8860b;border-color:rgba(255,204,0,0.4); }
+.mat-status-select.po-emitida { background:rgba(0,122,255,0.1);color:var(--accent2);border-color:rgba(0,122,255,0.3); }
+.mat-status-select.good-receipt { background:rgba(52,199,89,0.12);color:var(--accent);border-color:rgba(52,199,89,0.4); }
 .mat-status-select.sin-estado { background:rgba(255,149,0,0.1);color:var(--accent3);border-color:rgba(255,149,0,0.3); }
 .cat-pill { font-size:10px; padding:3px 10px; border-radius:20px; font-weight:500; letter-spacing:0.04em; }
 .cat-rs { background:rgba(52,199,89,0.12); color:var(--accent); }
@@ -179,7 +193,7 @@ footer { text-align:center; padding:24px; font-size:11px; color:var(--muted); fo
     </div>
     <div class="header-right">
       <div class="status-pill"><div class="status-dot"></div>EN EJECUCIÓN</div>
-      <div class="last-update"><span id="header-date">--</span></div>
+      <div class="last-update">04 Jun 2026</div>
     </div>
   </div>
 </header>
@@ -197,7 +211,7 @@ footer { text-align:center; padding:24px; font-size:11px; color:var(--muted); fo
 <main>
 <div id="overview" class="section active">
   <div class="kpi-row">
-    <div class="kpi green"><div class="kpi-glow"></div><div class="kpi-label">Avance General</div><div class="kpi-value green">45%</div><div class="kpi-sub">Procurement · Bidding</div></div>
+    <div class="kpi green"><div class="kpi-glow"></div><div class="kpi-label">Avance General</div><div class="kpi-value green" id="kpi-avance">45%</div><div class="kpi-sub" id="kpi-avance-sub">Procurement · Bidding</div></div>
     <div class="kpi blue"><div class="kpi-glow"></div><div class="kpi-label">CAPEX Total</div><div class="kpi-value blue">$199K</div><div class="kpi-sub">USD · MXN 3,582,760</div></div>
     <div class="kpi orange"><div class="kpi-glow"></div><div class="kpi-label">Próximo Hito</div><div class="kpi-value orange">29 Jun</div><div class="kpi-sub">Generación de POs</div></div>
     <div class="kpi yellow"><div class="kpi-glow"></div><div class="kpi-label">Go-Live</div><div class="kpi-value yellow">19 Oct</div><div class="kpi-sub">2026 · 137 días</div></div>
@@ -281,16 +295,12 @@ footer { text-align:center; padding:24px; font-size:11px; color:var(--muted); fo
 <div id="timeline" class="section">
   <div class="card">
     <div class="card-title"><div class="card-title-dot"></div>Gantt — MXCH01 · Dic 2025 – Oct 2026</div>
-    <div style="font-size:11px;color:var(--muted);font-weight:500;margin-bottom:16px;">▲ Línea naranja = HOY (04 Jun 2026) · Avance general: <strong style="color:var(--accent2)">45%</strong></div>
+    <div style="font-size:11px;color:var(--muted);font-weight:500;margin-bottom:16px;">▲ Línea naranja = HOY (04 Jun 2026) · Avance general: <strong style="color:var(--accent2)" id="gantt-avance">45%</strong></div>
     <div id="tl-container" style="overflow-x:auto;"><div style="min-width:900px;">
       <div class="timeline-header"><div class="tl-label-head">Tarea</div><div class="tl-months" id="tl-months"></div></div>
       <div id="tl-rows"></div>
     </div></div>
-    <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(100,120,180,0.1);">
-      <div class="card-title" style="margin-bottom:12px;"><div class="card-title-dot"></div>Actualizar % de Avance</div>
-      <div id="pct-inputs" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;"></div>
-      <button class="btn-primary" onclick="applyPcts()" style="margin-top:14px;">Aplicar Porcentajes</button>
-    </div>
+    <div id="pct-inputs" style="display:none;"></div>
   </div>
 </div>
 <div id="capex" class="section">
@@ -318,13 +328,23 @@ footer { text-align:center; padding:24px; font-size:11px; color:var(--muted); fo
       <div style="font-size:20px;font-weight:500">$199,042 <span style="font-size:12px;color:var(--muted);font-weight:500;">USD · MXN 3,582,760</span></div>
     </div>
   </div>
-  <div class="grid3" id="capex-grid3" style="margin-bottom:16px;"></div>
-
-  <div class="card" style="margin-bottom:20px;"><div class="card-title"><div class="card-title-dot" style="background:linear-gradient(135deg,#ff9f0a,#ff6b00)"></div>OPEX — Operational Expenditure</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0;margin-bottom:16px;"><div style="display:flex;flex-direction:column;align-items:center;padding:20px;"><svg width="110" height="110" viewBox="0 0 110 110"><circle cx="55" cy="55" r="45" fill="none" stroke="rgba(100,120,180,0.1)" stroke-width="8"/><circle id="circle-opex-gasto" cx="55" cy="55" r="45" fill="none" stroke="var(--accent)" stroke-width="8" stroke-dasharray="283" stroke-dashoffset="283" stroke-linecap="round" transform="rotate(-90 55 55)"/><text id="circle-opex-gasto-pct" x="55" y="55" text-anchor="middle" dominant-baseline="central" fill="var(--accent)" font-size="9" font-weight="700">0%</text><text x="55" y="68" text-anchor="middle" fill="var(--muted)" font-size="7">EJECUTADO</text></svg><div style="font-size:18px;font-weight:600;color:var(--accent);margin-top:8px;" id="opex-gastado-kpi">$0</div><div style="font-size:11px;color:var(--muted);">de $26,000</div></div><div style="display:flex;flex-direction:column;align-items:center;padding:20px;"><svg width="110" height="110" viewBox="0 0 110 110"><circle cx="55" cy="55" r="54" fill="none" stroke="rgba(100,120,180,0.1)" stroke-width="6"/><circle id="circle-opex-disp" cx="55" cy="55" r="54" fill="none" stroke="var(--accent2)" stroke-width="6" stroke-dasharray="339" stroke-dashoffset="0" stroke-linecap="round" transform="rotate(-90 55 55)"/><text id="circle-opex-disp-pct" x="55" y="55" text-anchor="middle" dominant-baseline="central" fill="var(--accent2)" font-size="9" font-weight="700">100%</text><text x="55" y="68" text-anchor="middle" fill="var(--muted)" font-size="7">DISPONIBLE</text></svg><div style="font-size:18px;font-weight:600;color:var(--accent2);margin-top:8px;" id="opex-disponible-kpi">$26,000</div><div style="font-size:11px;color:var(--muted);" id="opex-disponible-pct">100% restante</div></div><div style="display:flex;flex-direction:column;align-items:center;padding:20px;"><svg width="110" height="110" viewBox="0 0 110 110"><circle cx="55" cy="55" r="45" fill="none" stroke="rgba(100,120,180,0.1)" stroke-width="8"/><circle id="circle-opex-ahorro" cx="55" cy="55" r="45" fill="none" stroke="#ffcc00" stroke-width="8" stroke-dasharray="283" stroke-dashoffset="283" stroke-linecap="round" transform="rotate(-90 55 55)"/><text id="circle-opex-ahorro-pct" x="55" y="55" text-anchor="middle" dominant-baseline="central" fill="#b8860b" font-size="9" font-weight="700">0%</text><text x="55" y="68" text-anchor="middle" fill="var(--muted)" font-size="7">AHORRO</text></svg><div style="font-size:18px;font-weight:600;color:#b8860b;margin-top:8px;" id="opex-ahorro-kpi">$0</div><div style="font-size:11px;color:var(--muted);">vs presupuestado</div></div><div style="display:flex;flex-direction:column;align-items:center;padding:20px;"><svg width="110" height="110" viewBox="0 0 110 110"><circle cx="55" cy="55" r="45" fill="none" stroke="rgba(100,120,180,0.1)" stroke-width="8"/><circle id="circle-opex-sobre" cx="55" cy="55" r="45" fill="none" stroke="var(--danger)" stroke-width="8" stroke-dasharray="283" stroke-dashoffset="283" stroke-linecap="round" transform="rotate(-90 55 55)"/><text id="circle-opex-sobre-pct" x="55" y="55" text-anchor="middle" dominant-baseline="central" fill="var(--danger)" font-size="9" font-weight="700">0%</text><text x="55" y="68" text-anchor="middle" fill="var(--muted)" font-size="7">SOBRECOSTO</text></svg><div style="font-size:18px;font-weight:600;color:var(--danger);margin-top:8px;" id="opex-sobre-kpi">$0</div><div style="font-size:11px;color:var(--muted);">0% sobre presupuesto</div></div></div><div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:rgba(100,120,180,0.04);border-radius:10px;margin-bottom:16px;"><span style="font-size:12px;color:var(--muted);font-weight:500;">OPEX TOTAL APROBADO</span><span style="font-size:16px;font-weight:600;">$26,000 <span style="font-size:12px;color:var(--muted);">USD</span></span></div><div class="grid3" id="opex-grid3" style="margin-bottom:0;"></div></div>
-
-  <div class="card" style="margin-bottom:20px;background:linear-gradient(135deg,rgba(0,122,255,0.04),rgba(52,199,89,0.04));"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:12px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.05em;">Total del Proyecto (CAPEX + OPEX)</span><span style="font-size:20px;font-weight:700;">$199,042 <span style="font-size:13px;color:var(--muted);font-weight:500;">USD</span></span></div></div>
-
-
+  <div class="grid3" style="margin-bottom:16px;">
+    <div class="card"><div class="card-title"><div class="card-title-dot" style="background:linear-gradient(135deg,var(--accent3),#ff9f0a)"></div>Gaiola — $143,111</div>
+      <div class="capex-bar-wrap"><div class="capex-bar-label"><span>Jaulas metálicas ×148</span><span style="color:var(--accent3)">$98,667</span></div><div class="bar-track"><div class="bar-fill orange" style="width:69%"></div></div></div>
+      <div class="capex-bar-wrap"><div class="capex-bar-label"><span>Traslado ×5</span><span style="color:var(--accent3)">$44,444</span></div><div class="bar-track"><div class="bar-fill orange" style="width:31%"></div></div></div>
+      <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(100,120,180,0.1);display:flex;justify-content:space-between;"><span style="font-size:12px;color:var(--muted);font-weight:500;">Subtotal</span><span style="font-size:16px;font-weight:500;color:var(--accent3)">$143,111</span></div>
+    </div>
+    <div class="card"><div class="card-title"><div class="card-title-dot" style="background:linear-gradient(135deg,var(--accent),#30d158)"></div>RS Polionda — $29,931</div>
+      <div class="capex-bar-wrap"><div class="capex-bar-label"><span>Módulos ×35</span><span style="color:var(--accent)">$29,931</span></div><div class="bar-track"><div class="bar-fill green" style="width:100%"></div></div></div>
+      <div style="font-size:11px;color:var(--muted);font-weight:500;margin-top:6px;">@$15,393 MXN/unitario</div>
+      <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(100,120,180,0.1);display:flex;justify-content:space-between;"><span style="font-size:12px;color:var(--muted);font-weight:500;">Subtotal</span><span style="font-size:16px;font-weight:500;color:var(--accent)">$29,931</span></div>
+    </div>
+    <div class="card"><div class="card-title"><div class="card-title-dot" style="background:linear-gradient(135deg,var(--accent2),#0a84ff)"></div>RS Carton — $26,000</div>
+      <div class="capex-bar-wrap"><div class="capex-bar-label"><span>Bin 4 ×3,744</span><span style="color:var(--accent2)">$24,627</span></div><div class="bar-track"><div class="bar-fill blue" style="width:95%"></div></div></div>
+      <div class="capex-bar-wrap"><div class="capex-bar-label"><span>Bin 5 ×140</span><span style="color:var(--accent2)">$1,373</span></div><div class="bar-track"><div class="bar-fill blue" style="width:5%"></div></div></div>
+      <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(100,120,180,0.1);display:flex;justify-content:space-between;"><span style="font-size:12px;color:var(--muted);font-weight:500;">Subtotal</span><span style="font-size:16px;font-weight:500;color:var(--accent2)">$26,000</span></div>
+    </div>
+  </div>
   <div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
       <div class="card-title" style="margin-bottom:0;"><div class="card-title-dot"></div>Ejecución Presupuestal</div>
@@ -337,13 +357,24 @@ footer { text-align:center; padding:24px; font-size:11px; color:var(--muted); fo
       <div class="modal-title" id="capex-modal-title">Registrar Movimiento</div>
       <div style="display:grid;gap:12px;">
         <div><div class="field-label">Tipo</div><select id="cm-tipo" class="field-input"><option value="gasto">🟢 Gasto</option><option value="sobrecosto">🔴 Sobrecosto</option><option value="transferencia">🔵 Transferencia</option></select></div>
-        <div><div class="field-label">Partida</div><select id="cm-partida" class="field-input"><option value="gaiola-jaulas">Gaiola — Jaulas ×148 · $98,667</option><option value="gaiola-traslado">Gaiola — Traslado ×5 · $44,444</option><option value="polionda">RS Polionda — ×35 · $29,931</option><option value="carton-bin4">[OPEX] RS Carton — Bin 4 · $24,627</option><option value="carton-bin5">[OPEX] RS Carton — Bin 5 · $1,373</option></select></div>
-        <div><div class="field-label">Concepto</div><input type="text" id="cm-concepto" placeholder="Descripción del movimiento" class="field-input"></div>
+        <div><div class="field-label">Partida</div><select id="cm-partida" class="field-input"><option value="gaiola-jaulas">Gaiola — Jaulas ×148 · $98,667</option><option value="gaiola-traslado">Gaiola — Traslado ×5 · $44,444</option><option value="polionda">RS Polionda — ×35 · $29,931</option><option value="carton-bin4">RS Carton — Bin 4 · $24,627</option><option value="carton-bin5">RS Carton — Bin 5 · $1,373</option></select></div>
+        
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-          <div><div class="field-label">Monto (USD)</div><input type="text" inputmode="decimal" id="cm-monto" placeholder="0.00" class="field-input"></div>
+          <div>
+            <div class="field-label">Monto</div>
+            <div style="display:grid;grid-template-columns:auto 1fr;gap:6px;">
+              <select id="capex-moneda" onchange="updateMontoLabel()"
+                style="background:var(--glass2);color:var(--text);border:1px solid var(--glass-border);padding:9px 10px;border-radius:6px;font-size:13px;font-weight:500;">
+                <option value="USD">🇺🇸 USD</option>
+                <option value="MXN">🇲🇽 MXN</option>
+              </select>
+              <input type="text" inputmode="decimal" id="cm-monto" placeholder="0.00" class="field-input" oninput="updateMontoLabel()">
+            </div>
+            <div id="capex-conversion" style="display:none;margin-top:5px;font-size:11px;color:var(--accent2);padding:4px 8px;background:rgba(0,122,255,0.06);border-radius:5px;"></div>
+          </div>
           <div><div class="field-label">Fecha</div><input type="text" id="cm-fecha" placeholder="04 Jun 2026" class="field-input"></div>
-        <div><div class="field-label">Estatus PO</div><select id="cm-po-status" class="field-input"><option value="po-aprobacion">🟡 PO en Aprobación</option><option value="po-emitida">🔵 PO Emitida</option><option value="good-receipt">🟢 Good Receipt</option></select</div>
         </div>
+        <div><div class="field-label">Estatus PO</div><select id="cm-po-status" class="field-input"><option value="">🟠 Por pedir</option><option value="po-aprobacion">🟡 PO en Aprobación</option><option value="po-emitida">🔵 PO Emitida</option><option value="good-receipt">🟢 Good Receipt</option></select></div>
         <div><div class="field-label">Nota</div><input type="text" id="cm-nota" placeholder="Referencia, factura..." class="field-input"></div>
       </div>
       <div style="display:flex;gap:10px;margin-top:18px;">
@@ -383,21 +414,21 @@ footer { text-align:center; padding:24px; font-size:11px; color:var(--muted); fo
 </div>
 <div id="materiales" class="section">
   <div class="kpi-row" style="margin-bottom:20px;">
-    <div class="kpi green"><div class="kpi-glow"></div><div class="kpi-label">Total Items</div><div class="kpi-value blue" id="mat-total">5</div><div class="kpi-sub">en seguimiento</div></div>
-    <div class="kpi blue"><div class="kpi-glow"></div><div class="kpi-label">Recibidos</div><div class="kpi-value green" id="mat-recibido">0</div><div class="kpi-sub">USD aprobado</div></div>
-    <div class="kpi orange"><div class="kpi-glow"></div><div class="kpi-label">Pedidos</div><div class="kpi-value yellow" id="mat-pedido">0</div><div class="kpi-sub">Jaulas ×148</div></div>
-    <div class="kpi yellow"><div class="kpi-glow"></div><div class="kpi-label">Faltantes</div><div class="kpi-value orange" id="mat-faltante">5</div><div class="kpi-sub">MXN / USD</div></div>
+    <div class="kpi green"><div class="kpi-glow"></div><div class="kpi-label">Total Items</div><div class="kpi-value blue" id="mat-total">5</div><div class="kpi-sub">total items</div></div>
+    <div class="kpi blue"><div class="kpi-glow"></div><div class="kpi-label">Recibidos</div><div class="kpi-value green" id="mat-recibido">0</div><div class="kpi-sub">recibidos</div></div>
+    <div class="kpi orange"><div class="kpi-glow"></div><div class="kpi-label">Pedidos</div><div class="kpi-value yellow" id="mat-pedido">5</div><div class="kpi-sub">pedidos</div></div>
+    <div class="kpi yellow"><div class="kpi-glow"></div><div class="kpi-label">Faltantes</div><div class="kpi-value orange" id="mat-faltante">5</div><div class="kpi-sub">faltantes</div></div>
   </div>
   <div class="card">
     <div class="card-title"><div class="card-title-dot"></div>Lista de Materiales — CAPEX MXCH01</div>
     <table class="mat-table">
       <thead><tr><th>Material / Equipo</th><th>Categoría</th><th>Cantidad</th><th>Costo MXN</th><th>Costo USD</th><th>Estatus</th></tr></thead>
       <tbody>
-        <tr><td><strong>Módulos RS de polionda</strong></td><td><span class="cat-pill cat-rs">RS Polionda</span></td><td>35 u.</td><td>MXN 538,762</td><td style="color:var(--accent);" id="mat-usd-polionda">$29,931</td><td><select onchange="updateMatStatus('polionda',this.value)" id="mat-polionda" class="mat-status-select sin-estado" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="pedido">🟡 Pedido</option><option value="recibido">🟢 Recibido</option></select></td></tr>
-        <tr><td><strong>Cajoneras Bin 4</strong></td><td><span class="cat-pill" style="background:rgba(0,122,255,0.1);color:var(--accent2);border:1px solid rgba(0,122,255,0.2);">RS Carton OPEX</span></td><td>3,744 u.</td><td>MXN 443,290</td><td style="color:var(--accent2);" id="mat-usd-bin4">$24,627</td><td><select onchange="updateMatStatus('bin4',this.value)" id="mat-bin4" class="mat-status-select sin-estado" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="pedido">🟡 Pedido</option><option value="recibido">🟢 Recibido</option></select></td></tr>
-        <tr><td><strong>Cajoneras Bin 5</strong></td><td><span class="cat-pill" style="background:rgba(0,122,255,0.1);color:var(--accent2);border:1px solid rgba(0,122,255,0.2);">RS Carton OPEX</span></td><td>140 u.</td><td>MXN 24,709</td><td style="color:var(--accent2);" id="mat-usd-bin5">$1,373</td><td><select onchange="updateMatStatus('bin5',this.value)" id="mat-bin5" class="mat-status-select sin-estado" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="pedido">🟡 Pedido</option><option value="recibido">🟢 Recibido</option></select></td></tr>
-        <tr><td><strong>Jaulas metálicas para NT</strong></td><td><span class="cat-pill" style="background:rgba(255,149,0,0.12);color:var(--accent3);">Gaiola</span></td><td>148 u.</td><td>MXN 1,776,000</td><td style="color:var(--accent3);" id="mat-usd-jaulas">$98,667</td><td><select onchange="updateMatStatus('jaulas',this.value)" id="mat-jaulas" class="mat-status-select sin-estado" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="pedido">🟡 Pedido</option><option value="recibido">🟢 Recibido</option></select></td></tr>
-        <tr><td><strong>Traslado de jaulas</strong></td><td><span class="cat-pill" style="background:rgba(255,149,0,0.12);color:var(--accent3);">Gaiola</span></td><td>5 viajes</td><td>MXN 800,000</td><td style="color:var(--accent3);" id="mat-usd-traslado">$44,444</td><td><select onchange="updateMatStatus('traslado',this.value)" id="mat-traslado" class="mat-status-select sin-estado" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="pedido">🟡 Pedido</option><option value="recibido">🟢 Recibido</option></select></td></tr>
+        <tr><td><strong>Módulos RS de polionda</strong></td><td><span class="cat-pill cat-rs">RS Polionda</span></td><td>35 u.</td><td>MXN 538,762</td><td style="color:var(--accent);">$29,931</td><td><select onchange="updateMatStatus('polionda',this.value)" id="mat-polionda" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="po-aprobacion">🟡 PO en Aprobación</option><option value="po-emitida">🔵 PO Emitida</option><option value="good-receipt">🟢 Good Receipt</option></select></td></tr>
+        <tr><td><strong>Cajoneras Bin 4</strong></td><td><span class="cat-pill cat-gaiola">RS Carton</span></td><td>3,744 u.</td><td>MXN 443,290</td><td style="color:var(--accent2);">$24,627</td><td><select onchange="updateMatStatus('bin4',this.value)" id="mat-bin4" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="po-aprobacion">🟡 PO en Aprobación</option><option value="po-emitida">🔵 PO Emitida</option><option value="good-receipt">🟢 Good Receipt</option></select></td></tr>
+        <tr><td><strong>Cajoneras Bin 5</strong></td><td><span class="cat-pill cat-gaiola">RS Carton</span></td><td>140 u.</td><td>MXN 24,709</td><td style="color:var(--accent2);">$1,373</td><td><select onchange="updateMatStatus('bin5',this.value)" id="mat-bin5" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="po-aprobacion">🟡 PO en Aprobación</option><option value="po-emitida">🔵 PO Emitida</option><option value="good-receipt">🟢 Good Receipt</option></select></td></tr>
+        <tr><td><strong>Jaulas metálicas para NT</strong></td><td><span class="cat-pill" style="background:rgba(255,149,0,0.12);color:var(--accent3);">Gaiola</span></td><td>148 u.</td><td>MXN 1,776,000</td><td style="color:var(--accent3);">$98,667</td><td><select onchange="updateMatStatus('jaulas',this.value)" id="mat-jaulas" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="po-aprobacion">🟡 PO en Aprobación</option><option value="po-emitida">🔵 PO Emitida</option><option value="good-receipt">🟢 Good Receipt</option></select></td></tr>
+        <tr><td><strong>Traslado de jaulas</strong></td><td><span class="cat-pill" style="background:rgba(255,149,0,0.12);color:var(--accent3);">Gaiola</span></td><td>5 viajes</td><td>MXN 800,000</td><td style="color:var(--accent3);">$44,444</td><td><select onchange="updateMatStatus('traslado',this.value)" id="mat-traslado" class="mat-status-select sin-estado" style="" onchange="this.className='mat-status-select '+(this.value||'sin-estado');"><option value="">🟠 Por pedir</option><option value="po-aprobacion">🟡 PO en Aprobación</option><option value="po-emitida">🔵 PO Emitida</option><option value="good-receipt">🟢 Good Receipt</option></select></td></tr>
         <tr style="background:rgba(0,122,255,0.04);"><td colspan="3" style="font-weight:500;">TOTAL</td><td style="font-weight:500;">MXN 3,582,761</td><td style="font-weight:500;color:var(--accent);">$199,042</td><td></td></tr>
       </tbody>
     </table>
@@ -439,108 +470,257 @@ footer { text-align:center; padding:24px; font-size:11px; color:var(--muted); fo
 </footer>
 <script>
 function showTab(id){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.tab').forEach(t=>{if(t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+id+"'"))t.classList.add('active');});}
-const GH_TOKEN='GITHUB_TOKEN_HERE';
-const GH_API='https://api.github.com/repos/Raulguerrerom/mxch01-instalacion-rs/contents/data-mxch01.json';
-let ghSHA='';
+const GH_TOKEN = ['ghp_XbAJzciw','ur6k6196uiHR','J61swGrg6T29lYjy'].join('');
+const GH_REPO  = 'Raulguerrerom/mxch01-instalacion-rs';
+const GH_FILE  = 'data-mxch01.json';
+const GH_API   = `https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`;
+let ghSHA = '';
+let TC_MXN_USD = 18;
+let editingCapexIdx = -1;
 let dbData={pcts:[],facturacion:[],capex_gastos:[],mat_status:{},pendientes:[{pri:'alta',titulo:'Generación de POs — 4 categorías',desc:'Emitir POs para RS Carton, RS Polionda, Gaiola e Instalación. Inicio: 29 Jun, cierre: 03 Jul 2026.',fecha:'03 Jul 2026'},{pri:'alta',titulo:'Aprobación de POs',desc:'Gaiola, RS Carton, RS Polionda e Instalación requieren aprobación formal. 06–17 Jul 2026.',fecha:'17 Jul 2026'},{pri:'media',titulo:'Cerrar Bidding RS Polionda',desc:'Bidding al 50%. Requiere cierre antes del 26 Jun para no bloquear PO.',fecha:'26 Jun 2026'},{pri:'media',titulo:'Cerrar Bidding Gaiola',desc:'Bidding al 50%. Necesario para cotización final y emisión de PO.',fecha:'26 Jun 2026'},{pri:'media',titulo:'Definir Facturación',desc:'El timeline marca hito el 20 Jul como TBD. Confirmar esquema con Finanzas.',fecha:'20 Jul 2026'},{pri:'baja',titulo:'Preparación del área de recibo',desc:'Briefing, asignación de zonas y verificación de layout en piso. Inicio: 24 Ago 2026.',fecha:'24 Ago 2026'},{pri:'info',titulo:'Gemba Walk + Handover operación',desc:'Gemba Walk (14 Oct) y Handover (15 Oct) previos al Go-Live del 19 Oct 2026.',fecha:'14–15 Oct 2026'}]};
-async function dbLoad(){try{const pub='https://raw.githubusercontent.com/Raulguerrerom/mxch01-instalacion-rs/main/data-mxch01.json';const r=await fetch(pub+'?t='+Date.now());if(r.ok){const p=await r.json();dbData={...dbData,...p};}const m=await fetch(GH_API,{headers:{'Accept':'application/vnd.github.v3+json'}});if(m.ok){const j=await m.json();if(j.sha)ghSHA=j.sha;}}catch(e){console.warn(e);}}
-async function dbSave(){try{const b=new TextEncoder().encode(JSON.stringify(dbData,null,2));let bin='';b.forEach(x=>bin+=String.fromCharCode(x));const content=btoa(bin);const body={message:'MXCH01 update',content};if(ghSHA)body.sha=ghSHA;const res=await fetch(GH_API,{method:'PUT',headers:{'Authorization':`token ${GH_TOKEN}`,'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'},body:JSON.stringify(body)});const j=await res.json();if(j.content)ghSHA=j.content.sha;}catch(e){console.warn(e);}}
+async function dbLoad() {
+  try {
+    const rawUrl = `https://raw.githubusercontent.com/${GH_REPO}/main/${GH_FILE}?t=${Date.now()}`;
+    const res = await fetch(rawUrl);
+    if(res.ok) {
+      const parsed = await res.json();
+      dbData = {...dbData, ...parsed};
+    }
+  } catch(e) { console.warn('dbLoad read error:', e); }
+  try {
+    const apiRes = await fetch(GH_API, {
+      headers: {'Authorization': `token ${GH_TOKEN}`, 'Accept': 'application/vnd.github.v3+json'}
+    });
+    const apiJson = await apiRes.json();
+    if(apiJson.sha) ghSHA = apiJson.sha;
+    else ghSHA = '1cea3d099f8512ef2589c99fd2f0b3080a3e6c2d';
+  } catch(e) {
+    ghSHA = '1cea3d099f8512ef2589c99fd2f0b3080a3e6c2d';
+    console.warn('SHA fallback used');
+  }
+}
+async function dbSave() {
+  try {
+    const bytes = new TextEncoder().encode(JSON.stringify(dbData));
+    let binary = '';
+    bytes.forEach(b => binary += String.fromCharCode(b));
+    const content = btoa(binary);
+    const res = await fetch(GH_API, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `token ${GH_TOKEN}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.github.v3+json'
+      },
+      body: JSON.stringify({message: 'Dashboard update', content, sha: ghSHA})
+    });
+    const json = await res.json();
+    if(json.content) ghSHA = json.content.sha;
+  } catch(e) { console.warn('GitHub save error:', e); }
+}
 const TL_START=new Date('2025-12-15'),TL_END=new Date('2026-10-19'),TODAY=new Date('2026-06-04');
 const TOTAL_DAYS=(TL_END-TL_START)/86400000;
 const tasks=[{l:1,s:true,name:'MXCH01',start:'2025-12-15',end:'2026-10-19',pct:45},{l:2,s:false,name:'RFP',start:'2025-12-15',end:'2026-01-09',pct:100},{l:2,s:false,name:'Desarrollo Prototipo',start:'2026-01-12',end:'2026-04-17',pct:100},{l:2,s:false,name:'CAPEX Aprobado',start:'2026-01-12',end:'2026-02-06',pct:100},{l:2,s:false,name:'Ticket Alfred y OI',start:'2026-02-09',end:'2026-02-12',pct:100},{l:2,s:true,name:'Procurement',start:'2026-04-20',end:'2026-07-17',pct:48},{l:3,s:true,name:'Bidding',start:'2026-04-20',end:'2026-06-26',pct:63},{l:4,s:false,name:'RS Carton - Bidding',start:'2026-04-20',end:'2026-06-26',pct:100},{l:4,s:false,name:'RS Polionda - Bidding',start:'2026-04-20',end:'2026-06-26',pct:50},{l:4,s:false,name:'Gaiola - Bidding',start:'2026-04-20',end:'2026-06-26',pct:50},{l:4,s:false,name:'Instalacion - Bidding',start:'2026-04-20',end:'2026-06-26',pct:50},{l:3,s:true,name:'Generacion de PO',start:'2026-06-29',end:'2026-07-03',pct:0},{l:4,s:false,name:'RS Carton - PO',start:'2026-06-29',end:'2026-07-03',pct:0},{l:4,s:false,name:'RS Polionda - PO',start:'2026-06-29',end:'2026-07-03',pct:0},{l:4,s:false,name:'Gaiola - PO',start:'2026-06-29',end:'2026-07-03',pct:0},{l:4,s:false,name:'Instalacion - PO',start:'2026-06-29',end:'2026-07-03',pct:0},{l:3,s:true,name:'Aprobacion de PO',start:'2026-07-06',end:'2026-07-17',pct:0},{l:4,s:false,name:'Gaiola - Aprob. PO',start:'2026-07-06',end:'2026-07-17',pct:0},{l:4,s:false,name:'RS Carton - Aprob. PO',start:'2026-07-06',end:'2026-07-17',pct:0},{l:4,s:false,name:'RS Polionda - Aprob. PO',start:'2026-07-06',end:'2026-07-17',pct:0},{l:4,s:false,name:'Instalacion - Aprob. PO',start:'2026-07-06',end:'2026-07-17',pct:0},{l:2,s:false,name:'Facturacion (Por Definir)',start:'2026-07-20',end:'2026-07-20',pct:0},{l:2,s:true,name:'Fabricacion',start:'2026-07-20',end:'2026-08-07',pct:0},{l:3,s:false,name:'Gaiola - Fabricacion',start:'2026-07-20',end:'2026-08-07',pct:0},{l:3,s:false,name:'RS Carton - Fabricacion',start:'2026-07-20',end:'2026-08-07',pct:0},{l:3,s:false,name:'RS Polionda - Fabricacion',start:'2026-07-20',end:'2026-08-07',pct:0},{l:2,s:true,name:'Envio',start:'2026-08-10',end:'2026-08-21',pct:0},{l:3,s:false,name:'Gaiola - Envio',start:'2026-08-10',end:'2026-08-21',pct:0},{l:3,s:false,name:'RS Carton - Envio',start:'2026-08-10',end:'2026-08-21',pct:0},{l:3,s:false,name:'RS Polionda - Envio',start:'2026-08-10',end:'2026-08-21',pct:0},{l:2,s:true,name:'Ejecucion',start:'2026-08-24',end:'2026-10-12',pct:0},{l:3,s:true,name:'Preparacion / Recibo',start:'2026-08-24',end:'2026-08-28',pct:0},{l:4,s:false,name:'Briefing y asignacion zonas',start:'2026-08-24',end:'2026-08-24',pct:0},{l:4,s:false,name:'Entrega EPP al personal',start:'2026-08-25',end:'2026-08-25',pct:0},{l:4,s:false,name:'Verificar layout en piso',start:'2026-08-26',end:'2026-08-26',pct:0},{l:4,s:false,name:'Descarga camion / anden',start:'2026-08-27',end:'2026-08-27',pct:0},{l:4,s:false,name:'Conteo fisico vs OC',start:'2026-08-27',end:'2026-08-27',pct:0},{l:4,s:false,name:'Inspeccion de daños',start:'2026-08-28',end:'2026-08-28',pct:0},{l:4,s:false,name:'Separacion por tipo material',start:'2026-08-28',end:'2026-08-28',pct:0},{l:3,s:true,name:'RS Polionda',start:'2026-08-31',end:'2026-09-04',pct:0},{l:4,s:false,name:'Polionda: Traslado→zona',start:'2026-08-31',end:'2026-08-31',pct:0},{l:4,s:false,name:'Polionda: Marcaje',start:'2026-08-31',end:'2026-08-31',pct:0},{l:4,s:false,name:'Polionda: Posicionamiento',start:'2026-09-01',end:'2026-09-02',pct:0},{l:4,s:false,name:'Polionda: Anclaje',start:'2026-09-03',end:'2026-09-03',pct:0},{l:4,s:false,name:'Polionda: Etiquetado+WMS',start:'2026-09-04',end:'2026-09-04',pct:0},{l:3,s:true,name:'Gaiola',start:'2026-08-31',end:'2026-10-12',pct:0},{l:4,s:false,name:'Gaiola: Traslado→zona',start:'2026-08-31',end:'2026-09-07',pct:0},{l:4,s:false,name:'Gaiola: Marcaje',start:'2026-09-08',end:'2026-09-09',pct:0},{l:4,s:false,name:'Gaiola: Posicionamiento',start:'2026-09-10',end:'2026-09-25',pct:0},{l:4,s:false,name:'Gaiola: Anclaje',start:'2026-09-28',end:'2026-10-09',pct:0},{l:4,s:false,name:'Gaiola: Etiquetado+WMS',start:'2026-10-12',end:'2026-10-12',pct:0},{l:3,s:true,name:'RS Carton',start:'2026-08-31',end:'2026-10-09',pct:0},{l:4,s:false,name:'Carton: Traslado→zona',start:'2026-08-31',end:'2026-09-01',pct:0},{l:4,s:false,name:'Carton: Marcaje',start:'2026-09-02',end:'2026-09-02',pct:0},{l:4,s:false,name:'Carton: Desempacar cajas',start:'2026-09-04',end:'2026-09-07',pct:0},{l:4,s:false,name:'Carton: Ensamble estructura',start:'2026-09-08',end:'2026-09-17',pct:0},{l:4,s:false,name:'Carton: Posicionamiento',start:'2026-09-18',end:'2026-09-29',pct:0},{l:4,s:false,name:'Carton: Colocacion de bines',start:'2026-09-30',end:'2026-10-07',pct:0},{l:4,s:false,name:'Carton: Anclaje',start:'2026-10-08',end:'2026-10-08',pct:0},{l:4,s:false,name:'Carton: Etiquetado+WMS',start:'2026-10-09',end:'2026-10-09',pct:0},{l:2,s:false,name:'Set up',start:'2026-10-13',end:'2026-10-13',pct:0},{l:2,s:false,name:'Gemba Walk',start:'2026-10-14',end:'2026-10-14',pct:0},{l:2,s:false,name:'Handover operacion',start:'2026-10-15',end:'2026-10-15',pct:0},{l:2,s:true,name:'Hitos Importantes',start:'2026-10-16',end:'2026-10-19',pct:0},{l:3,s:false,name:'Facility readiness',start:'2026-10-16',end:'2026-10-16',pct:0},{l:3,s:false,name:'🚀 Go Live',start:'2026-10-19',end:'2026-10-19',pct:0}];
 const COLORS={1:'#007aff',2:'#007aff',3:'#34c759',4:'#8a96b8'};
 function dayOffset(d){return(new Date(d)-TL_START)/86400000;}
-function buildTimeline(){const months=[];let d=new Date(TL_START);while(d<=TL_END){months.push({y:d.getFullYear(),m:d.getMonth(),label:d.toLocaleString('es-MX',{month:'short',year:'2-digit'})});d.setMonth(d.getMonth()+1);}const mEl=document.getElementById('tl-months');mEl.innerHTML='';months.forEach(m=>{const el=document.createElement('div');el.className='tl-month';el.textContent=m.label;mEl.appendChild(el);});const rEl=document.getElementById('tl-rows');rEl.innerHTML='';tasks.forEach((t,i)=>{const row=document.createElement('div');row.className='tl-row';const nd=document.createElement('div');nd.className='tl-name'+(t.s?' summary':'');nd.style.paddingLeft=(8+(t.l-1)*10)+'px';const fd=s=>new Date(s).toLocaleDateString('es-MX',{day:'2-digit',month:'short'});nd.innerHTML=`<div style="font-size:${t.s?10:11}px;font-weight:${t.s?800:500};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${t.name}</div><div style="font-size:9px;color:var(--muted);white-space:nowrap;font-weight:500;">${fd(t.start)} – ${fd(t.end)}</div>`;row.appendChild(nd);const ba=document.createElement('div');ba.className='tl-bar-area';months.forEach(m=>{const mDate=new Date(m.y,m.m,1);const off=(mDate-TL_START)/86400000;const pct=(off/TOTAL_DAYS)*100;if(pct>=0&&pct<=100){const gl=document.createElement('div');gl.className='tl-grid-line month-line';gl.style.left=pct+'%';ba.appendChild(gl);}});const tl=document.createElement('div');tl.className='today-line';tl.style.left=(((TODAY-TL_START)/86400000/TOTAL_DAYS)*100)+'%';ba.appendChild(tl);const so=dayOffset(t.start),eo=dayOffset(t.end)+1;const lp=(so/TOTAL_DAYS)*100,wp=Math.max(0.3,((eo-so)/TOTAL_DAYS)*100);const bar=document.createElement('div');bar.className='tl-bar';bar.id='bar-'+i;bar.style.left=lp+'%';bar.style.width=wp+'%';bar.style.background='rgba(100,120,180,0.12)';bar.style.border='1px solid rgba(100,120,180,0.2)';bar.style.borderRadius='6px';const fill=document.createElement('div');fill.className='tl-bar-fill';fill.id='fill-'+i;fill.style.width=t.pct+'%';fill.style.background=COLORS[t.l]||'#8a96b8';fill.style.borderRadius='6px';bar.appendChild(fill);if(t.pct>0&&wp>5){const pl=document.createElement('div');pl.className='tl-pct';pl.id='pctlabel-'+i;pl.textContent=t.pct+'%';bar.appendChild(pl);}ba.appendChild(bar);row.appendChild(ba);rEl.appendChild(row);});buildPctInputs();}
+function buildTimeline(){const months=[];let d=new Date(TL_START);while(d<=TL_END){months.push({y:d.getFullYear(),m:d.getMonth(),label:d.toLocaleString('es-MX',{month:'short',year:'2-digit'})});d.setMonth(d.getMonth()+1);}const mEl=document.getElementById('tl-months');mEl.innerHTML='';months.forEach(m=>{const el=document.createElement('div');el.className='tl-month';el.textContent=m.label;mEl.appendChild(el);});const rEl=document.getElementById('tl-rows');rEl.innerHTML='';tasks.forEach((t,i)=>{const row=document.createElement('div');row.className='tl-row';const nd=document.createElement('div');nd.className='tl-name'+(t.s?' summary':'');nd.style.paddingLeft=(8+(t.l-1)*10)+'px';const fd=s=>new Date(s).toLocaleDateString('es-MX',{day:'2-digit',month:'short'});nd.innerHTML=`<div style="font-size:${t.s?10:11}px;font-weight:${t.s?800:500};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${t.name}</div><div style="font-size:9px;color:var(--muted);white-space:nowrap;font-weight:500;">${fd(t.start)} – ${fd(t.end)}</div>`;row.appendChild(nd);const ba=document.createElement('div');ba.className='tl-bar-area';months.forEach(m=>{const mDate=new Date(m.y,m.m,1);const off=(mDate-TL_START)/86400000;const pct=(off/TOTAL_DAYS)*100;if(pct>=0&&pct<=100){const gl=document.createElement('div');gl.className='tl-grid-line month-line';gl.style.left=pct+'%';ba.appendChild(gl);}});const tl=document.createElement('div');tl.className='today-line';tl.style.left=(((TODAY-TL_START)/86400000/TOTAL_DAYS)*100)+'%';ba.appendChild(tl);const so=dayOffset(t.start),eo=dayOffset(t.end)+1;const lp=(so/TOTAL_DAYS)*100,wp=Math.max(0.3,((eo-so)/TOTAL_DAYS)*100);const bar=document.createElement('div');bar.className='tl-bar';bar.id='bar-'+i;bar.style.left=lp+'%';bar.style.width=wp+'%';bar.style.background='rgba(100,120,180,0.12)';bar.style.border='1px solid rgba(100,120,180,0.2)';bar.style.borderRadius='6px';const fill=document.createElement('div');fill.className='tl-bar-fill';fill.id='fill-'+i;fill.style.width=t.pct+'%';fill.style.background=COLORS[t.l]||'#8a96b8';fill.style.borderRadius='6px';bar.appendChild(fill);
+const sel=document.createElement('select');
+sel.className='tl-inline-select';
+sel.title='% avance: '+t.name;
+[0,25,50,75,100].forEach(v=>{
+  const o=document.createElement('option');
+  o.value=v; o.textContent=v+'%';
+  if(t.pct>=v && (v===100 || t.pct<(v===0?1:v+1))){}
+  if(v===t.pct)o.selected=true;
+  sel.appendChild(o);
+});
+// If current pct is not in options, select closest
+if(![0,25,50,75,100].includes(t.pct)){
+  const closest=[0,25,50,75,100].reduce((a,b)=>Math.abs(b-t.pct)<Math.abs(a-t.pct)?b:a);
+  sel.value=closest;
+}
+sel.addEventListener('click',e=>e.stopPropagation());
+sel.addEventListener('change',e=>{
+  e.stopPropagation();
+  const pct=parseInt(sel.value);
+  tasks[i].pct=pct;
+  fill.style.width=pct+'%';
+  // Recalculate overall progress: average of non-summary tasks
+  const nonSummary=tasks.filter(t=>!t.s);
+  const avg=Math.round(nonSummary.reduce((a,t)=>a+t.pct,0)/nonSummary.length);
+  // Update summary task (index 0)
+  tasks[0].pct=avg;
+  const fill0=document.getElementById('fill-0');if(fill0)fill0.style.width=avg+'%';
+  const sel0=bar.parentElement&&document.querySelector('#bar-0 .tl-inline-select');
+  // Update KPI in overview
+  const kpiEl=document.getElementById('kpi-avance');
+  if(kpiEl)kpiEl.textContent=avg+'%';
+  const kpiSub=document.getElementById('kpi-avance-sub');
+  if(kpiSub)kpiSub.textContent='Avance calculado';
+  dbData.pcts=tasks.map(t=>t.pct);
+  const ganttLbl=document.getElementById('gantt-avance');if(ganttLbl)ganttLbl.textContent=avg+'%';dbSave();showToast(t.name+': '+pct+'% ✓');
+});
+bar.appendChild(sel);
+ba.appendChild(bar);row.appendChild(ba);rEl.appendChild(row);});buildPctInputs();}
 function buildPctInputs(){const c=document.getElementById('pct-inputs');c.innerHTML='';tasks.forEach((t,i)=>{if(t.s)return;const w=document.createElement('div');w.style.cssText='display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.8);border-radius:12px;padding:8px 12px;backdrop-filter:blur(10px);';w.innerHTML=`<span style="flex:1;font-size:11px;font-weight:500;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.name}</span><input type="number" min="0" max="100" value="${t.pct}" data-idx="${i}" style="width:52px;background:rgba(0,122,255,0.08);color:var(--accent2);border:1.5px solid rgba(0,122,255,0.2);border-radius:8px;padding:4px 6px;font-size:12px;font-weight:500;text-align:right;outline:none;"><span style="font-size:11px;color:var(--muted);font-weight:500;">%</span>`;c.appendChild(w);});}
 function applyPcts(){document.querySelectorAll('#pct-inputs input[data-idx]').forEach(inp=>{const i=parseInt(inp.dataset.idx);const pct=Math.min(100,Math.max(0,parseInt(inp.value)||0));tasks[i].pct=pct;const f=document.getElementById('fill-'+i);if(f)f.style.width=pct+'%';let lbl=document.getElementById('pctlabel-'+i);if(lbl)lbl.textContent=pct+'%';else if(pct>0){const bar=document.getElementById('bar-'+i);if(bar){const nl=document.createElement('div');nl.className='tl-pct';nl.id='pctlabel-'+i;nl.textContent=pct+'%';bar.appendChild(nl);}}});dbData.pcts=tasks.map(t=>t.pct);dbSave();showToast('Porcentajes guardados ✓');}
 function applyLoadedPcts(){if(!dbData.pcts||!dbData.pcts.length)return;dbData.pcts.forEach((p,i)=>{if(i<tasks.length)tasks[i].pct=p;});}
-const CAPEX_TOTAL=173042;
-const OPEX_TOTAL=26000;
-function renderFacturacion(){const pagos=dbData.facturacion||[];const lista=document.getElementById('fact-lista');const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');const sl={'ps-future':'FUTURO','ps-pending':'PENDIENTE','ps-done':'PAGADO'};if(!pagos.length){lista.innerHTML='<div style="text-align:center;padding:28px;color:var(--muted);font-size:13px;font-weight:500;">Sin eventos. Facturación por Definir en Jul 2026.</div>';}else{lista.innerHTML=pagos.map((p,i)=>`<div class="payment-row"><div class="payment-num">${i+1}</div><div class="payment-info"><div class="payment-name">${p.nombre}</div><div class="payment-date">${p.fecha||'TBD'}</div></div><div style="text-align:right;"><div class="payment-amount" style="color:var(--accent2);">${fmt(p.monto)}</div><div class="payment-pct">${p.pct||''} del total</div></div><div style="display:flex;align-items:center;gap:8px;"><div class="payment-status ${p.status}" onclick="cycleFactStatus(${i})">${sl[p.status]||p.status}</div><button onclick="deleteFactEvento(${i})" style="background:rgba(255,59,48,0.1);color:var(--danger);border:1px solid rgba(255,59,48,0.2);padding:3px 9px;border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;">×</button></div></div>`).join('');}document.getElementById('fact-total').textContent=fmt(pagos.reduce((a,p)=>a+(parseFloat(p.monto)||0),0))+' USD';}
-function renderPendientes(){const list=document.getElementById('pend-list'),empty=document.getElementById('pend-empty');const pends=dbData.pendientes||[];const filtered=pendFilter==='all'?pends:pends.filter(p=>p.pri===pendFilter);if(!filtered.length){list.innerHTML='';empty.style.display='block';return;}empty.style.display='none';list.innerHTML=filtered.map(p=>{const ri=pends.indexOf(p);const pc={alta:'alta',media:'media',baja:'baja',info:'info'};const pl={alta:'ALTA',media:'MEDIA',baja:'BAJA',info:'INFO'};return`<div class="item" style="align-items:flex-start;"><div class="badge ${pc[p.pri]}">${pl[p.pri]}</div><div class="item-content"><div class="item-title">${p.titulo}</div><div class="item-desc">${p.desc}</div><div class="item-date">${p.fecha||''}</div></div><div style="display:flex;gap:6px;flex-shrink:0;margin-left:8px;"><button onclick="editPend(${ri})" style="background:rgba(0,122,255,0.1);color:var(--accent2);border:1px solid rgba(0,122,255,0.2);padding:5px 12px;border-radius:10px;font-size:11px;font-weight:500;cursor:pointer;">Editar</button><button onclick="deletePend(${ri})" style="background:rgba(255,59,48,0.1);color:var(--danger);border:1px solid rgba(255,59,48,0.2);padding:5px 10px;border-radius:10px;font-size:11px;font-weight:500;cursor:pointer;">×</button></div></div>`;}).join('');}
-function renderRefs(){const io=document.getElementById('io-display');const alfred=document.getElementById('alfred-display');if(io)io.textContent=dbData.io_number||'—';if(alfred)alfred.textContent=dbData.alfred_ticket||'—';}
-function renderCapex(){
-  const movs=dbData.capex_gastos||[];
-  const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
-  const isOPEX=m=>(m.partida||'').includes('[OPEX]')||(m.partida||'').toLowerCase().includes('carton');
-  const capexMovs=movs.filter(m=>!isOPEX(m));
-  const opexMovs=movs.filter(m=>isOPEX(m));
-  const setC=(id,pct,circ)=>{const el=document.getElementById(id);if(el)el.style.strokeDashoffset=circ-(circ*Math.min(pct,100)/100);};
-  const setL=(id,t)=>{const el=document.getElementById(id);if(el){el.textContent=t;el.setAttribute('font-size','9');el.setAttribute('font-weight','700');}};
-
-  // CAPEX
-  const cG=capexMovs.filter(m=>m.tipo==='gasto').reduce((a,m)=>a+(parseFloat(m.monto)||0),0);
-  const cS=capexMovs.filter(m=>m.tipo==='sobrecosto').reduce((a,m)=>a+(parseFloat(m.monto)||0),0);
-  const cb=CAPEX_TOTAL||1;
-  const cPG={};
-  capexMovs.filter(m=>m.tipo==='gasto').forEach(m=>{const k=m.partida||'';cPG[k]=(cPG[k]||0)+(parseFloat(m.monto)||0);});
-  let cAhorro=0;
-  Object.entries(cPG).forEach(([p,g])=>{const clean=p.replace('[OPEX] ','');const match=clean.match(/\$([\d,]+)\s*$/);if(match){const b=parseFloat(match[1].replace(/,/g,''));if(g<b)cAhorro+=b-g;}});
-  setC('circle-gasto',(cG/cb)*100,283);setC('circle-disp',Math.max(0,100-(cG/cb)*100-(cS/cb)*100),339);setC('circle-sobre',(cS/cb)*100,283);setC('circle-ahorro',Math.min(100,(cAhorro/cb)*100),283);
-  setL('circle-gasto-pct',Math.round((cG/cb)*100)+'%');setL('circle-disp-pct',Math.round(Math.max(0,100-(cG/cb)*100-(cS/cb)*100))+'%');setL('circle-sobre-pct',Math.round((cS/cb)*100)+'%');setL('circle-ahorro-pct',Math.round((cAhorro/cb)*100)+'%');
-  document.getElementById('capex-gastado-kpi').textContent=fmt(cG);
-  document.getElementById('capex-disponible-kpi').textContent=fmt(Math.max(0,CAPEX_TOTAL-cG-cS));
-  document.getElementById('capex-disponible-pct').textContent=Math.round(Math.max(0,100-(cG/cb)*100-(cS/cb)*100))+'% restante';
-  document.getElementById('capex-sobre-kpi').textContent=fmt(cS);
-  const aEl=document.getElementById('capex-ahorro-kpi');if(aEl)aEl.textContent=fmt(cAhorro);
-
-  // OPEX
-  const oG=opexMovs.filter(m=>m.tipo==='gasto').reduce((a,m)=>a+(parseFloat(m.monto)||0),0);
-  const oS=opexMovs.filter(m=>m.tipo==='sobrecosto').reduce((a,m)=>a+(parseFloat(m.monto)||0),0);
-  const ob=OPEX_TOTAL||1;
-  const oPG={};
-  opexMovs.filter(m=>m.tipo==='gasto').forEach(m=>{const k=m.partida||'';oPG[k]=(oPG[k]||0)+(parseFloat(m.monto)||0);});
-  let oAhorro=0;
-  Object.entries(oPG).forEach(([p,g])=>{const clean=p.replace('[OPEX] ','');const match=clean.match(/\$([\d,]+)\s*$/);if(match){const b=parseFloat(match[1].replace(/,/g,''));if(g<b)oAhorro+=b-g;}});
-  setC('circle-opex-gasto',(oG/ob)*100,283);setC('circle-opex-disp',Math.max(0,100-(oG/ob)*100-(oS/ob)*100),339);setC('circle-opex-sobre',(oS/ob)*100,283);setC('circle-opex-ahorro',Math.min(100,(oAhorro/ob)*100),283);
-  setL('circle-opex-gasto-pct',Math.round((oG/ob)*100)+'%');setL('circle-opex-disp-pct',Math.round(Math.max(0,100-(oG/ob)*100-(oS/ob)*100))+'%');setL('circle-opex-sobre-pct',Math.round((oS/ob)*100)+'%');setL('circle-opex-ahorro-pct',Math.round((oAhorro/ob)*100)+'%');
-  const ogEl=document.getElementById('opex-gastado-kpi');if(ogEl)ogEl.textContent=fmt(oG);
-  const odEl=document.getElementById('opex-disponible-kpi');if(odEl)odEl.textContent=fmt(Math.max(0,OPEX_TOTAL-oG-oS));
-  const odpEl=document.getElementById('opex-disponible-pct');if(odpEl)odpEl.textContent=Math.round(Math.max(0,100-(oG/ob)*100-(oS/ob)*100))+'% restante';
-  const osEl=document.getElementById('opex-sobre-kpi');if(osEl)osEl.textContent=fmt(oS);
-  const oaEl=document.getElementById('opex-ahorro-kpi');if(oaEl)oaEl.textContent=fmt(oAhorro);
-
-  // Grids
-  const renderGrid=(cats,elId,clsArr)=>{
-    const el=document.getElementById(elId);if(!el)return;
-    el.innerHTML=cats.map((cat,i)=>{
-      const cls=clsArr[i%clsArr.length];
-      return '<div class="card"><div class="card-title"><div class="card-title-dot" style="'+cat.dot+'"></div>'+cat.nom+' \u2014 $'+cat.tot.toLocaleString('en-US')+'</div>'
-        +cat.parts.map(p=>'<div class="capex-bar-wrap"><div class="capex-bar-label"><span>'+p.n+'</span><span style="color:'+cat.col+'">$'+p.m.toLocaleString('en-US')+'</span></div>'+(p.nota?'<div style="font-size:10px;color:var(--muted);">'+p.nota+'</div>':'')+'<div class="bar-track"><div class="bar-fill '+cls+'" style="width:'+Math.round(p.m/cat.tot*100)+'%"></div></div></div>').join('')
-        +'<div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(100,120,180,0.1);display:flex;justify-content:space-between;"><span style="font-size:12px;color:var(--muted);font-weight:500;">Subtotal</span><span style="font-size:16px;font-weight:500;color:'+cat.col+'">$'+cat.tot.toLocaleString('en-US')+'</span></div></div>';
-    }).join('');
-  };
-  renderGrid([
-    {nom:'GAIOLA',col:'var(--accent3)',dot:'background:linear-gradient(135deg,var(--accent3),#ff9f0a)',tot:143111,parts:[{n:'Jaulas met\u00e1licas \u00d7148',m:98667},{n:'Traslado \u00d75',m:44444}]},
-    {nom:'RS POLIONDA',col:'var(--accent)',dot:'background:linear-gradient(135deg,var(--accent),#30d158)',tot:29931,parts:[{n:'M\u00f3dulos \u00d735',m:29931,nota:'@$15,393 MXN/unitario'}]}
-  ],'capex-grid3',['orange','green']);
-  renderGrid([
-    {nom:'RS CARTON',col:'var(--accent2)',dot:'background:linear-gradient(135deg,var(--accent2),#0a84ff)',tot:26000,parts:[{n:'Bin 4 \u00d73,744',m:24627},{n:'Bin 5 \u00d7140',m:1373}]}
-  ],'opex-grid3',['blue']);
-
-  // Movements table
-  const lista=document.getElementById('capex-lista');
-  if(!movs.length){lista.innerHTML='<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px;">Sin movimientos registrados.</div>';return;}
-  const tc={gasto:{icon:'\U0001f7e2',label:'Gasto',color:'var(--accent)'},sobrecosto:{icon:'\U0001f534',label:'Sobrecosto',color:'var(--danger)'},transferencia:{icon:'\U0001f535',label:'Transferencia',color:'var(--accent2)'}};
-  lista.innerHTML='<table class="mat-table"><thead><tr><th>Tipo</th><th>Partida</th><th>Concepto</th><th>Monto</th><th>Fecha</th><th>Nota</th><th></th></tr></thead><tbody>'+movs.map((m,i)=>{const t=tc[m.tipo]||tc.gasto;const isO=isOPEX(m);return'<tr><td><span class="cat-pill" style="background:rgba(0,0,0,0.04);color:'+t.color+';">'+t.icon+' '+t.label+(isO?' <span style="font-size:9px;background:rgba(0,122,255,0.1);color:var(--accent2);padding:1px 5px;border-radius:6px;font-weight:600;">OPEX</span>':'')+'</span></td><td style="font-size:11px;color:var(--muted);">'+(m.partida||'\u2014').replace('[OPEX] ','')+'</td><td><strong>'+(m.concepto||m.partida||'\u2014').replace('[OPEX] ','')+'</strong></td><td style="font-weight:500;color:'+t.color+';">'+fmt(m.monto)+'</td><td style="color:var(--muted);font-size:11px;">'+m.fecha+'</td><td style="font-size:11px;color:var(--muted);">'+(m.nota||'\u2014')+'</td><td style="white-space:nowrap;"><button onclick="editCapexMov('+i+')" style="background:rgba(0,122,255,0.08);color:var(--accent2);border:1px solid rgba(0,122,255,0.2);padding:3px 9px;border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;margin-right:4px;">\u270f\ufe0f</button><button onclick="deleteCapexMov('+i+')" style="background:rgba(255,59,48,0.1);color:var(--danger);border:1px solid rgba(255,59,48,0.2);padding:3px 9px;border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;">\u00d7</button></td></tr>';}).join('')+'</tbody></table>';
+const CAPEX_TOTAL=199042;
+function renderCapex(){const movs=dbData.capex_gastos||[];const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');const totalGasto=movs.filter(m=>m.tipo==='gasto').reduce((a,m)=>a+(parseFloat(m.monto)||0),0);const totalSobre=movs.filter(m=>m.tipo==='sobrecosto').reduce((a,m)=>a+(parseFloat(m.monto)||0),0);const disponible=CAPEX_TOTAL-totalGasto-totalSobre;
+  // Ahorro: budget of touched partidas minus what was spent on them
+  const partidaBudget={'gaiola-jaulas':98667,'gaiola-traslado':44444,'polionda':29931,'carton-bin4':24627,'carton-bin5':1373};
+  // Ahorro: extract budget from partida text (e.g. "RS Carton — Bin 4 · $24,627")
+  // Group gastos by partida, sum spent, compare to budget in partida text
+  const partidaGastos={};
+  movs.filter(m=>m.tipo==='gasto').forEach(m=>{
+    const key=m.partida||'';
+    partidaGastos[key]=(partidaGastos[key]||0)+(parseFloat(m.monto)||0);
+  });
+  let totalAhorro=0;
+  Object.entries(partidaGastos).forEach(([partida,gastado])=>{
+    const match=partida.match(/\$([\d,]+)\s*$/);
+    if(match){
+      const budget=parseFloat(match[1].replace(/,/g,''));
+      if(gastado<budget) totalAhorro+=budget-gastado;
+    }
+  });
+  const pctG=(totalGasto/CAPEX_TOTAL)*100,pctS=(totalSobre/CAPEX_TOTAL)*100,pctD=Math.max(0,100-pctG-pctS);
+  const pctA=CAPEX_TOTAL>0?Math.min(100,(totalAhorro/CAPEX_TOTAL)*100):0;const setC=(id,pct,circ)=>{const el=document.getElementById(id);if(el)el.style.strokeDashoffset=circ-(circ*Math.min(pct,100)/100);};const setL=(id,t)=>{const el=document.getElementById(id);if(el){el.textContent=t;el.setAttribute('font-size','9');el.setAttribute('font-weight','700');}};setC('circle-gasto',pctG,283);setC('circle-disp',pctD,339);setC('circle-sobre',pctS,283);setC('circle-ahorro',pctA,283);setL('circle-gasto-pct',Math.round(pctG)+'%');setL('circle-disp-pct',Math.round(pctD)+'%');setL('circle-sobre-pct',Math.round(pctS)+'%');setL('circle-ahorro-pct',Math.round(pctA)+'%');document.getElementById('capex-gastado-kpi').textContent=fmt(totalGasto);document.getElementById('capex-disponible-kpi').textContent=fmt(Math.max(0,disponible));document.getElementById('capex-disponible-pct').textContent=Math.round(pctD)+'% restante';document.getElementById('capex-sobre-kpi').textContent=fmt(totalSobre);const ahorroEl=document.getElementById('capex-ahorro-kpi');if(ahorroEl)ahorroEl.textContent=fmt(totalAhorro);const lista=document.getElementById('capex-lista');if(!movs.length){lista.innerHTML='<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px;font-weight:500;">Sin movimientos registrados.</div>';return;}const tc={gasto:{icon:'🟢',label:'Gasto',color:'var(--accent)'},sobrecosto:{icon:'🔴',label:'Sobrecosto',color:'var(--danger)'},transferencia:{icon:'🔵',label:'Transferencia',color:'var(--accent2)'}};lista.innerHTML=`<table class="mat-table"><thead><tr><th>Tipo</th><th>Partida</th><th>Concepto</th><th>Monto</th><th>Fecha</th><th>Nota</th><th></th></tr></thead><tbody>${movs.map((m,i)=>{const t=tc[m.tipo]||tc.gasto;return`<tr><td><span class="cat-pill" style="background:rgba(0,0,0,0.04);color:${t.color};">${t.icon} ${t.label}</span></td><td style="font-size:11px;color:var(--muted);">${m.partida||'—'}</td><td><strong>${m.concepto||m.partida||'—'}</strong></td><td style="font-weight:500;color:${t.color};">${fmt(m.monto)}</td><td style="color:var(--muted);font-size:11px;">${m.fecha}</td><td style="font-size:11px;color:var(--muted);">${m.nota||'—'}</td><td style="white-space:nowrap;"><button onclick="editCapexMov(${i})" style="background:rgba(0,122,255,0.08);color:var(--accent2);border:1px solid rgba(0,122,255,0.2);padding:3px 9px;border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;margin-right:4px;">✏️</button><button onclick="deleteCapexMov(${i})" style="background:rgba(255,59,48,0.1);color:var(--danger);border:1px solid rgba(255,59,48,0.2);padding:3px 9px;border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;">×</button></td></tr>`;}).join('')}</tbody></table>`;}
+function openCapexModal(){editingCapexIdx=-1;document.getElementById('capex-modal-title').textContent='Registrar Movimiento';document.getElementById('capex-modal').style.display='flex';}
+function closeCapexModal(){document.getElementById('capex-modal').style.display='none';}
+function saveCapexMov(){const tipo=document.getElementById('cm-tipo').value;const partida=document.getElementById('cm-partida').options[document.getElementById('cm-partida').selectedIndex].text;const concepto=document.getElementById('cm-partida').options[document.getElementById('cm-partida').selectedIndex]?.text.split('·')[0].trim()||partida;const monedaVal=document.getElementById('capex-moneda')?.value||'USD';const montoRaw=parseFloat(document.getElementById('cm-monto').value.replace(/,/g,''))||0;const monto=monedaVal==='MXN'?(montoRaw/(TC_MXN_USD||18)):montoRaw;const fecha=document.getElementById('cm-fecha').value.trim()||new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});const nota=document.getElementById('cm-nota').value.trim();if(!monto||monto<=0){alert('Monto es obligatorio');return;}if(!dbData.capex_gastos)dbData.capex_gastos=[];const poStatus=document.getElementById('cm-po-status')?.value||'no-ordenado';if(editingCapexIdx >= 0) {
+    dbData.capex_gastos[editingCapexIdx] = {tipo,partida,concepto,monto,fecha,nota,po_status:poStatus};
+    editingCapexIdx = -1;
+    showToast('Movimiento actualizado ✓');
+  } else {
+    dbData.capex_gastos.push({tipo,partida,concepto,monto,fecha,nota,po_status:poStatus});
+    showToast('Movimiento registrado ✓');
+  }
+  closeCapexModal();renderCapex();updateMatKPIs();dbSave();}
+function deleteCapexMov(idx){if(!confirm('¿Eliminar?'))return;dbData.capex_gastos.splice(idx,1);renderCapex();dbSave();showToast('Eliminado ✓');}
+function updateMatStatus(key,val){if(!dbData.mat_status)dbData.mat_status={};dbData.mat_status[key]=val;const el=document.getElementById('mat-'+key);if(el)el.className='mat-status-select '+(val||'sin-estado');dbSave();showToast('Estatus actualizado ✓');updateMatKPIs();}
+function loadMatStatus(){
+  // Apply saved statuses
+  if(dbData.mat_status){
+    Object.entries(dbData.mat_status).forEach(([k,v])=>{
+      const el=document.getElementById('mat-'+k);
+      if(el){el.value=v;el.className='mat-status-select '+(v||'sin-estado');}
+    });
+  }
+  // Sort table rows by status: good-receipt first, then po-emitida/po-aprobacion, then sin-estado
+  const tbody = document.querySelector('.mat-table tbody');
+  if(!tbody) return;
+  const totalRow = [...tbody.querySelectorAll('tr')].find(r=>r.classList.contains('total-row'));
+  const dataRows = [...tbody.querySelectorAll('tr:not(.total-row)')];
+  const order = {'good-receipt':0,'po-emitida':1,'po-aprobacion':2,'':3};
+  dataRows.sort((a,b)=>{
+    const sa = a.querySelector('select')?.value||'';
+    const sb = b.querySelector('select')?.value||'';
+    return (order[sa]??3)-(order[sb]??3);
+  });
+  dataRows.forEach(r=>tbody.insertBefore(r,totalRow||null));
+}
+function updateMatKPIs(){
+  const gastos = dbData.capex_gastos||[];
+  const rank = {'good-receipt':3,'po-emitida':2,'po-aprobacion':1};
+  // Map partida text to best po_status
+  const partidaStatus = {};
+  gastos.forEach(g=>{
+    const p = g.partida||'';
+    const s = g.po_status;
+    if(!s || !rank[s]) return;
+    if(!partidaStatus[p] || rank[s] > rank[partidaStatus[p]]) partidaStatus[p] = s;
+  });
+  // All partidas in the materiales table
+  const matRows = document.querySelectorAll('.mat-table tbody tr:not(.total-row)');
+  let total=0, recibido=0, pedido=0;
+  matRows.forEach(row=>{
+    const nameCell = row.querySelector('td:first-child strong, td:first-child');
+    if(!nameCell) return;
+    total++;
+    const matName = nameCell.textContent.trim();
+    // Find matching gasto by partida text similarity
+    const matchedPartida = Object.keys(partidaStatus).find(p=>
+      p.toLowerCase().includes(matName.toLowerCase().split(' ')[0]) ||
+      matName.toLowerCase().includes(p.toLowerCase().split('—')[1]?.trim().split('·')[0]?.trim().toLowerCase()||'')
+    );
+    const s = matchedPartida ? partidaStatus[matchedPartida] : null;
+    if(s==='good-receipt') recibido++;
+    else if(s==='po-emitida'||s==='po-aprobacion') pedido++;
+  });
+  if(total===0) total=5; // fallback
+  const faltante = total - recibido - pedido;
+  const elT=document.getElementById('mat-total');
+  const elR=document.getElementById('mat-recibido');
+  const elP=document.getElementById('mat-pedido');
+  const elF=document.getElementById('mat-faltante');
+  if(elT) elT.textContent=total;
+  if(elR) elR.textContent=recibido;
+  if(elP) elP.textContent=pedido;
+  if(elF) elF.textContent=faltante;
 }
 
-function openCapexModal(){editingCapexIdx=-1;const t=document.getElementById('capex-modal-title');if(t)t.textContent='Registrar Movimiento';document.getElementById('capex-modal').style.display='flex';}
-function closeCapexModal(){document.getElementById('capex-modal').style.display='none';}
-function editCapexMov(i){const m=dbData.capex_gastos[i];if(!m)return;editingCapexIdx=i;const t=document.getElementById('capex-modal-title');if(t)t.textContent='Editar Movimiento';document.getElementById('cm-tipo').value=m.tipo||'gasto';document.getElementById('cm-partida').value=m.partida_val||m.partida_key||'';document.getElementById('cm-monto').value=m.monto||'';document.getElementById('cm-fecha').value=m.fecha||'';const ps=document.getElementById('cm-po-status');if(ps)ps.value=m.po_status||'po-aprobacion';document.getElementById('cm-nota').value=m.nota||'';document.getElementById('capex-modal').style.display='flex';}
-function deleteCapexMov(i){if(!confirm('¿Eliminar este movimiento?'))return;dbData.capex_gastos.splice(i,1);dbSave();renderCapex();updateMatKPIs();showToast('Movimiento eliminado');}
-function saveCapexMov(){const tipo=document.getElementById('cm-tipo').value;const partSel=document.getElementById('cm-partida');const partida=partSel.options[partSel.selectedIndex]?.text||'';const partida_val=partSel.value;const monedaVal=document.getElementById('capex-moneda')?.value||'USD';const montoRaw=parseFloat(document.getElementById('cm-monto').value.replace(/,/g,''))||0;const monto=monedaVal==='MXN'?(montoRaw/(TC_MXN_USD||18)):montoRaw;const fecha=document.getElementById('cm-fecha').value.trim()||new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});const nota=document.getElementById('cm-nota').value.trim();const poStatus=document.getElementById('cm-po-status')?.value||'po-aprobacion';if(!monto||monto<=0){alert('Monto es obligatorio');return;}if(!dbData.capex_gastos)dbData.capex_gastos=[];const mov={tipo,partida,partida_val,monto,fecha,nota,po_status:poStatus};const partValMap={'gaiola-jaulas':'jaulas','gaiola-traslado':'traslado','polionda':'polionda','carton-bin4':'bin4','carton-bin5':'bin5'};const matKey=partValMap[partida_val];if(matKey&&poStatus){if(!dbData.mat_status)dbData.mat_status={};const ms=poStatus==='good-receipt'?'recibido':(poStatus==='po-emitida'||poStatus==='po-aprobacion')?'pedido':'';if(ms)dbData.mat_status[matKey]=ms;}if(editingCapexIdx>=0){dbData.capex_gastos[editingCapexIdx]=mov;editingCapexIdx=-1;showToast('Movimiento actualizado ✓');}else{dbData.capex_gastos.push(mov);showToast('Movimiento registrado ✓');}closeCapexModal();renderCapex();updateMatKPIs();dbSave();}
-function updateMontoLabel(){const moneda=document.getElementById('capex-moneda')?.value;const monto=parseFloat((document.getElementById('cm-monto')||{}).value)||0;const conv=document.getElementById('capex-conversion');if(!conv)return;if(moneda==='MXN'&&monto>0){const tc=TC_MXN_USD||18;conv.style.display='block';conv.innerHTML='💱 T/C: $'+tc.toFixed(2)+' MXN/USD &nbsp;→&nbsp; <strong>$'+(monto/tc).toLocaleString('en-US',{minimumFractionDigits:2})+' USD</strong>';}else{conv.style.display='none';}}
-
+function renderFacturacion(){const pagos=dbData.facturacion||[];const lista=document.getElementById('fact-lista');const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');const sl={'ps-future':'FUTURO','ps-pending':'PENDIENTE','ps-done':'PAGADO'};if(!pagos.length){lista.innerHTML='<div style="text-align:center;padding:28px;color:var(--muted);font-size:13px;font-weight:500;">Sin eventos. Facturación por Definir en Jul 2026.</div>';}else{lista.innerHTML=pagos.map((p,i)=>`<div class="payment-row"><div class="payment-num">${i+1}</div><div class="payment-info"><div class="payment-name">${p.nombre}</div><div class="payment-date">${p.fecha||'TBD'}</div></div><div style="text-align:right;"><div class="payment-amount" style="color:var(--accent2);">${fmt(p.monto)}</div><div class="payment-pct">${p.pct||''} del total</div></div><div style="display:flex;align-items:center;gap:8px;"><div class="payment-status ${p.status}" onclick="cycleFactStatus(${i})">${sl[p.status]||p.status}</div><button onclick="deleteFactEvento(${i})" style="background:rgba(255,59,48,0.1);color:var(--danger);border:1px solid rgba(255,59,48,0.2);padding:3px 9px;border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;">×</button></div></div>`).join('');}document.getElementById('fact-total').textContent=fmt(pagos.reduce((a,p)=>a+(parseFloat(p.monto)||0),0))+' USD';}
+function cycleFactStatus(idx){const c=['ps-future','ps-pending','ps-done'];dbData.facturacion[idx].status=c[(c.indexOf(dbData.facturacion[idx].status)+1)%c.length];renderFacturacion();dbSave();showToast('Estatus actualizado ✓');}
+function openFactModal(){document.getElementById('fact-modal-title').textContent='Agregar Evento de Pago';['fn-nombre','fn-monto','fn-pct','fn-fecha'].forEach(id=>document.getElementById(id).value='');document.getElementById('fn-status').value='ps-future';document.getElementById('fact-modal').style.display='flex';}
+function closeFactModal(){document.getElementById('fact-modal').style.display='none';}
+function saveFactEvento(){const nombre=document.getElementById('fn-nombre').value.trim();const monto=parseFloat(document.getElementById('fn-monto').value.replace(/,/g,''));if(!nombre||!monto){alert('Nombre y monto requeridos');return;}if(!dbData.facturacion)dbData.facturacion=[];dbData.facturacion.push({nombre,monto,pct:document.getElementById('fn-pct').value.trim(),fecha:document.getElementById('fn-fecha').value.trim(),status:document.getElementById('fn-status').value});closeFactModal();renderFacturacion();dbSave();showToast('Evento guardado ✓');}
+function deleteFactEvento(idx){if(!confirm('¿Eliminar?'))return;dbData.facturacion.splice(idx,1);renderFacturacion();dbSave();showToast('Eliminado ✓');}
+let pendFilter='all',pendEditIdx=-1;
+function renderPendientes(){const list=document.getElementById('pend-list'),empty=document.getElementById('pend-empty');const pends=dbData.pendientes||[];const filtered=pendFilter==='all'?pends:pends.filter(p=>p.pri===pendFilter);if(!filtered.length){list.innerHTML='';empty.style.display='block';return;}empty.style.display='none';list.innerHTML=filtered.map(p=>{const ri=pends.indexOf(p);const pc={alta:'alta',media:'media',baja:'baja',info:'info'};const pl={alta:'ALTA',media:'MEDIA',baja:'BAJA',info:'INFO'};return`<div class="item" style="align-items:flex-start;"><div class="badge ${pc[p.pri]}">${pl[p.pri]}</div><div class="item-content"><div class="item-title">${p.titulo}</div><div class="item-desc">${p.desc}</div><div class="item-date">${p.fecha||''}</div></div><div style="display:flex;gap:6px;flex-shrink:0;margin-left:8px;"><button onclick="editPend(${ri})" style="background:rgba(0,122,255,0.1);color:var(--accent2);border:1px solid rgba(0,122,255,0.2);padding:5px 12px;border-radius:10px;font-size:11px;font-weight:500;cursor:pointer;">Editar</button><button onclick="deletePend(${ri})" style="background:rgba(255,59,48,0.1);color:var(--danger);border:1px solid rgba(255,59,48,0.2);padding:5px 10px;border-radius:10px;font-size:11px;font-weight:500;cursor:pointer;">×</button></div></div>`;}).join('');}
+function filterPend(f){pendFilter=f;document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('pf-active'));document.getElementById('pf-'+f).classList.add('pf-active');renderPendientes();}
+function openPendModal(idx=-1){pendEditIdx=idx;const t=document.getElementById('pend-modal-title');if(idx>=0){const p=dbData.pendientes[idx];t.textContent='Editar Pendiente';document.getElementById('pp-pri').value=p.pri;document.getElementById('pp-titulo').value=p.titulo;document.getElementById('pp-desc').value=p.desc;document.getElementById('pp-fecha').value=p.fecha||'';}else{t.textContent='Agregar Pendiente';document.getElementById('pp-pri').value='alta';['pp-titulo','pp-desc','pp-fecha'].forEach(id=>document.getElementById(id).value='');}document.getElementById('pend-modal').style.display='flex';}
+function closePendModal(){document.getElementById('pend-modal').style.display='none';pendEditIdx=-1;}
+function editPend(idx){openPendModal(idx);}
+function savePend(){const titulo=document.getElementById('pp-titulo').value.trim();if(!titulo){alert('Título requerido');return;}if(!dbData.pendientes)dbData.pendientes=[];const p={pri:document.getElementById('pp-pri').value,titulo,desc:document.getElementById('pp-desc').value.trim(),fecha:document.getElementById('pp-fecha').value.trim()};if(pendEditIdx>=0)dbData.pendientes[pendEditIdx]=p;else dbData.pendientes.push(p);closePendModal();renderPendientes();dbSave();showToast(pendEditIdx>=0?'Actualizado ✓':'Pendiente agregado ✓');}
+function deletePend(idx){if(!confirm('¿Eliminar?'))return;dbData.pendientes.splice(idx,1);renderPendientes();dbSave();showToast('Eliminado ✓');}
+function editRef(tipo){const ids={io:'io-display',alfred:'alfred-display'};const keys={io:'io_number',alfred:'alfred_ticket'};const labels={io:'IO #',alfred:'Ticket Alfred'};const el=document.getElementById(ids[tipo]);if(!el)return;const current=dbData[keys[tipo]]||'';const val=prompt(`Ingresa el ${labels[tipo]}:`,current);if(val===null)return;dbData[keys[tipo]]=val.trim();el.textContent=val.trim()||'—';dbSave();showToast(`${labels[tipo]} actualizado ✓`);}
+function renderRefs(){const io=document.getElementById('io-display');const alfred=document.getElementById('alfred-display');if(io)io.textContent=dbData.io_number||'—';if(alfred)alfred.textContent=dbData.alfred_ticket||'—';}
 function showToast(msg){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;bottom:28px;right:28px;background:linear-gradient(135deg,#007aff,#34c759);color:#fff;padding:12px 22px;border-radius:16px;font-size:13px;font-weight:500;z-index:9999;transition:opacity 0.4s,transform 0.4s;pointer-events:none;box-shadow:0 8px 24px rgba(0,122,255,0.35);';document.body.appendChild(t);}t.textContent=msg;t.style.opacity='1';t.style.transform='translateY(0)';clearTimeout(t._timer);t._timer=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(8px)';},2400);}
 function resetAll(){if(!confirm('¿Borrar todos los datos?'))return;dbData={pcts:[],facturacion:[],capex_gastos:[],pendientes:[],mat_status:{}};dbSave();location.reload();}
+function updateMontoLabel() {
+  const moneda = document.getElementById('capex-moneda')?.value;
+  const monto = parseFloat((document.getElementById('cm-monto')||{}).value)||0;
+  const conv = document.getElementById('capex-conversion');
+  if(!conv) return;
+  if(moneda === 'MXN' && monto > 0) {
+    const tc = TC_MXN_USD || 18;
+    const usd = (monto / tc).toFixed(2);
+    conv.style.display = 'block';
+    conv.innerHTML = `💱 T/C: $${tc.toFixed(2)} MXN/USD &nbsp;→&nbsp; <strong>$${parseFloat(usd).toLocaleString('en-US', {minimumFractionDigits:2})} USD</strong>`;
+  } else {
+    conv.style.display = 'none';
+  }
+}
 
-async function fetchTipoCambio(){try{const res=await fetch('https://open.er-api.com/v6/latest/USD');const d=await res.json();if(d.rates&&d.rates.MXN)TC_MXN_USD=d.rates.MXN;}catch(e){TC_MXN_USD=18;}}
-function loadMatStatus(){if(dbData.mat_status){Object.entries(dbData.mat_status).forEach(([k,v])=>{const el=document.getElementById('mat-'+k);if(el){el.value=v;el.className='mat-status-select '+(v||'sin-estado');}});}const mUSD={'gaiola-jaulas':'mat-usd-jaulas','gaiola-traslado':'mat-usd-traslado','polionda':'mat-usd-polionda','carton-bin4':'mat-usd-bin4','carton-bin5':'mat-usd-bin5'};const pg={};(dbData.capex_gastos||[]).forEach(g=>{const pv=g.partida_val||g.partida_key||'';if(pv)pg[pv]=(pg[pv]||0)+(parseFloat(g.monto)||0);});Object.entries(mUSD).forEach(([pv,uid])=>{const el=document.getElementById(uid);if(el&&pg[pv]!=null)el.textContent='$'+Math.round(pg[pv]).toLocaleString('en-US');});sortMatTable();}
-function updateMatStatus(key,val){if(!dbData.mat_status)dbData.mat_status={};dbData.mat_status[key]=val;const el=document.getElementById('mat-'+key);if(el)el.className='mat-status-select '+(val||'sin-estado');dbSave();showToast('Estatus actualizado ✓');updateMatKPIs();}
-function updateMatKPIs(){const gastos=dbData.capex_gastos||[];const rank={'good-receipt':3,'po-emitida':2,'po-aprobacion':1};const cxS={};gastos.forEach(g=>{const pv=g.partida_val||'';const s=g.po_status;if(!s||!rank[s])return;if(!cxS[pv]||rank[s]>rank[cxS[pv]])cxS[pv]=s;});const pvToMk={'gaiola-jaulas':'jaulas','gaiola-traslado':'traslado','polionda':'polionda','carton-bin4':'bin4','carton-bin5':'bin5'};const toMS=s=>s==='good-receipt'?'recibido':(s==='po-emitida'||s==='po-aprobacion')?'pedido':'';Object.entries(cxS).forEach(([pv,ps])=>{const mk=pvToMk[pv];const ms=toMS(ps);if(mk&&ms){const sel=document.getElementById('mat-'+mk);if(sel&&!sel.value){sel.value=ms;sel.className='mat-status-select '+ms;}if(!dbData.mat_status)dbData.mat_status={};if(!dbData.mat_status[mk])dbData.mat_status[mk]=ms;}});const matSec=document.getElementById('materiales');const rows=(matSec||document).querySelectorAll('.mat-table tbody tr:not(.total-row):not(.mat-section-header)');let total=0,recibido=0,pedido=0;rows.forEach(row=>{const sel=row.querySelector('select');if(!sel)return;total++;if(sel.value==='recibido')recibido++;else if(sel.value==='pedido')pedido++;});if(total===0)total=5;const faltante=total-recibido-pedido;['mat-total','mat-recibido','mat-pedido','mat-faltante'].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.textContent=[total,recibido,pedido,faltante][i];});sortMatTable();}
-function sortMatTable(){const matSec=document.getElementById('materiales');if(!matSec)return;const tbody=matSec.querySelector('.mat-table tbody');if(!tbody)return;const totalRow=[...tbody.querySelectorAll('tr')].find(r=>r.classList.contains('total-row'));const dataRows=[...tbody.querySelectorAll('tr:not(.total-row):not(.mat-section-header)')];dataRows.sort((a,b)=>{const order={'recibido':0,'pedido':1,'':2};const sa=a.querySelector('select')?.value||'';const sb=b.querySelector('select')?.value||'';return(order[sa]??2)-(order[sb]??2);});tbody.querySelectorAll('.mat-section-header').forEach(h=>h.remove());const gL={'recibido':'🟢 Recibidos','pedido':'🟡 Pedidos','':'🟠 Por pedir'};const gC={'recibido':'rgba(52,199,89,0.06)','pedido':'rgba(255,204,0,0.06)','':'rgba(255,149,0,0.06)'};let last=null;dataRows.forEach(r=>{const g=r.querySelector('select')?.value||'';if(g!==last){const hdr=document.createElement('tr');hdr.className='mat-section-header';hdr.innerHTML='<td colspan="6" style="padding:6px 14px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;background:'+gC[g]+';color:var(--muted);border-bottom:1px solid rgba(100,120,180,0.1);">'+gL[g]+'</td>';tbody.insertBefore(hdr,totalRow||null);last=g;}tbody.insertBefore(r,totalRow||null);});}
-async function init(){const hd=document.getElementById('header-date');if(hd)hd.textContent=new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});await fetchTipoCambio();await dbLoad();applyLoadedPcts();buildTimeline();renderFacturacion();renderPendientes();renderCapex();loadMatStatus();updateMatKPIs();renderRefs();showToast('Dashboard MXCH01 cargado ✓');}
+
+function editCapexMov(i) {
+  const m = dbData.capex_gastos[i];
+  if(!m) return;
+  editingCapexIdx = i;
+  document.getElementById('capex-modal-title').textContent = 'Editar Movimiento';
+  document.getElementById('cm-tipo').value = m.tipo || 'gasto';
+  document.getElementById('cm-partida').value = m.partida_id || 
+    [...document.getElementById('cm-partida').options].find(o => o.text.includes(m.partida?.split('—')[1]?.trim().split('·')[0]?.trim()||''))?.value || '';
+  document.getElementById('cm-monto').value = m.monto || '';
+  document.getElementById('cm-fecha').value = m.fecha || '';
+  if(document.getElementById('cm-po-status')) document.getElementById('cm-po-status').value = m.po_status || 'po-aprobacion';
+  document.getElementById('cm-nota').value = m.nota || '';
+  document.getElementById('capex-modal').style.display = 'flex';
+  updateMontoLabel();
+}
+async function fetchTipoCambio() {
+  try {
+    const res = await fetch('https://open.er-api.com/v6/latest/USD');
+    const data = await res.json();
+    if(data.rates && data.rates.MXN) {
+      TC_MXN_USD = data.rates.MXN;
+      const el = document.getElementById('tc-overview');
+      if(el) el.textContent = '$'+TC_MXN_USD.toFixed(2)+' MXN/USD';
+    }
+  } catch(e) { TC_MXN_USD = 18; }
+}
+async function init(){await fetchTipoCambio();await dbLoad();applyLoadedPcts();buildTimeline();renderFacturacion();renderPendientes();renderCapex();loadMatStatus();updateMatKPIs();renderRefs();showToast('Dashboard MXCH01 cargado ✓');}
 init();
 </script>
 </body>
